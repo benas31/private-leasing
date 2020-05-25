@@ -1,0 +1,9 @@
+{ 
+    "_id" : NumberInt(1), 
+    "id" : NumberInt(1), 
+    "lastname" : "Benas", 
+    "firstname" : "Bock", 
+    "adress" : "Clos", 
+    "phone" : "025643232", 
+    "fk_user_id" : NumberInt(3)
+}
