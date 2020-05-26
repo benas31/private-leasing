@@ -34,7 +34,7 @@ const Contract = () => {
             return (row.fk_client = data.firstname + " " + data.lastname);
           });
 
-          const proCar = getCar(row.fk_client).then((data) => {
+          const proCar = getCar(row.fk_car).then((data) => {
             return (row.fk_car = data.brand + " " + data.modele);
           });
 
@@ -58,6 +58,9 @@ const Contract = () => {
       .then((blop) => blop.json())
       .then((data) => {
         return data;
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 
@@ -65,7 +68,11 @@ const Contract = () => {
     return fetch("http://localhost:5000/api/car/" + id)
       .then((blop) => blop.json())
       .then((data) => {
+        console.log(data);
         return data;
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 
@@ -74,6 +81,9 @@ const Contract = () => {
       .then((blop) => blop.json())
       .then((data) => {
         return data;
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
   return (

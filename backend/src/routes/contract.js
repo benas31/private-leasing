@@ -9,4 +9,10 @@ router.get("/", function (req, res) {
   });
 });
 
+router.get("/:id", function (req, res) {
+  Contract.findById(req.params.id, (err, data) => {
+    res.send(data);
+  });
+});
+
 module.exports = router;

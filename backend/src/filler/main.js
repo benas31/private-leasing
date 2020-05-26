@@ -194,34 +194,33 @@ function fillUser() {
 }
 
 function fillClient() {
-  User.findOne({ username: "client" }).then((data) => {
-    const client1 = Personnel.create({
+  const findOne = User.findOne({ username: "client" }).exec();
+  return findOne.then((data) => {
+    const client1 = Client.create({
       lastname: "Benas",
-      firstname: "Bock",
-      address: "Clos",
-      phone: "0277232322",
+      firstname: "LeBock",
+      phone: "027723323",
       fk_user_id: data._id,
     });
-    return Promise.all([client1]);
   });
 }
 
 function fillPersonnel() {
-  User.findOne({ username: "perso" }).then((data) => {
+  const findOne = User.findOne({ username: "perso" }).exec();
+  return findOne.then((data) => {
     const personnel1 = Personnel.create({
       lastname: "Xav",
       firstname: "Leouf",
       phone: "027723323",
       fk_user_id: data._id,
     });
-    return Promise.all([personnel1]);
   });
 }
 
 function fillContract() {
-  User.findOne({ username: "perso" }).then((perso) => {
-    User.findOne({ username: "client" }).then((client) => {
-      Car.findOne({ modele: "Serie 1" }).then((car) => {
+  Personnel.findOne({ lastname: "Xav" }, (err, perso) => {
+    Client.findOne({ lastname: "Benas" }, (errc, client) => {
+      Car.findOne({ modele: "Serie 1" }, (errcar, car) => {
         const contract1 = Contract.create({
           date_start: new Date(),
           date_end: new Date(),
@@ -311,19 +310,27 @@ mongoose
     const deleteUser = User.deleteMany();
     const deletePersonnel = Personnel.deleteMany();
     const deleteClient = Client.deleteMany();
+    const deleteContract = Contract.deleteMany();
 
     console.log(new Date(), "Deleting Docs");
-    Promise.all([deleteCar, deleteClient, deletePersonnel, deleteUser])
+    Promise.all([
+      deleteCar,
+      deleteClient,
+      deletePersonnel,
+      deleteUser,
+      deleteContract,
+    ])
       .then(() => {
         console.log(new Date(), "Docs deleted");
       })
       .then(() => {
         fillUser().then(() => {
-          fillClient();
-          fillPersonnel();
-          fillContract();
+          Promise.all([fillClient(), fillPersonnel()]).then(() => {
+            setTimeout(() => {
+              fillContract();
+            }, 1000);
+          });
         });
-
         fillCar();
       })
       .then(() => console.log(new Date(), "Docs added"));
