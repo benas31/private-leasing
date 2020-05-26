@@ -6,7 +6,7 @@ var carSchema = new mongoose.Schema({
   modele: String,
   price: Number,
   transmission: String,
-  consommation: String,
+  consommation: Number,
   door: Number,
   fuel: String,
   power_ch: Number,

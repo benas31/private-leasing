@@ -25,7 +25,7 @@ const Contract = () => {
   const [contracts, setContracts] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/contract")
+    fetch("http://localhost:5000/api/contract")
       .then((blop) => blop.json())
       .then((data) => {
         console.log(data);
@@ -54,7 +54,7 @@ const Contract = () => {
   }, []);
 
   const getClient = (id) => {
-    return fetch("http://localhost:3000/api/client/" + id)
+    return fetch("http://localhost:5000/api/client/" + id)
       .then((blop) => blop.json())
       .then((data) => {
         return data;
@@ -62,7 +62,7 @@ const Contract = () => {
   };
 
   const getCar = (id) => {
-    return fetch("http://localhost:3000/api/car/" + id)
+    return fetch("http://localhost:5000/api/car/" + id)
       .then((blop) => blop.json())
       .then((data) => {
         return data;
@@ -70,7 +70,7 @@ const Contract = () => {
   };
 
   const getPersonnel = (id) => {
-    return fetch("http://localhost:3000/api/personnel/" + id)
+    return fetch("http://localhost:5000/api/personnel/" + id)
       .then((blop) => blop.json())
       .then((data) => {
         return data;

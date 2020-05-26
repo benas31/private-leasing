@@ -132,7 +132,7 @@ const Homepage = () => {
     );
   };
   useEffect(() => {
-    fetch("http://localhost:3000/api/car")
+    fetch("http://localhost:5000/api/car")
       .then((blop) => blop.json())
       .then((data) => {
         setCars(data);

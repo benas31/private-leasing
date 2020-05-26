@@ -28,7 +28,7 @@ const Login = () => {
   const [message, setMessage] = useState("");
 
   const handleLogin = () => {
-    fetch("http://localhost:3000/api/login", {
+    fetch("http://localhost:5000/api/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
