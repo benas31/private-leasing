@@ -104,6 +104,14 @@ app.post("/api/login", function (req, res) {
     });
 });
 
+app.post("/api/register", function (req, res) {
+  const username = req.body.username;
+  const password = req.body.password;
+  const email = req.body.email;
+  const lastname = req.body.lastname;
+  const firstname = req.body.firstname;
+});
+
 http.listen(3000, () => {
   console.log("listening on *:3000");
 });

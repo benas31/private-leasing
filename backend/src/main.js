@@ -12,6 +12,7 @@ var contract = require("./routes/contract");
 var personnel = require("./routes/personnel");
 var User = require("./models/User");
 var uristring = "mongodb://localhost/Leasing";
+const bcrypt = require("bcrypt");
 
 var port = 5000;
 
@@ -54,6 +55,34 @@ app.post("/api/login", function (req, res) {
       console.log(err);
       res.status(200).end();
     });
+});
+
+app.post("/api/register", function (req, res) {
+  const username = req.body.username;
+  const password = req.body.password;
+  const email = req.body.email;
+  const lastname = req.body.lastname;
+  const firstname = req.body.firstname;
+
+  bcrypt.hash(password, 10, (err, hash) => {
+    User.create(
+      {
+        username,
+        password: hash,
+        email,
+        role: "client",
+        verified: 1,
+        token: null,
+      },
+      (err, user) => {
+        if (err) {
+          console.log(err);
+        } else {
+          res.status(200).send(user).end();
+        }
+      }
+    );
+  });
 });
 
 http.listen(port, () => {
