@@ -47,9 +47,13 @@ app.post("/api/login", function (req, res) {
   const username = req.body.username;
   const password = req.body.password;
 
-  User.findOne({ username, password })
+  User.findOne({ username })
     .then((data) => {
-      res.status(200).send(data).end();
+      bcrypt.compare(password, data.password, (err, result) => {
+        if (result) res.status(200).send(data).end();
+        //password don't match
+        else res.status(200).end();
+      });
     })
     .catch((err) => {
       console.log(err);
