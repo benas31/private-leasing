@@ -11,7 +11,6 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  NavbarText,
 } from "reactstrap";
 
 const TopMenu = (props) => {
@@ -41,7 +40,7 @@ const TopMenu = (props) => {
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
             <NavItem>
-              <NavLink href="">Liste des voitures</NavLink>
+              <NavLink href="/carlist">Liste des voitures</NavLink>
             </NavItem>
             <NavItem>
               <NavLink href="">Essai</NavLink>
@@ -59,7 +58,7 @@ const TopMenu = (props) => {
                     Options
                   </DropdownToggle>
                   <DropdownMenu right>
-                    <DropdownItem>Option 1</DropdownItem>
+                    <DropdownItem><NavLink href="/contract">Mes contracts</NavLink></DropdownItem>
                     <DropdownItem>Option 2</DropdownItem>
                     <DropdownItem divider />
                     <DropdownItem>Reset</DropdownItem>
@@ -73,7 +72,7 @@ const TopMenu = (props) => {
           ) : (
             <Nav>
               <NavLink href="/dashboard">My Account</NavLink>
-              <NavLink href="/" onClick={handleLogout}>Déconexion</NavLink>
+              <NavLink href="/" onClick={handleLogout}>Déconnexion</NavLink>
             </Nav>
           )}
         </Collapse>

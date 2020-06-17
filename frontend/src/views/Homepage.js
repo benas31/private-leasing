@@ -1,170 +1,53 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import { CircularProgress } from "@material-ui/core";
-import CarCard from "../components/CarCard";
+import React from "react";
 import TopMenu from "../components/TopMenu";
+import styled from "styled-components";
+import { UncontrolledCarousel } from "reactstrap";
+import Footer from "../components/Footer";
 
-import TextField from "@material-ui/core/TextField";
-import Autocomplete from "@material-ui/lab/Autocomplete";
+const items = [
+  {
+    src:
+      "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22800%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20400%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15ba800aa1d%20text%20%7B%20fill%3A%23555%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A40pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15ba800aa1d%22%3E%3Crect%20width%3D%22800%22%20height%3D%22400%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22285.921875%22%20y%3D%22218.3%22%3EFirst%20slide%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E",
+    altText: "Slide 1",
+    caption: "Slide 1",
+    header: "Slide 1 Header",
+    key: "1",
+  },
+  {
+    src:
+      "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22800%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20400%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15ba800aa20%20text%20%7B%20fill%3A%23444%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A40pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15ba800aa20%22%3E%3Crect%20width%3D%22800%22%20height%3D%22400%22%20fill%3D%22%23666%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22247.3203125%22%20y%3D%22218.3%22%3ESecond%20slide%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E",
+    altText: "Slide 2",
+    caption: "Slide 2",
+    header: "Slide 2 Header",
+    key: "2",
+  },
+  {
+    src:
+      "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22800%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20400%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15ba800aa21%20text%20%7B%20fill%3A%23333%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A40pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15ba800aa21%22%3E%3Crect%20width%3D%22800%22%20height%3D%22400%22%20fill%3D%22%23555%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22277%22%20y%3D%22218.3%22%3EThird%20slide%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E",
+    altText: "Slide 3",
+    caption: "Slide 3",
+    header: "Slide 3 Header",
+    key: "3",
+  },
+];
 
-const CenterContainer = styled.div`
-  text-align: center;
-`;
 const TopContainer = styled.div``;
 
-const Flex = styled.div`
-  position: relative;
-  display: flex;
-  flex-flow: row wrap;
-  margin: 0 50px 0 50px;
-  padding-bottom: 20px;
-  align-items: center;
-  justify-content: center;
-`;
-
-const FlexColumn = styled.div`
-  display: flex;
-  margin: 0 50px 0 50px;
-  padding-bottom: 20px;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+const Flex1 = styled.div`
+  flex: 1;
 `;
 
 const Homepage = () => {
-  const [cars, setCars] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [selectedBrand, setSelectedBrand] = useState("");
-  const [selectedModele, setSelectedModele] = useState("");
-  const [selectedColor, setSelectedColor] = useState("");
-
-  const [carsToShow, setCarsToShow] = useState("");
-
-  useEffect(() => {
-    if (!!selectedBrand) {
-      setCarsToShow(cars.filter((x) => x.brand === selectedBrand));
-    } else {
-      setCarsToShow(cars);
-    }
-    if (!!selectedModele) {
-      console.log("hello");
-      setCarsToShow(cars.filter((x) => x.modele === selectedModele));
-    }
-    if (!!selectedColor) {
-      console.log(selectedColor);
-      setCarsToShow(
-        cars.filter(
-          (x) =>
-            x.brand === selectedBrand &&
-            x.modele === selectedModele &&
-            x.color === selectedColor
-        )
-      );
-    }
-  }, [selectedModele, selectedBrand, selectedColor, cars]);
-
-  const SearchBrand = () => {
-    return (
-      <Autocomplete
-        id="search-brand"
-        //On parcourt toute les marques et on les liste qu'une fois
-        options={[...new Set(cars.map((x) => x.brand))]}
-        getOptionLabel={(option) => option}
-        onChange={(e, value) => {
-          setSelectedBrand(value);
-          setSelectedModele();
-          setSelectedColor();
-        }}
-        noOptionsText="---"
-        value={selectedBrand}
-        style={{ width: 300, flex: "1" }}
-        renderInput={(params) => (
-          <TextField {...params} label="Marque" variant="outlined" />
-        )}
-      />
-    );
-  };
-
-  const SearchModele = () => {
-    return (
-      <Autocomplete
-        id="search-modele"
-        //On parcourt toute les marques et on les liste qu'une fois
-        options={[
-          ...new Set(
-            cars.filter((x) => x.brand === selectedBrand).map((x) => x.modele)
-          ),
-        ]}
-        getOptionLabel={(option) => option}
-        style={{ width: 300, flex: "1" }}
-        noOptionsText="---"
-        onChange={(e, value) => {
-          setSelectedModele(value);
-          setSelectedColor();
-        }}
-        value={selectedModele}
-        renderInput={(params) => (
-          <TextField {...params} label="Modele" variant="outlined" />
-        )}
-      />
-    );
-  };
-
-  const SearchColor = () => {
-    return (
-      <Autocomplete
-        id="search-color"
-        //On parcourt toute les marques et on les liste qu'une fois
-        options={[
-          ...new Set(
-            cars.filter((x) => x.modele === selectedModele).map((x) => x.color)
-          ),
-        ]}
-        getOptionLabel={(option) => option}
-        style={{ width: 300, flex: "1" }}
-        noOptionsText="---"
-        onChange={(e, value) => setSelectedColor(value)}
-        value={selectedColor}
-        renderInput={(params) => (
-          <TextField {...params} label="Couleur" variant="outlined" />
-        )}
-      />
-    );
-  };
-  useEffect(() => {
-    fetch("http://localhost:5000/api/car")
-      .then((blop) => blop.json())
-      .then((data) => {
-        setCars(data);
-        setCarsToShow(data);
-        console.log(data);
-        setLoading(false);
-      });
-  }, []);
-
   return (
     <TopContainer>
       <TopMenu></TopMenu>
-      <CenterContainer>
-        {loading && <CircularProgress />}
-        {!loading && (
-          <div>
-            <FlexColumn>
-              <div>
-                <SearchBrand></SearchBrand>
-                <SearchModele></SearchModele>
-                <SearchColor></SearchColor>
-              </div>
-            </FlexColumn>
-
-            <Flex>
-              {carsToShow.map((car) => (
-                <CarCard data={car} key={car.id}></CarCard>
-              ))}
-            </Flex>
-          </div>
-        )}
-      </CenterContainer>
+      <Flex1>test</Flex1>
+      <Flex1>
+        {" "}
+        <UncontrolledCarousel items={items}></UncontrolledCarousel>
+      </Flex1>
+      <Flex1>test</Flex1>
+      <Footer></Footer>
     </TopContainer>
   );
 };

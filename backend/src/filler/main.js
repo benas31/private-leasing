@@ -167,7 +167,7 @@ function fillCar() {
 function fillUser() {
   const user1 = User.create({
     username: "Test",
-    password: "Test",
+    password: "$2b$10$HK8FKjxh.BW2Q5aV2FNbRe1u5etPzP9.7QpjGNeH4WYA31mpHx0ba",
     email: "test@test.com",
     role: "admin",
     verified: 1,
@@ -175,7 +175,7 @@ function fillUser() {
   });
   const user2 = User.create({
     username: "perso",
-    password: "perso",
+    password: "$2b$10$HK8FKjxh.BW2Q5aV2FNbRe1u5etPzP9.7QpjGNeH4WYA31mpHx0ba",
     email: "test@test.com",
     role: "personnel",
     verified: 1,
@@ -183,7 +183,7 @@ function fillUser() {
   });
   const user3 = User.create({
     username: "client",
-    password: "client",
+    password: "$2b$10$HK8FKjxh.BW2Q5aV2FNbRe1u5etPzP9.7QpjGNeH4WYA31mpHx0ba",
     email: "test@test.com",
     role: "client",
     verified: 1,

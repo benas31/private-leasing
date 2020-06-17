@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { TextField, Button } from "@material-ui/core";
 import styled from "styled-components";
 import TopMenu from "../components/TopMenu";
+import { useHistory } from "react-router-dom";
+import Footer from "../components/Footer";
 
 const FormContainer = styled.form`
   display: flex;
@@ -32,6 +34,7 @@ const Login = () => {
 
   const [message, setMessage] = useState("");
   const [showRegister, setShowRegister] = useState(false);
+  const history = useHistory();
 
   const handleRegister = () => {
     fetch("http://localhost:5000/api/register", {
@@ -74,6 +77,9 @@ const Login = () => {
           setMessage("Authentification succesful");
           user.authdata = window.btoa(username + ":" + password);
           localStorage.setItem("user", JSON.stringify(user));
+          setTimeout(() => {
+            history.push("/");
+          }, 2000);
         } else {
           setMessage("Login failed");
         }
@@ -210,6 +216,7 @@ const Login = () => {
           )}
         </Container>
       </FormContainer>
+      <Footer></Footer>
     </TopContainer>
   );
 };

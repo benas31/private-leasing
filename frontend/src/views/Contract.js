@@ -9,6 +9,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import Footer from "../components/Footer";
 const FlexColumn = styled.div`
   display: flex;
   margin: 0 50px 0 50px;
@@ -132,6 +133,7 @@ const Contract = () => {
           </div>
         )}
       </FlexColumn>
+      <Footer></Footer>
     </TopContainer>
   );
 };
