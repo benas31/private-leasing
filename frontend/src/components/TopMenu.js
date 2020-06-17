@@ -1,41 +1,24 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import Button from "@material-ui/core/Button";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import { Link } from "react-router-dom";
-
-const MenuDiv = styled.div`
-  text-align: right;
-`;
-
-const FlexContainer = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const Flex = styled.div`
-  flex: 1;
-`;
-
-const Brand = styled.span`
-  font-weight: bold;
-  font-size: 30px;
-`;
-
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  color: black;
-  &:focus,
-  &:hover,
-  &:visited,
-  &:link,
-  &:active {
-    text-decoration: none;
-  }
-`;
+import React, { useEffect, useState } from "react";
+import {
+  Collapse,
+  Navbar,
+  NavbarToggler,
+  NavbarBrand,
+  Nav,
+  NavItem,
+  NavLink,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+  NavbarText,
+} from "reactstrap";
 
 const TopMenu = (props) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggle = () => setIsOpen(!isOpen);
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [connected, setConnected] = useState(false);
 
@@ -44,65 +27,58 @@ const TopMenu = (props) => {
     setConnected(!!localStorage.getItem("user"));
   }, [anchorEl]);
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
   const handleLogout = () => {
     setAnchorEl(null);
     localStorage.removeItem("user");
   };
 
-  return (
-    <FlexContainer>
-      <Flex>
-        <Brand>Benas 31 Leasing</Brand>
-      </Flex>
-      <Flex>
-        <MenuDiv>
-          <Button
-            aria-controls="simple-menu"
-            aria-haspopup="true"
-            onClick={handleClick}
-          >
-            Menu
-          </Button>
-          <Menu
-            id="simple-menu"
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-          >
-            <StyledLink to="/">
-              <MenuItem onClick={handleClose}>Homepage</MenuItem>
-            </StyledLink>
-            {!connected && (
-              <StyledLink to="/login">
-                <MenuItem onClick={handleClose}>Login</MenuItem>
-              </StyledLink>
-            )}
 
+  return (
+    <div>
+      <Navbar color="light" light expand="md" style={{ marginBottom: "30px" }}>
+        <NavbarBrand href="/">Leasing Privé</NavbarBrand>
+        <NavbarToggler onClick={toggle} />
+        <Collapse isOpen={isOpen} navbar>
+          <Nav className="mr-auto" navbar>
+            <NavItem>
+              <NavLink href="">Liste des voitures</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink href="">Essai</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink href="">F.A.Q</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink href="">Blablabla</NavLink>
+            </NavItem>
             {connected && (
-              <div>
-                <StyledLink to="/dashboard">
-                  <MenuItem onClick={handleClose}>Dashboard</MenuItem>
-                </StyledLink>
-                <StyledLink to="/contract">
-                  <MenuItem onClick={handleClose}>Contrat</MenuItem>
-                </StyledLink>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem onClick={handleLogout}>Logout</MenuItem>
-              </div>
+              <>
+                <UncontrolledDropdown nav inNavbar>
+                  <DropdownToggle nav caret>
+                    Options
+                  </DropdownToggle>
+                  <DropdownMenu right>
+                    <DropdownItem>Option 1</DropdownItem>
+                    <DropdownItem>Option 2</DropdownItem>
+                    <DropdownItem divider />
+                    <DropdownItem>Reset</DropdownItem>
+                  </DropdownMenu>
+                </UncontrolledDropdown>
+              </>
             )}
-          </Menu>
-        </MenuDiv>
-      </Flex>
-    </FlexContainer>
+          </Nav>
+          {!connected ? (
+            <NavLink href="/login">Login</NavLink>
+          ) : (
+            <Nav>
+              <NavLink href="/dashboard">My Account</NavLink>
+              <NavLink href="/" onClick={handleLogout}>Déconexion</NavLink>
+            </Nav>
+          )}
+        </Collapse>
+      </Navbar>
+    </div>
   );
 };
 
