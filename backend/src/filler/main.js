@@ -95,7 +95,7 @@ function fillCar() {
   });
   const car7 = Car.create({
     chassis_number: 123,
-    brand: "VOLSKWAGEN",
+    brand: "Volkswagen",
     modele: "Polo",
     price: 23000,
     transmission: "Manuel",
@@ -109,7 +109,7 @@ function fillCar() {
   });
   const car8 = Car.create({
     chassis_number: 123,
-    brand: "VOLSKWAGEN",
+    brand: "Volkswagen",
     modele: "Golf",
     price: 27000,
     transmission: "Manuel",
@@ -123,7 +123,7 @@ function fillCar() {
   });
   const car9 = Car.create({
     chassis_number: 123,
-    brand: "VOLSKWAGEN",
+    brand: "Volkswagen",
     modele: "T-ROC",
     price: 30000,
     transmission: "Manuel",
@@ -137,7 +137,7 @@ function fillCar() {
   });
   const car10 = Car.create({
     chassis_number: 123,
-    brand: "PORSCHE",
+    brand: "Porsche",
     modele: "Cayman",
     price: 870654,
     transmission: "Auto",
@@ -166,24 +166,24 @@ function fillCar() {
 
 function fillUser() {
   const user1 = User.create({
-    username: "Test",
-    password: "$2b$10$HK8FKjxh.BW2Q5aV2FNbRe1u5etPzP9.7QpjGNeH4WYA31mpHx0ba",
-    email: "test@test.com",
+    username: "admin",
+    password: "admin",
+    email: "admin@admin.com",
     role: "admin",
     verified: 1,
     token: "null",
   });
   const user2 = User.create({
     username: "perso",
-    password: "$2b$10$HK8FKjxh.BW2Q5aV2FNbRe1u5etPzP9.7QpjGNeH4WYA31mpHx0ba",
-    email: "test@test.com",
+    password: "perso",
+    email: "perso@perso.com",
     role: "personnel",
     verified: 1,
     token: "null",
   });
   const user3 = User.create({
     username: "client",
-    password: "$2b$10$HK8FKjxh.BW2Q5aV2FNbRe1u5etPzP9.7QpjGNeH4WYA31mpHx0ba",
+    password: "client",
     email: "test@test.com",
     role: "client",
     verified: 1,
