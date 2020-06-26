@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { CircularProgress } from "@material-ui/core";
 import CarCard from "../components/CarCard";
@@ -32,11 +33,22 @@ const FlexColumn = styled.div`
 `;
 
 const CarList = () => {
+  const location = useLocation();
+  const state = {
+    brand: "",
+    modele: "",
+    color: "",
+  };
+  if (location.state) {
+    state.brand = location.state.brand || "";
+    state.modele = location.state.modele || "";
+    state.color = location.state.color || "";
+  };
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedBrand, setSelectedBrand] = useState("");
-  const [selectedModele, setSelectedModele] = useState("");
-  const [selectedColor, setSelectedColor] = useState("");
+  const [selectedBrand, setSelectedBrand] = useState(state.brand);
+  const [selectedModele, setSelectedModele] = useState(state.modele);
+  const [selectedColor, setSelectedColor] = useState(state.color);
 
   const [carsToShow, setCarsToShow] = useState("");
 
@@ -137,7 +149,6 @@ const CarList = () => {
       .then((data) => {
         setCars(data);
         setCarsToShow(data);
-        console.log(data);
         setLoading(false);
       });
   }, []);
@@ -151,9 +162,9 @@ const CarList = () => {
           <div>
             <FlexColumn>
               <div>
-                <SearchBrand></SearchBrand>
-                <SearchModele></SearchModele>
-                <SearchColor></SearchColor>
+                <SearchBrand />
+                <SearchModele />
+                <SearchColor />
               </div>
             </FlexColumn>
 

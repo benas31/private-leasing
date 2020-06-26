@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import car from "../ressource/car.png";
+import { GiTrojanHorse } from "react-icons/gi";
+
 
 const Image = styled.img`
   height: 100px;
@@ -41,7 +43,7 @@ const CarCard = (props) => {
       <br />
       {fuel}
       <br />
-      {power_ch} ch
+      <GiTrojanHorse size={50} />  {power_ch} ch <GiTrojanHorse size={50} /> 
       <br />
       {seat} sièges
       <br />

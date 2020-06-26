@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TextField, Button } from "@material-ui/core";
+import { TextField, Button, Select, MenuItem } from "@material-ui/core";
 import styled from "styled-components";
 import TopMenu from "../components/TopMenu";
 import { useHistory } from "react-router-dom";
@@ -31,6 +31,8 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [lastname, setLastname] = useState("");
   const [firstname, setFirstname] = useState("");
+  const [role, setRole] = useState("");
+
 
   const [message, setMessage] = useState("");
   const [showRegister, setShowRegister] = useState(false);
@@ -53,6 +55,11 @@ const Login = () => {
       .then(handleResponse)
       .then((user) => {
         if (user) setMessage("Register successful");
+        user.authdata = window.btoa(username + ":" + password);
+        localStorage.setItem("user", JSON.stringify(user));
+        setTimeout(() => {
+          history.push("/");
+        }, 2000);
       });
   };
 
@@ -180,6 +187,19 @@ const Login = () => {
                 }}
                 value={email}
               />
+              <br />
+              <br />
+              <Select
+                id="role" 
+                onChange={(e) => {
+                  setRole(e.target.value);
+                }}
+                value={role} style={{minWidth: 200, textAlign: "left"}}>
+                <MenuItem value="client">Client</MenuItem>
+                <MenuItem value="personnel">Personnel</MenuItem>
+              </Select>
+              <br />
+
               <TextField
                 id="standard-basic"
                 label="Firstname"
