@@ -3,7 +3,8 @@ import TopMenu from "../components/TopMenu";
 import styled from "styled-components";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { CircularProgress } from "@material-ui/core";
+import { CircularProgress, Button } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 
 import Footer from "../components/Footer";
 import TextField from "@material-ui/core/TextField";
@@ -26,12 +27,27 @@ const Flex1Border = styled.div`
   margin: 1px;
 `;
 
+const Flex1Row = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const Flex1Column = styled.div`
+  flex-direction: column;
+`;
+
+const Flex1Center = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 const Homepage = () => {
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedBrand, setSelectedBrand] = useState("");
   const [selectedModele, setSelectedModele] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
+  const history = useHistory();
 
   const SearchBrand = () => {
     return (
@@ -119,24 +135,40 @@ const Homepage = () => {
         <div>
           <Flex1>
             <Flex1Border>
-              <SearchBrand></SearchBrand>
-              <SearchModele></SearchModele>
-              <SearchColor></SearchColor>
+              <Flex1Row>
+                <Flex1Column>
+                  <SearchBrand></SearchBrand>
+                  <SearchModele></SearchModele>
+                  <SearchColor></SearchColor>
+                </Flex1Column>
+                <Flex1Center>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => {
+                      history.push("/carlist");
+                    }}
+                    size="small"
+                  >
+                    Go
+                  </Button>
+                </Flex1Center>
+              </Flex1Row>
             </Flex1Border>
             <Flex1Border>test</Flex1Border>
           </Flex1>
           <Flex1>
             <Carousel>
               <div>
-                <img src={img1} />
+                <img alt="imgpromo" src={img1} />
                 <p className="legend">Legend 1</p>
               </div>
               <div>
-                <img src={img2} />
+                <img alt="imgpromo" src={img2} />
                 <p className="legend">Legend 2</p>
               </div>
               <div>
-                <img src={img3} />
+                <img alt="imgpromo" src={img3} />
                 <p className="legend">Legend 3</p>
               </div>
             </Carousel>
