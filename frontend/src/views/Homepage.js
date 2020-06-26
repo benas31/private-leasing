@@ -5,7 +5,6 @@ import styled from "styled-components";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { CircularProgress, Button } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
 
 import Footer from "../components/Footer";
 import TextField from "@material-ui/core/TextField";
@@ -14,7 +13,7 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import img1 from "../ressource/1.jpeg";
 import img2 from "../ressource/2.jpeg";
 import img3 from "../ressource/3.jpeg";
-import imgCar from "../ressource/lmao.jpeg"
+import imgCar from "../ressource/lmao.jpeg";
 
 const TopContainer = styled.div``;
 
@@ -54,7 +53,6 @@ const Homepage = () => {
   const history = useHistory();
   console.log(history);
 
-
   const handleClick = () => {
     history.push({
       pathname: "/carList",
@@ -62,11 +60,10 @@ const Homepage = () => {
         brand: selectedBrand,
         modele: selectedModele,
         color: selectedColor,
-        transmi: selectedTransmission
-      }
+        transmi: selectedTransmission,
+      },
     });
-  }
-
+  };
 
   const SearchBrand = () => {
     return (
@@ -144,7 +141,9 @@ const Homepage = () => {
         //On parcourt toute les marques et on les liste qu'une fois
         options={[
           ...new Set(
-            cars.filter((x) => x.brand === selectedBrand).map((x) => x.transmission)
+            cars
+              .filter((x) => x.brand === selectedBrand)
+              .map((x) => x.transmission)
           ),
         ]}
         getOptionLabel={(option) => option}
@@ -180,13 +179,14 @@ const Homepage = () => {
                   <SearchBrand></SearchBrand>
                   <SearchModele></SearchModele>
                   <SearchColor></SearchColor>
+                  <SearchTransmision></SearchTransmision>
                 </Flex1Column>
                 <Flex1Center>
                   <Button
                     variant="contained"
                     color="primary"
                     onClick={() => {
-                      history.push("/carlist");
+                      handleClick();
                     }}
                     size="small"
                   >
@@ -194,6 +194,9 @@ const Homepage = () => {
                   </Button>
                 </Flex1Center>
               </Flex1Row>
+            </Flex1Border>
+            <Flex1Border>
+              <img src={imgCar} alt="imgCar" />
             </Flex1Border>
           </Flex1>
           <Flex1>
@@ -212,11 +215,11 @@ const Homepage = () => {
               </div>
             </Carousel>
           </Flex1>
-          <Flex1>test</Flex1>
-        </div >
+          <Flex1></Flex1>
+        </div>
       )}
       <Footer></Footer>
-    </TopContainer >
+    </TopContainer>
   );
 };
 
