@@ -51,7 +51,6 @@ const Homepage = () => {
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedTransmission, setSelectedTransmission] = useState("");
   const history = useHistory();
-  console.log(history);
 
   const handleClick = () => {
     history.push({
@@ -120,7 +119,7 @@ const Homepage = () => {
         //On parcourt toute les marques et on les liste qu'une fois
         options={[
           ...new Set(
-            cars.filter((x) => x.modele === selectedModele).map((x) => x.color)
+            cars.filter((x) => x.modele === selectedModele && x.brand === selectedBrand).map((x) => x.color)
           ),
         ]}
         getOptionLabel={(option) => option}
@@ -142,7 +141,6 @@ const Homepage = () => {
         options={[
           ...new Set(
             cars
-              .filter((x) => x.brand === selectedBrand)
               .map((x) => x.transmission)
           ),
         ]}

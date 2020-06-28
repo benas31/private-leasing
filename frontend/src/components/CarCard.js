@@ -2,23 +2,39 @@ import React from "react";
 import styled from "styled-components";
 import car from "../ressource/car.png";
 import { GiTrojanHorse } from "react-icons/gi";
+import { Button } from "@material-ui/core";
 
 
 const Image = styled.img`
   height: 100px;
 `;
 
+const ImgTitle = styled.div`
+  text-align: center;
+`;
+
+const MoreInfos = styled.div`
+  text-align: center;
+`;
+
 const Card = styled.div`
-  padding: 20px;
+  padding-bottom: 20px;
+  padding-top: 20px;
   border: 1px solid black;
   margin: 2px;
+  align-items: center;
+  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 `;
+
 const CarCard = (props) => {
   const {
     brand,
     modele,
     price,
     transmission,
+    color,
     consommation,
     door,
     fuel,
@@ -27,26 +43,42 @@ const CarCard = (props) => {
   } = props.data;
   return (
     <Card>
-      <Image src={car} alt="car"></Image>
-      <br />
-      {brand}
-      <br />
-      {modele}
-      <br />
-      {price} €
-      <br />
-      {transmission}
-      <br />
-      {consommation} L/100
-      <br />
-      {door} portes
-      <br />
-      {fuel}
-      <br />
-      <GiTrojanHorse size={50} />  {power_ch} ch <GiTrojanHorse size={50} /> 
-      <br />
-      {seat} sièges
-      <br />
+      <ImgTitle>
+        <h3> {brand} {modele}</h3>
+        <Image src={car} alt="car" />
+      </ImgTitle>
+      <ul>
+        <li>
+          {consommation} L/100
+        </li>
+        <li>
+          {transmission}
+        </li>
+        <li>
+          {door} portes
+        </li>
+        <li>
+          {color}
+        </li>
+      </ul>
+      <ul>
+        <li>
+          {fuel}
+        </li>
+        <li>
+          <GiTrojanHorse size={18} />  {power_ch} ch
+        </li>
+        <li>
+          {seat} sièges
+        </li>
+      </ul>
+      <MoreInfos>
+        À partir de {price}€/mois
+        <Button variant="contained"
+          color="primary">
+          Plus d'infos
+        </Button>
+      </MoreInfos>
     </Card>
   );
 };

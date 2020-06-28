@@ -8,28 +8,18 @@ import Footer from "../components/Footer";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
-const CenterContainer = styled.div`
-  text-align: center;
-`;
+const CenterContainer = styled.div``;
+
 const TopContainer = styled.div``;
 
 const Flex = styled.div`
-  position: relative;
   display: flex;
-  flex-flow: row wrap;
-  margin: 0 50px 0 50px;
   padding-bottom: 20px;
   align-items: center;
-  justify-content: center;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 `;
 
-const FlexColumn = styled.div`
-  display: flex;
-  margin: 0 50px 0 50px;
-  padding-bottom: 20px;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+const FlexRow = styled.div`
 `;
 
 const CarList = () => {
@@ -38,17 +28,20 @@ const CarList = () => {
     brand: "",
     modele: "",
     color: "",
+    transmission: "",
   };
   if (location.state) {
     state.brand = location.state.brand || "";
     state.modele = location.state.modele || "";
     state.color = location.state.color || "";
+    state.transmission = location.state.transmi || "";
   };
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedBrand, setSelectedBrand] = useState(state.brand);
   const [selectedModele, setSelectedModele] = useState(state.modele);
   const [selectedColor, setSelectedColor] = useState(state.color);
+  const [selectedTransmission, setSelectedTransmission] = useState(state.transmission);
 
   const [carsToShow, setCarsToShow] = useState("");
 
@@ -59,11 +52,9 @@ const CarList = () => {
       setCarsToShow(cars);
     }
     if (!!selectedModele) {
-      console.log("hello");
       setCarsToShow(cars.filter((x) => x.modele === selectedModele));
     }
     if (!!selectedColor) {
-      console.log(selectedColor);
       setCarsToShow(
         cars.filter(
           (x) =>
@@ -73,7 +64,12 @@ const CarList = () => {
         )
       );
     }
-  }, [selectedModele, selectedBrand, selectedColor, cars]);
+    // TODO : Fix Transmission field in search bar
+/*     if (!!selectedTransmission) {
+      setCarsToShow(
+        cars.filter((x) => x.transmission === selectedTransmission));
+    } */
+  }, [selectedModele, selectedBrand, selectedColor, selectedTransmission, cars]);
 
   const SearchBrand = () => {
     return (
@@ -86,10 +82,11 @@ const CarList = () => {
           setSelectedBrand(value);
           setSelectedModele();
           setSelectedColor();
+          setSelectedTransmission();
         }}
         noOptionsText="---"
         value={selectedBrand}
-        style={{ width: 300, flex: "1" }}
+        style={{ width: 300 }}
         renderInput={(params) => (
           <TextField {...params} label="Marque" variant="outlined" />
         )}
@@ -108,7 +105,7 @@ const CarList = () => {
           ),
         ]}
         getOptionLabel={(option) => option}
-        style={{ width: 300, flex: "1" }}
+        style={{ width: 300 }}
         noOptionsText="---"
         onChange={(e, value) => {
           setSelectedModele(value);
@@ -131,9 +128,8 @@ const CarList = () => {
           ...new Set(
             cars.filter((x) => x.modele === selectedModele).map((x) => x.color)
           ),
-        ]}
-        getOptionLabel={(option) => option}
-        style={{ width: 300, flex: "1" }}
+        ]}        getOptionLabel={(option) => option}
+        style={{ width: 300 }}
         noOptionsText="---"
         onChange={(e, value) => setSelectedColor(value)}
         value={selectedColor}
@@ -143,6 +139,26 @@ const CarList = () => {
       />
     );
   };
+
+  //TODO : Fix 
+  const SearchTransmision = () => {
+    return (
+      <Autocomplete
+        id="search-transmission"
+        //On parcourt toute les marques et on les liste qu'une fois
+        options={[...new Set(carsToShow.map((x) => x.transmission))]}
+        getOptionLabel={(option) => option}
+        style={{ width: 300 }}
+        noOptionsText="---"
+        onChange={(e, value) => setSelectedTransmission(value)}
+        value={selectedTransmission}
+        renderInput={(params) => (
+          <TextField {...params} label="Transmission" variant="outlined" />
+        )}
+      />
+    );
+  };
+
   useEffect(() => {
     fetch("http://localhost:5000/api/car")
       .then((blop) => blop.json())
@@ -159,20 +175,19 @@ const CarList = () => {
       <CenterContainer>
         {loading && <CircularProgress />}
         {!loading && (
-          <div>
-            <FlexColumn>
-              <div>
-                <SearchBrand />
-                <SearchModele />
-                <SearchColor />
-              </div>
-            </FlexColumn>
-
+          <div className="container">
             <Flex>
-              {carsToShow.map((car) => (
-                <CarCard data={car} key={car.id}></CarCard>
-              ))}
+              <SearchBrand />
+              <SearchModele />
+              <SearchColor />
+              <SearchTransmision />
             </Flex>
+
+            <FlexRow>
+              {carsToShow.map((car) => (
+                <CarCard data={car} key={`car.id-${Math.random()}`}/>
+              ))}
+            </FlexRow>
           </div>
         )}
       </CenterContainer>
