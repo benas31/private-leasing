@@ -3,8 +3,6 @@ var uristring = "mongodb://localhost/Leasing";
 
 var Car = require("../models/Car");
 var User = require("../models/User");
-var Personnel = require("../models/Personnel");
-var Client = require("../models/Client");
 var Contract = require("../models/Contract");
 
 function fillCar() {
@@ -170,6 +168,9 @@ function fillUser() {
     password: "admin",
     email: "admin@admin.com",
     role: "admin",
+    lastname: "admin",
+    firstname: "admin",
+    phone: "027723323",
     verified: 1,
     token: "null",
   });
@@ -178,6 +179,9 @@ function fillUser() {
     password: "perso",
     email: "perso@perso.com",
     role: "personnel",
+    lastname: "Benas",
+    firstname: "LeBock",
+    phone: "027723323",
     verified: 1,
     token: "null",
   });
@@ -185,6 +189,9 @@ function fillUser() {
     username: "client",
     password: "client",
     email: "test@test.com",
+    lastname: "Xav",
+    firstname: "Leouf",
+    phone: "027723323",
     role: "client",
     verified: 1,
     token: "null",
@@ -193,33 +200,9 @@ function fillUser() {
   return Promise.all([user1, user2, user3]);
 }
 
-function fillClient() {
-  const findOne = User.findOne({ username: "client" }).exec();
-  return findOne.then((data) => {
-    const client1 = Client.create({
-      lastname: "Benas",
-      firstname: "LeBock",
-      phone: "027723323",
-      fk_user_id: data._id,
-    });
-  });
-}
-
-function fillPersonnel() {
-  const findOne = User.findOne({ username: "perso" }).exec();
-  return findOne.then((data) => {
-    const personnel1 = Personnel.create({
-      lastname: "Xav",
-      firstname: "Leouf",
-      phone: "027723323",
-      fk_user_id: data._id,
-    });
-  });
-}
-
 function fillContract() {
-  Personnel.findOne({ lastname: "Xav" }, (err, perso) => {
-    Client.findOne({ lastname: "Benas" }, (errc, client) => {
+  User.findOne({ lastname: "Xav" }, (err, perso) => {
+    User.findOne({ lastname: "Benas" }, (errc, client) => {
       Car.findOne({ modele: "Serie 1" }, (errcar, car) => {
         const contract1 = Contract.create({
           date_start: new Date(),
@@ -308,28 +291,16 @@ mongoose
 
     const deleteCar = Car.deleteMany();
     const deleteUser = User.deleteMany();
-    const deletePersonnel = Personnel.deleteMany();
-    const deleteClient = Client.deleteMany();
     const deleteContract = Contract.deleteMany();
 
     console.log(new Date(), "Deleting Docs");
-    Promise.all([
-      deleteCar,
-      deleteClient,
-      deletePersonnel,
-      deleteUser,
-      deleteContract,
-    ])
+    Promise.all([deleteCar, deleteUser, deleteContract])
       .then(() => {
         console.log(new Date(), "Docs deleted");
       })
       .then(() => {
         fillUser().then(() => {
-          Promise.all([fillClient(), fillPersonnel()]).then(() => {
-            setTimeout(() => {
-              fillContract();
-            }, 1000);
-          });
+          fillContract();
         });
         fillCar();
       })
