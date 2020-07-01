@@ -8,8 +8,8 @@ var contractSchema = new mongoose.Schema({
   prix: Number,
   actif: Number,
   fk_car: { type: mongoose.Schema.Types.ObjectId, ref: "car" },
-  fk_client: { type: mongoose.Schema.Types.ObjectId, ref: "client" },
-  fk_personnel: { type: mongoose.Schema.Types.ObjectId, ref: "personnel" },
+  fk_client: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
+  fk_personnel: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
 });
 
 module.exports = mongoose.model("Contract", contractSchema);
