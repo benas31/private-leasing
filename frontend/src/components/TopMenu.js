@@ -31,7 +31,6 @@ const TopMenu = (props) => {
     localStorage.removeItem("user");
   };
 
-
   return (
     <div>
       <Navbar color="light" light expand="md" style={{ marginBottom: "30px" }}>
@@ -58,7 +57,9 @@ const TopMenu = (props) => {
                     Options
                   </DropdownToggle>
                   <DropdownMenu right>
-                    <DropdownItem><NavLink href="/contract">Mes contracts</NavLink></DropdownItem>
+                    <DropdownItem>
+                      <NavLink href="/contract">Mes contracts</NavLink>
+                    </DropdownItem>
                     <DropdownItem>Option 2</DropdownItem>
                     <DropdownItem divider />
                     <DropdownItem>Reset</DropdownItem>
@@ -71,8 +72,10 @@ const TopMenu = (props) => {
             <NavLink href="/login">Login</NavLink>
           ) : (
             <Nav>
-              <NavLink href="/dashboard">My Account</NavLink>
-              <NavLink href="/" onClick={handleLogout}>Déconnexion</NavLink>
+              <NavLink href="/Profil">My Account</NavLink>
+              <NavLink href="/" onClick={handleLogout}>
+                Déconnexion
+              </NavLink>
             </Nav>
           )}
         </Collapse>

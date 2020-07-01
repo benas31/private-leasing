@@ -4,6 +4,7 @@ var uristring = "mongodb://localhost/Leasing";
 var Car = require("../models/Car");
 var User = require("../models/User");
 var Contract = require("../models/Contract");
+const bcrypt = require("bcrypt");
 
 function fillCar() {
   console.log(new Date(), "Inserting docs");

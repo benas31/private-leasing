@@ -45,11 +45,14 @@ app.post("/api/login", function (req, res) {
 
   User.findOne({ username })
     .then((data) => {
-      bcrypt.compare(password, data.password, (err, result) => {
-        if (result) res.status(200).send(data).end();
-        //password don't match
-        else res.status(200).end();
-      });
+      // bcrypt.compare(password, data.password, (err, result) => {
+      //   if (result) res.status(200).send(data).end();
+      //   //password don't match
+      //   else res.status(200).end();
+      // });
+      if (password === data.password) {
+        res.status(200).send(data).end();
+      }
     })
     .catch((err) => {
       console.log(err);

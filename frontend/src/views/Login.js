@@ -33,7 +33,6 @@ const Login = () => {
   const [firstname, setFirstname] = useState("");
   const [role, setRole] = useState("");
 
-
   const [message, setMessage] = useState("");
   const [showRegister, setShowRegister] = useState(false);
   const history = useHistory();
@@ -190,11 +189,13 @@ const Login = () => {
               <br />
               <br />
               <Select
-                id="role" 
+                id="role"
                 onChange={(e) => {
                   setRole(e.target.value);
                 }}
-                value={role} style={{minWidth: 200, textAlign: "left"}}>
+                value={role}
+                style={{ minWidth: 200, textAlign: "left" }}
+              >
                 <MenuItem value="client">Client</MenuItem>
                 <MenuItem value="personnel">Personnel</MenuItem>
               </Select>
