@@ -31,7 +31,7 @@ const Contract = () => {
       .then((data) => {
         console.log(data);
         data.forEach((row, idx) => {
-          const proClient = getClient(row.fk_client).then((data) => {
+          const proClient = getUser(row.fk_client).then((data) => {
             return (row.fk_client = data.firstname + " " + data.lastname);
           });
 
@@ -39,7 +39,7 @@ const Contract = () => {
             return (row.fk_car = data.brand + " " + data.modele);
           });
 
-          const proPersonnel = getPersonnel(row.fk_personnel).then((data) => {
+          const proPersonnel = getUser(row.fk_personnel).then((data) => {
             return (row.fk_personnel = data.firstname + " " + data.lastname);
           });
 
@@ -54,17 +54,6 @@ const Contract = () => {
       .then(() => {});
   }, []);
 
-  const getClient = (id) => {
-    return fetch("http://localhost:5000/api/client/" + id)
-      .then((blop) => blop.json())
-      .then((data) => {
-        return data;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   const getCar = (id) => {
     return fetch("http://localhost:5000/api/car/" + id)
       .then((blop) => blop.json())
@@ -77,8 +66,8 @@ const Contract = () => {
       });
   };
 
-  const getPersonnel = (id) => {
-    return fetch("http://localhost:5000/api/personnel/" + id)
+  const getUser = (id) => {
+    return fetch("http://localhost:5000/api/user/" + id)
       .then((blop) => blop.json())
       .then((data) => {
         return data;

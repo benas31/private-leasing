@@ -7,9 +7,7 @@ var cookieParser = require("cookie-parser");
 var bodyParser = require("body-parser");
 var car = require("./routes/car");
 var user = require("./routes/user");
-var client = require("./routes/client");
 var contract = require("./routes/contract");
-var personnel = require("./routes/personnel");
 var User = require("./models/User");
 var uristring = "mongodb://localhost/Leasing";
 const bcrypt = require("bcrypt");
@@ -38,9 +36,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use("/api/car", car);
-app.use("/api/client", client);
 app.use("/api/contract", contract);
-app.use("/api/personnel", personnel);
 app.use("/api/user", user);
 
 app.post("/api/login", function (req, res) {
