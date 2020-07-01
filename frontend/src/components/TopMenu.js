@@ -41,9 +41,7 @@ const TopMenu = (props) => {
             <NavItem>
               <NavLink href="/carlist">Liste des voitures</NavLink>
             </NavItem>
-            <NavItem>
-              <NavLink href="">Essai</NavLink>
-            </NavItem>
+
             <NavItem>
               <NavLink href="">F.A.Q</NavLink>
             </NavItem>

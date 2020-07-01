@@ -3,7 +3,7 @@ import styled from "styled-components";
 import car from "../ressource/car.png";
 import { GiTrojanHorse } from "react-icons/gi";
 import { Button } from "@material-ui/core";
-
+import { useHistory } from "react-router-dom";
 
 const Image = styled.img`
   height: 100px;
@@ -30,6 +30,7 @@ const Card = styled.div`
 
 const CarCard = (props) => {
   const {
+    _id,
     brand,
     modele,
     price,
@@ -41,42 +42,42 @@ const CarCard = (props) => {
     power_ch,
     seat,
   } = props.data;
+  const history = useHistory();
   return (
     <Card>
       <ImgTitle>
-        <h3> {brand} {modele}</h3>
+        <h3>
+          {" "}
+          {brand} {modele}
+        </h3>
         <Image src={car} alt="car" />
       </ImgTitle>
       <ul>
-        <li>
-          {consommation} L/100
-        </li>
-        <li>
-          {transmission}
-        </li>
-        <li>
-          {door} portes
-        </li>
-        <li>
-          {color}
-        </li>
+        <li>{consommation} L/100</li>
+        <li>{transmission}</li>
+        <li>{door} portes</li>
+        <li>{color}</li>
       </ul>
       <ul>
+        <li>{fuel}</li>
         <li>
-          {fuel}
+          <GiTrojanHorse size={18} /> {power_ch} ch
         </li>
-        <li>
-          <GiTrojanHorse size={18} />  {power_ch} ch
-        </li>
-        <li>
-          {seat} sièges
-        </li>
+        <li>{seat} sièges</li>
       </ul>
       <MoreInfos>
         À partir de {price}€/mois
-        <Button variant="contained"
-          color="primary">
-          Plus d'infos
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            history.push({
+              pathname: "/addcontract",
+              state: props.data,
+            });
+          }}
+        >
+          Commander
         </Button>
       </MoreInfos>
     </Card>

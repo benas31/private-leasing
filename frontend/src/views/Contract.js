@@ -101,9 +101,9 @@ const Contract = () => {
                 </TableHead>
                 <TableBody>
                   {contracts.map((row) => (
-                    <TableRow key={row.id}>
+                    <TableRow key={row._id}>
                       <TableCell component="th" scope="row">
-                        {row.id}
+                        {row._id}
                       </TableCell>
                       <TableCell align="right">{row.date_start}</TableCell>
                       <TableCell align="right">{row.date_end}</TableCell>

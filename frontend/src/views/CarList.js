@@ -19,11 +19,12 @@ const Flex = styled.div`
   grid-template-columns: 1fr 1fr 1fr 1fr;
 `;
 
-const FlexRow = styled.div`
-`;
+const FlexRow = styled.div``;
 
 const CarList = () => {
   const location = useLocation();
+
+  //TODO usestate instead of checking state
   const state = {
     brand: "",
     modele: "",
@@ -35,13 +36,15 @@ const CarList = () => {
     state.modele = location.state.modele || "";
     state.color = location.state.color || "";
     state.transmission = location.state.transmi || "";
-  };
+  }
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedBrand, setSelectedBrand] = useState(state.brand);
   const [selectedModele, setSelectedModele] = useState(state.modele);
   const [selectedColor, setSelectedColor] = useState(state.color);
-  const [selectedTransmission, setSelectedTransmission] = useState(state.transmission);
+  const [selectedTransmission, setSelectedTransmission] = useState(
+    state.transmission
+  );
 
   const [carsToShow, setCarsToShow] = useState("");
 
@@ -65,11 +68,17 @@ const CarList = () => {
       );
     }
     // TODO : Fix Transmission field in search bar
-/*     if (!!selectedTransmission) {
+    /*     if (!!selectedTransmission) {
       setCarsToShow(
         cars.filter((x) => x.transmission === selectedTransmission));
     } */
-  }, [selectedModele, selectedBrand, selectedColor, selectedTransmission, cars]);
+  }, [
+    selectedModele,
+    selectedBrand,
+    selectedColor,
+    selectedTransmission,
+    cars,
+  ]);
 
   const SearchBrand = () => {
     return (
@@ -128,7 +137,8 @@ const CarList = () => {
           ...new Set(
             cars.filter((x) => x.modele === selectedModele).map((x) => x.color)
           ),
-        ]}        getOptionLabel={(option) => option}
+        ]}
+        getOptionLabel={(option) => option}
         style={{ width: 300 }}
         noOptionsText="---"
         onChange={(e, value) => setSelectedColor(value)}
@@ -140,7 +150,7 @@ const CarList = () => {
     );
   };
 
-  //TODO : Fix 
+  //TODO : Fix
   const SearchTransmision = () => {
     return (
       <Autocomplete
@@ -185,7 +195,7 @@ const CarList = () => {
 
             <FlexRow>
               {carsToShow.map((car) => (
-                <CarCard data={car} key={`car.id-${Math.random()}`}/>
+                <CarCard data={car} key={`car.id-${Math.random()}`} />
               ))}
             </FlexRow>
           </div>
