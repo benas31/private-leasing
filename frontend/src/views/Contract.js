@@ -26,7 +26,10 @@ const Contract = () => {
   const [contracts, setContracts] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/contract")
+    fetch(
+      "http://localhost:5000/api/contract/getByUserId/" +
+        JSON.parse(localStorage.getItem("user"))._id
+    )
       .then((blop) => blop.json())
       .then((data) => {
         var promises = [];

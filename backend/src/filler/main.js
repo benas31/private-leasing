@@ -202,8 +202,8 @@ function fillUser() {
 }
 
 function fillContract() {
-  User.findOne({ lastname: "Xav" }, (err, perso) => {
-    User.findOne({ lastname: "Benas" }, (errc, client) => {
+  User.findOne({ lastname: "Benas" }, (err, perso) => {
+    User.findOne({ lastname: "Xav" }, (errc, client) => {
       Car.findOne({ modele: "Serie 1" }, (errcar, car) => {
         const contract1 = Contract.create({
           date_start: new Date(),

@@ -1,12 +1,42 @@
 var express = require("express");
 var router = express.Router();
 var Contract = require("../models/Contract");
+var User = require("../models/User");
+var mongoose = require("mongoose");
 
 router.get("/", function (req, res) {
   Contract.find((err, contracts) => {
     if (err) res.send(err);
     else res.json(contracts);
   });
+});
+
+router.get("/getByUserId/:id", function (req, res) {
+  const userId = req.params.id;
+  User.findById(userId, (err, data) => {
+    if (data) {
+      const userRole = data.role;
+      if (userRole === "admin" || userRole === "personnel") {
+        Contract.find((err, contracts) => {
+          if (err) res.send(err);
+          else res.json(contracts);
+        });
+      } else {
+        Contract.find({ fk_client: userId }, (err, contracts) => {
+          if (err) res.send(err);
+          else res.json(contracts);
+        });
+      }
+    } else {
+      console.log(data);
+      res.send("id not found");
+    }
+  });
+
+  // Contract.find((err, contracts) => {
+  //   if (err) res.send(err);
+  //   else res.json(contracts);
+  // });
 });
 
 router.get("/:id", function (req, res) {
