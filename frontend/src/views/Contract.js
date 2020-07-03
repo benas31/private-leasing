@@ -31,11 +31,15 @@ const Contract = () => {
       .then((data) => {
         var promises = [];
         data.forEach((row, idx) => {
+          //Transform 1/0 to oui/non
+          row.actif = row.actif === 1 ? "oui" : "non";
+          //For each client id, transfort to client firstname + lastname
           promises.push(
             getUser(row.fk_client).then((data) => {
               return (row.fk_client = data.firstname + " " + data.lastname);
             })
           );
+          //For each car id, transfort to car brand + modele
 
           promises.push(
             getCar(row.fk_car).then((data) => {
@@ -43,6 +47,7 @@ const Contract = () => {
               return (row.fk_car = data.brand + " " + data.modele);
             })
           );
+          //For each personnel id, transfort to personnel firstname + lastname
 
           promises.push(
             getUser(row.fk_personnel).then((data) => {
