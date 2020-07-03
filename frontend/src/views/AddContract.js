@@ -4,7 +4,6 @@ import {
   CircularProgress,
   Button,
   Checkbox,
-  FormGroup,
   FormControlLabel,
 } from "@material-ui/core";
 import {
@@ -36,6 +35,7 @@ const AddContract = () => {
       console.log(location.state);
       setLoading(false);
     }
+    // eslint-disable-next-line
   }, []);
 
   const handleOrder = () => {

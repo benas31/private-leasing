@@ -29,29 +29,38 @@ const Contract = () => {
     fetch("http://localhost:5000/api/contract")
       .then((blop) => blop.json())
       .then((data) => {
-        console.log(data);
+        var promises = [];
         data.forEach((row, idx) => {
-          const proClient = getUser(row.fk_client).then((data) => {
-            return (row.fk_client = data.firstname + " " + data.lastname);
-          });
+          promises.push(
+            getUser(row.fk_client).then((data) => {
+              return (row.fk_client = data.firstname + " " + data.lastname);
+            })
+          );
 
-          const proCar = getCar(row.fk_car).then((data) => {
-            return (row.fk_car = data.brand + " " + data.modele);
-          });
+          promises.push(
+            getCar(row.fk_car).then((data) => {
+              console.log(data);
+              return (row.fk_car = data.brand + " " + data.modele);
+            })
+          );
 
-          const proPersonnel = getUser(row.fk_personnel).then((data) => {
-            return (row.fk_personnel = data.firstname + " " + data.lastname);
-          });
-
-          Promise.all([proClient, proCar, proPersonnel]).then((e) => {
-            setContracts(data);
-            if (idx === data.length - 1) {
-              setLoading(false);
-            }
-          });
+          promises.push(
+            getUser(row.fk_personnel).then((data) => {
+              if (data) {
+                return (row.fk_personnel =
+                  data.firstname + " " + data.lastname);
+              } else {
+                return (row.fk_personnel = "Pas assigné");
+              }
+            })
+          );
         });
-      })
-      .then(() => {});
+
+        Promise.all(promises).then((e) => {
+          setContracts(data);
+          setLoading(false);
+        });
+      });
   }, []);
 
   const getCar = (id) => {

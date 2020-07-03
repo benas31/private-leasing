@@ -30,7 +30,6 @@ const Card = styled.div`
 
 const CarCard = (props) => {
   const {
-    _id,
     brand,
     modele,
     price,

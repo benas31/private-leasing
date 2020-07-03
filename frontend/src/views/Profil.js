@@ -34,6 +34,7 @@ const Profil = () => {
     setUser(JSON.parse(localStorage.getItem("user")));
     setLoading(false);
     console.log(user);
+    // eslint-disable-next-line
   }, []);
 
   return (
