@@ -44,7 +44,7 @@ const CarCard = (props) => {
   } = props.data;
   const history = useHistory();
   return (
-    <Card>
+    <Card id={_id}>
       <ImgTitle>
         <h3>
           {" "}
@@ -72,12 +72,12 @@ const CarCard = (props) => {
           color="primary"
           onClick={() => {
             history.push({
-              pathname: "/addcontract",
+              pathname: "/cardetail",
               state: props.data,
             });
           }}
         >
-          Commander
+          Détails
         </Button>
       </MoreInfos>
     </Card>

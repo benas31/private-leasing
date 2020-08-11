@@ -10,9 +10,9 @@ import Footer from "../components/Footer";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
-import img1 from "../ressource/1.jpeg";
-import img2 from "../ressource/2.jpeg";
-import img3 from "../ressource/3.jpeg";
+import img1 from "../ressource/carroussel-1.jpg";
+import img2 from "../ressource/carroussel-2.jpg";
+import img3 from "../ressource/carroussel-3.jpg";
 import imgCar from "../ressource/lmao.jpeg";
 
 const TopContainer = styled.div``;
@@ -119,7 +119,11 @@ const Homepage = () => {
         //On parcourt toute les marques et on les liste qu'une fois
         options={[
           ...new Set(
-            cars.filter((x) => x.modele === selectedModele && x.brand === selectedBrand).map((x) => x.color)
+            cars
+              .filter(
+                (x) => x.modele === selectedModele && x.brand === selectedBrand
+              )
+              .map((x) => x.color)
           ),
         ]}
         getOptionLabel={(option) => option}
@@ -138,12 +142,7 @@ const Homepage = () => {
       <Autocomplete
         id="search-transmission"
         //On parcourt toute les marques et on les liste qu'une fois
-        options={[
-          ...new Set(
-            cars
-              .map((x) => x.transmission)
-          ),
-        ]}
+        options={[...new Set(cars.map((x) => x.transmission))]}
         getOptionLabel={(option) => option}
         style={{ width: 300, flex: "1", margin: "7px" }}
         noOptionsText="---"
@@ -201,15 +200,15 @@ const Homepage = () => {
             <Carousel>
               <div>
                 <img alt="imgpromo" src={img1} />
-                <p className="legend">Legend 1</p>
+                <p className="legend">BMW Serie 2 Grand Coupé</p>
               </div>
               <div>
                 <img alt="imgpromo" src={img2} />
-                <p className="legend">Legend 2</p>
+                <p className="legend">Tesla X</p>
               </div>
               <div>
                 <img alt="imgpromo" src={img3} />
-                <p className="legend">Legend 3</p>
+                <p className="legend">Citroen C15</p>
               </div>
             </Carousel>
           </Flex1>

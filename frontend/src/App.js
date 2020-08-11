@@ -8,6 +8,7 @@ import Contract from "./views/Contract";
 import Homepage from "./views/Homepage";
 import Profil from "./views/Profil";
 import AddContract from "./views/AddContract";
+import CarDetail from "./views/CarDetail";
 const App = () => {
   return (
     <Router>
@@ -20,6 +21,7 @@ const App = () => {
         <Route exact path="/contract" component={Contract}></Route>
         <Route exact path="/profil" component={Profil}></Route>
         <Route exact path="/addcontract" component={AddContract}></Route>
+        <Route exact path="/cardetail" component={CarDetail}></Route>
       </Switch>
     </Router>
   );
