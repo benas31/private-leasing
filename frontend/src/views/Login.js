@@ -88,7 +88,7 @@ const Login = () => {
           user.authdata = window.btoa(username + ":" + password);
           localStorage.setItem("user", JSON.stringify(user));
           setTimeout(() => {
-            history.push("/");
+            history.push("/Profil");
           }, 2000);
         } else {
           setMessage("Login failed");
