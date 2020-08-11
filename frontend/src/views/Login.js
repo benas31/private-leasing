@@ -18,6 +18,10 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
+const LoginMessage = styled.p`
+  color: green;
+`;
+
 const ItemContainer = styled.div`
   padding: 25px 25px 0;
   margin: 20px 20px 0;
@@ -111,7 +115,7 @@ const Login = () => {
         <Container>
           {!showRegister && (
             <ItemContainer>
-              <p>{message}</p>
+              <LoginMessage>{message}</LoginMessage>
               <TextField
                 id="standard-basic"
                 label="username"
