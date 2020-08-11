@@ -81,7 +81,7 @@ const CarDetail = (props) => {
             onClick={() => {
               history.push({
                 pathname: "/addcontract",
-                state: props.data,
+                state: props.location.state,
               });
             }}
           >

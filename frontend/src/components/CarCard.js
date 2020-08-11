@@ -43,7 +43,7 @@ const CarCard = (props) => {
   } = props.data;
   const history = useHistory();
   return (
-    <Card id={_id}>
+    <Card>
       <ImgTitle>
         <h3>
           {" "}
@@ -66,6 +66,7 @@ const CarCard = (props) => {
       </ul>
       <MoreInfos>
         À partir de {price}€/mois
+        <br />
         <Button
           variant="contained"
           color="primary"

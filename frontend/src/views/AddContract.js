@@ -30,7 +30,7 @@ const Flex = styled.div`
   flex: 1;
 `;
 
-const AddContract = () => {
+const AddContract = (props) => {
   const [selectedCar, setSelectedCar] = useState();
   const [loading, setLoading] = useState(true);
   const [checkVal, setCheckVal] = useState(false);
@@ -45,6 +45,7 @@ const AddContract = () => {
   const location = useLocation();
 
   useEffect(() => {
+    console.log(props);
     if (location.state) {
       setSelectedCar(location.state);
       setCurrentPrice(location.state.price);
@@ -231,6 +232,7 @@ const AddContract = () => {
           </Button>
         </CenterContainer>
       )}
+      <br />
 
       <Footer></Footer>
     </TopContainer>
