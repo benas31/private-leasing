@@ -10,6 +10,8 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Footer from "../components/Footer";
+import { format, parseISO } from "date-fns";
+
 const FlexColumn = styled.div`
   display: flex;
   margin: 0 50px 0 50px;
@@ -122,8 +124,13 @@ const Contract = () => {
                       <TableCell component="th" scope="row">
                         {row._id}
                       </TableCell>
-                      <TableCell align="right">{row.date_start}</TableCell>
-                      <TableCell align="right">{row.date_end}</TableCell>
+                      <TableCell align="right">
+                        {format(new Date(row.date_start), "dd/MM/yyyy")}
+                      </TableCell>
+                      <TableCell align="right">
+                        {" "}
+                        {format(new Date(row.date_end), "dd/MM/yyyy")}
+                      </TableCell>
                       <TableCell align="right">{row.km_debut}</TableCell>
                       <TableCell align="right">{row.km_fin}</TableCell>
                       <TableCell align="right">{row.prix}</TableCell>
