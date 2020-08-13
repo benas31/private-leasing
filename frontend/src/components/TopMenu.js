@@ -7,10 +7,6 @@ import {
   Nav,
   NavItem,
   NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
 } from "reactstrap";
 
 const TopMenu = (props) => {
@@ -47,19 +43,21 @@ const TopMenu = (props) => {
             <NavLink href="/carlist">Liste des voitures</NavLink>
           </NavItem>
 
+          {connected && <NavLink href="/contract">Mes contracts</NavLink>}
           <NavItem>
             <NavLink href="/about">A propos</NavLink>
           </NavItem>
-          <NavItem>
-            <NavLink href="">Blablabla</NavLink>
-          </NavItem>
-          {connected && <NavLink href="/contract">Mes contracts</NavLink>}
         </Nav>
+        {connected && (
+          <span>
+            Bonjour {JSON.parse(localStorage.getItem("user")).username} !
+          </span>
+        )}
         {!connected ? (
-          <NavLink href="/login">Login</NavLink>
+          <NavLink href="/login">Se connecter</NavLink>
         ) : (
           <Nav>
-            <NavLink href="/Profil">My Account</NavLink>
+            <NavLink href="/Profil">Mon compte</NavLink>
             <NavLink href="/" onClick={handleLogout}>
               Déconnexion
             </NavLink>

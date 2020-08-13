@@ -56,7 +56,7 @@ const AddContract = (props) => {
 
   useEffect(() => {
     setCurrentPrice(location.state.price + priceMonth + priceKm);
-  }, [priceMonth, priceKm]);
+  }, [priceMonth, priceKm, location.state.price]);
 
   const handleOrder = () => {
     fetch("http://localhost:5000/api/contract", {
@@ -70,6 +70,7 @@ const AddContract = (props) => {
           selectedDateBegin.getMonth() + currentMonth
         ),
         prix: currentPrice,
+        km: currentKm,
         actif: 0,
         fk_car: selectedCar._id,
         fk_client: JSON.parse(localStorage.getItem("user"))._id,

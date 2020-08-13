@@ -16,6 +16,8 @@ const Container = styled.div`
   width: 400px;
   display: flex;
   flex-direction: column;
+  border: 1px solid black;
+  padding-bottom: 20px;
 `;
 
 const LoginMessage = styled.p`
@@ -143,13 +145,16 @@ const Login = () => {
               >
                 Login
               </Button>
-              <div
+              <br />
+              <br />
+              <Button
                 onClick={() => {
                   setShowRegister(true);
                 }}
+                variant="contained"
               >
                 I don't have an account
-              </div>
+              </Button>
             </ItemContainer>
           )}
           {showRegister && (
@@ -230,17 +235,21 @@ const Login = () => {
               >
                 Register
               </Button>
-              <div
+              <br />
+              <br />
+              <Button
+                variant="contained"
                 onClick={() => {
                   setShowRegister(false);
                 }}
               >
                 Login
-              </div>
+              </Button>
             </ItemContainer>
           )}
         </Container>
       </FormContainer>
+      <br />
       <Footer></Footer>
     </TopContainer>
   );
