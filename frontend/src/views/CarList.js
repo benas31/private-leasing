@@ -15,8 +15,6 @@ const TopContainer = styled.div``;
 const Flex = styled.div`
   display: flex;
   padding-bottom: 20px;
-  align-items: center;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
 `;
 
 const FlexRow = styled.div``;

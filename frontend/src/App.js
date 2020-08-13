@@ -9,9 +9,10 @@ import Homepage from "./views/Homepage";
 import Profil from "./views/Profil";
 import AddContract from "./views/AddContract";
 import CarDetail from "./views/CarDetail";
+import About from "./views/About";
 const App = () => {
   return (
-    <div style={{ paddingTop: "55px" }}>
+    <div style={{ paddingTop: "70px" }}>
       <Router>
         <Switch>
           <Route exact path="/" component={Homepage}></Route>
@@ -23,6 +24,7 @@ const App = () => {
           <Route exact path="/profil" component={Profil}></Route>
           <Route exact path="/addcontract" component={AddContract}></Route>
           <Route exact path="/cardetail" component={CarDetail}></Route>
+          <Route exact path="/about" component={About}></Route>
         </Switch>
       </Router>
     </div>

@@ -48,28 +48,12 @@ const TopMenu = (props) => {
           </NavItem>
 
           <NavItem>
-            <NavLink href="">F.A.Q</NavLink>
+            <NavLink href="/about">A propos</NavLink>
           </NavItem>
           <NavItem>
             <NavLink href="">Blablabla</NavLink>
           </NavItem>
-          {connected && (
-            <>
-              <UncontrolledDropdown nav inNavbar>
-                <DropdownToggle nav caret>
-                  Options
-                </DropdownToggle>
-                <DropdownMenu right>
-                  <DropdownItem>
-                    <NavLink href="/contract">Mes contracts</NavLink>
-                  </DropdownItem>
-                  <DropdownItem>Option 2</DropdownItem>
-                  <DropdownItem divider />
-                  <DropdownItem>Reset</DropdownItem>
-                </DropdownMenu>
-              </UncontrolledDropdown>
-            </>
-          )}
+          {connected && <NavLink href="/contract">Mes contracts</NavLink>}
         </Nav>
         {!connected ? (
           <NavLink href="/login">Login</NavLink>
