@@ -10,7 +10,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Footer from "../components/Footer";
-import { format, parseISO } from "date-fns";
+import { format } from "date-fns";
 
 const FlexColumn = styled.div`
   display: flex;

@@ -32,7 +32,6 @@ const ImgTitle = styled.div`
 
 const CarDetail = (props) => {
   const {
-    _id,
     brand,
     modele,
     price,

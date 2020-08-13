@@ -32,53 +32,57 @@ const TopMenu = (props) => {
   };
 
   return (
-    <div>
-      <Navbar color="light" light expand="md" style={{ marginBottom: "30px" }}>
-        <NavbarBrand href="/">Leasing Privé</NavbarBrand>
-        <NavbarToggler onClick={toggle} />
-        <Collapse isOpen={isOpen} navbar>
-          <Nav className="mr-auto" navbar>
-            <NavItem>
-              <NavLink href="/carlist">Liste des voitures</NavLink>
-            </NavItem>
+    <Navbar
+      color="light"
+      light
+      expand="md"
+      style={{ marginBottom: "30px" }}
+      fixed="top"
+    >
+      <NavbarBrand href="/">Leasing Privé</NavbarBrand>
+      <NavbarToggler onClick={toggle} />
+      <Collapse isOpen={isOpen} navbar>
+        <Nav className="mr-auto" navbar>
+          <NavItem>
+            <NavLink href="/carlist">Liste des voitures</NavLink>
+          </NavItem>
 
-            <NavItem>
-              <NavLink href="">F.A.Q</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href="">Blablabla</NavLink>
-            </NavItem>
-            {connected && (
-              <>
-                <UncontrolledDropdown nav inNavbar>
-                  <DropdownToggle nav caret>
-                    Options
-                  </DropdownToggle>
-                  <DropdownMenu right>
-                    <DropdownItem>
-                      <NavLink href="/contract">Mes contracts</NavLink>
-                    </DropdownItem>
-                    <DropdownItem>Option 2</DropdownItem>
-                    <DropdownItem divider />
-                    <DropdownItem>Reset</DropdownItem>
-                  </DropdownMenu>
-                </UncontrolledDropdown>
-              </>
-            )}
-          </Nav>
-          {!connected ? (
-            <NavLink href="/login">Login</NavLink>
-          ) : (
-            <Nav>
-              <NavLink href="/Profil">My Account</NavLink>
-              <NavLink href="/" onClick={handleLogout}>
-                Déconnexion
-              </NavLink>
-            </Nav>
+          <NavItem>
+            <NavLink href="">F.A.Q</NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink href="">Blablabla</NavLink>
+          </NavItem>
+          {connected && (
+            <>
+              <UncontrolledDropdown nav inNavbar>
+                <DropdownToggle nav caret>
+                  Options
+                </DropdownToggle>
+                <DropdownMenu right>
+                  <DropdownItem>
+                    <NavLink href="/contract">Mes contracts</NavLink>
+                  </DropdownItem>
+                  <DropdownItem>Option 2</DropdownItem>
+                  <DropdownItem divider />
+                  <DropdownItem>Reset</DropdownItem>
+                </DropdownMenu>
+              </UncontrolledDropdown>
+            </>
           )}
-        </Collapse>
-      </Navbar>
-    </div>
+        </Nav>
+        {!connected ? (
+          <NavLink href="/login">Login</NavLink>
+        ) : (
+          <Nav>
+            <NavLink href="/Profil">My Account</NavLink>
+            <NavLink href="/" onClick={handleLogout}>
+              Déconnexion
+            </NavLink>
+          </Nav>
+        )}
+      </Collapse>
+    </Navbar>
   );
 };
 

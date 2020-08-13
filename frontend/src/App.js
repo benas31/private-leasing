@@ -11,19 +11,21 @@ import AddContract from "./views/AddContract";
 import CarDetail from "./views/CarDetail";
 const App = () => {
   return (
-    <Router>
-      <Switch>
-        <Route exact path="/" component={Homepage}></Route>
-        <Route exact path="/test" component={Test}></Route>
-        <Route exact path="/carlist" component={CarList}></Route>
-        <Route exact path="/login" component={Login}></Route>
-        <Route exact path="/dashboard" component={Dashboard}></Route>
-        <Route exact path="/contract" component={Contract}></Route>
-        <Route exact path="/profil" component={Profil}></Route>
-        <Route exact path="/addcontract" component={AddContract}></Route>
-        <Route exact path="/cardetail" component={CarDetail}></Route>
-      </Switch>
-    </Router>
+    <div style={{ paddingTop: "55px" }}>
+      <Router>
+        <Switch>
+          <Route exact path="/" component={Homepage}></Route>
+          <Route exact path="/test" component={Test}></Route>
+          <Route exact path="/carlist" component={CarList}></Route>
+          <Route exact path="/login" component={Login}></Route>
+          <Route exact path="/dashboard" component={Dashboard}></Route>
+          <Route exact path="/contract" component={Contract}></Route>
+          <Route exact path="/profil" component={Profil}></Route>
+          <Route exact path="/addcontract" component={AddContract}></Route>
+          <Route exact path="/cardetail" component={CarDetail}></Route>
+        </Switch>
+      </Router>
+    </div>
   );
 };
 
