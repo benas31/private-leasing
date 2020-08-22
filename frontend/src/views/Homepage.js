@@ -19,12 +19,12 @@ const TopContainer = styled.div``;
 
 const Flex1 = styled.div`
   display: flex;
-  flex: 1;
   margin-bottom: 30px;
 `;
 const Flex1Border = styled.div`
+  display: flex;
   flex-direction: column;
-  flex: 1;
+  justify-content: center;
   border: 1px solid black;
   margin: 1px;
 `;
@@ -40,7 +40,8 @@ const Flex1Column = styled.div`
 
 const Flex1Center = styled.div`
   display: flex;
-  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
 `;
 
 const Homepage = () => {
@@ -173,23 +174,25 @@ const Homepage = () => {
             <Flex1Border>
               <Flex1Row>
                 <Flex1Column>
-                  <SearchBrand></SearchBrand>
-                  <SearchModele></SearchModele>
-                  <SearchColor></SearchColor>
-                  <SearchTransmision></SearchTransmision>
+                  <SearchBrand />
+                  <SearchModele />
                 </Flex1Column>
-                <Flex1Center>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => {
-                      handleClick();
-                    }}
-                    size="small"
-                  >
-                    Go
-                  </Button>
-                </Flex1Center>
+                <Flex1Column>
+                  <SearchColor />
+                  <SearchTransmision />
+                  <Flex1Center>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => {
+                        handleClick();
+                      }}
+                      size="small"
+                    >
+                      Rechercher
+                    </Button>
+                  </Flex1Center>
+                </Flex1Column>
               </Flex1Row>
             </Flex1Border>
             <Flex1Border>
