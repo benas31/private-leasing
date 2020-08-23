@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
-import TopMenu from "../../components/TopMenu";
 import styled from "styled-components";
+
+import TopMenu from "../../components/TopMenu";
 import Footer from "../../components/Footer";
+import MyInfos from "./MyInfos";
+import MyContracts from "./MyContracts";
 
 import { Button } from "@material-ui/core";
 
@@ -16,6 +19,7 @@ const FlexContainer = styled.div`
 
 const FlexCol1 = styled.div`
   display: flex;
+  margin: 1px;
   flex-direction: column;
   justify-content: center;
   border: 1px solid black;
@@ -24,9 +28,13 @@ const FlexCol1 = styled.div`
 `;
 
 const FlexCol2 = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: 1px solid black;
   min-width: 800px;
   min-height: 800px;
+  margin: 1px;
 `;
 
 const MyAccount = () => {
@@ -57,7 +65,7 @@ const MyAccount = () => {
                 </Button>
                 <Button variant="outlined" color="primary" onClick={() => { handleClick(); }} size="large" style={{ margin: 10 }}>
                   Mes contracts
-                          </Button>
+                </Button>
                 <Button variant="outlined" color="primary" onClick={() => { handleClick(); }} size="large" style={{ margin: 10 }}>
                   Mes infos
                 </Button>
@@ -75,7 +83,8 @@ const MyAccount = () => {
             )}
           </FlexCol1>
           <FlexCol2>
-            Sup
+            {/* <MyInfos user={user} /> */}
+            <MyContracts />
           </FlexCol2>
         </FlexContainer>
       </div>

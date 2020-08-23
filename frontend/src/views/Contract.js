@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import TopMenu from "../components/TopMenu";
 import { CircularProgress } from "@material-ui/core";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -9,7 +8,6 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import Footer from "../components/Footer";
 import { format } from "date-fns";
 
 const FlexColumn = styled.div`
@@ -97,7 +95,6 @@ const Contract = () => {
   };
   return (
     <TopContainer>
-      <TopMenu></TopMenu>
       <FlexColumn>
         {loading && <CircularProgress />}
         {!loading && (
@@ -146,7 +143,6 @@ const Contract = () => {
           </div>
         )}
       </FlexColumn>
-      <Footer></Footer>
     </TopContainer>
   );
 };
