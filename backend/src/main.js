@@ -65,6 +65,7 @@ app.post("/api/register", function (req, res) {
   const password = req.body.password;
   const email = req.body.email;
   const lastname = req.body.lastname;
+  const role = req.body.role;
   const firstname = req.body.firstname;
 
   bcrypt.hash(password, 10, (err, hash) => {
@@ -73,9 +74,9 @@ app.post("/api/register", function (req, res) {
         username,
         password: hash,
         email,
-        role: "client",
-        verified: 1,
-        token: null,
+        role: role || "client",
+        lastname,
+        firstname,
       },
       (err, user) => {
         if (err) {

@@ -143,7 +143,7 @@ const Login = () => {
                 style={{ marginTop: "20px" }}
                 onClick={() => handleLogin()}
               >
-                Login
+                Se Connecter
               </Button>
               <br />
               <br />
@@ -153,7 +153,7 @@ const Login = () => {
                 }}
                 variant="contained"
               >
-                I don't have an account
+                Créer un compte
               </Button>
             </ItemContainer>
           )}
