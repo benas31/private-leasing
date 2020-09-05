@@ -54,7 +54,6 @@ const CarList = () => {
     selectedBrand,
     selectedColor,
     selectedTransmission,
-    cars,
   ]);
 
   const SearchBrand = () => {

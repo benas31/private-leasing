@@ -27,6 +27,9 @@ const TopMenu = (props) => {
     localStorage.removeItem("user");
   };
 
+  const user = connected ? JSON.parse(localStorage.getItem("user")) : "";
+  const { role, username } = user;
+
   return (
     <Navbar
       color="light"
@@ -44,13 +47,14 @@ const TopMenu = (props) => {
           </NavItem>
 
           {connected && <NavLink href="/contract">Mes contracts</NavLink>}
+          {connected && role !== 'client' && <NavLink href="/login">Ajouter un utilisateur</NavLink>}
           <NavItem>
             <NavLink href="/about">A propos</NavLink>
           </NavItem>
         </Nav>
         {connected && (
           <span>
-            Bonjour {JSON.parse(localStorage.getItem("user")).username} !
+            Bonjour {username} !
           </span>
         )}
         {!connected ? (

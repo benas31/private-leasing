@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TextField, Button, Select, MenuItem } from "@material-ui/core";
 import styled from "styled-components";
 import TopMenu from "../components/TopMenu";
@@ -43,6 +43,12 @@ const Login = () => {
   const [showRegister, setShowRegister] = useState(false);
   const history = useHistory();
 
+  useEffect(() => {
+    setShowRegister(!!localStorage.getItem("user"));
+  }, []);
+
+  const user = !!localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : "";
+
   const handleRegister = () => {
     setMessage('');
     if (password !== verifiedPassword) {
@@ -69,10 +75,10 @@ const Login = () => {
           if (!!json.success) {
             setMessage("Register successful")
             json.response.authdata = window.btoa(username + ":" + password);
-            localStorage.setItem("user", JSON.stringify(json.response));
+            if(!user) localStorage.setItem("user", JSON.stringify(json.response));
             setTimeout(() => {
               history.push("/");
-            }, 2000);
+            }, 1000);
           } else {
             setMessage(json.response);
           }
@@ -104,7 +110,7 @@ const Login = () => {
           localStorage.setItem("user", JSON.stringify(json.response));
           setTimeout(() => {
             history.push("/Profil");
-          }, 2000);
+          }, 1000);
         } else {
           setMessage(json.response);
         }
@@ -207,19 +213,6 @@ const Login = () => {
               />
               <br />
               <br />
-              <Select
-                id="role"
-                onChange={(e) => {
-                  setRole(e.target.value);
-                }}
-                value={role}
-                style={{ minWidth: 200, textAlign: "left" }}
-              >
-                <MenuItem value="client">Client</MenuItem>
-                <MenuItem value="personnel">Personnel</MenuItem>
-              </Select>
-              <br />
-
               <TextField
                 id="standard-basic"
                 label="Firstname"
@@ -236,6 +229,22 @@ const Login = () => {
                 }}
                 value={lastname}
               />
+              <br />
+              <br />
+              {(user.role === "vendeur" || user.role === "admin") && (
+                <Select
+                  id="role"
+                  onChange={(e) => {
+                    setRole(e.target.value);
+                  }}
+                  value={role}
+                  style={{ minWidth: 200, textAlign: "left" }}
+                >
+                  <MenuItem value="client">Client</MenuItem>
+                  <MenuItem value="vendeur">Vendeur</MenuItem>
+                </Select>
+              )}
+              <br />
               <br />
               <Button
                 variant="contained"

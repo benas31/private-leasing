@@ -35,9 +35,9 @@ const MyContracts = () => {
       JSON.parse(localStorage.getItem("user"))._id
     )
       .then((blop) => blop.json())
-      .then((resp) => {
-        if(!!resp.success) {
-          const data = resp.response;
+      .then((rep) => {
+        if(!!rep.success) {
+          const data = rep.response;
           var promises = [];
           data.forEach((row) => {
             //Transform 1/0 to oui/non
@@ -59,6 +59,7 @@ const MyContracts = () => {
               })
             );
             //For each personnel id, transform to personnel firstname + lastname
+            console.log(row);
             promises.push(
               getUser(row.fk_personnel).then((data) => {
                 if (data) {
