@@ -43,11 +43,13 @@ const Login = () => {
   const [showRegister, setShowRegister] = useState(false);
   const history = useHistory();
 
-  useEffect(() => {
-    setShowRegister(!!localStorage.getItem("user"));
-  }, []);
-
   const user = !!localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : "";
+
+  useEffect(() => {
+    if (user.role === "client") history.push("/");
+    setShowRegister(!!localStorage.getItem("user"));
+  }, [user]);
+
 
   const handleRegister = () => {
     setMessage('');
@@ -102,14 +104,13 @@ const Login = () => {
         // login successful if there's a user in the response
         const json = JSON.parse(data);
         if (!!json.success) {
-          console.log(json);
           // store user details and basic auth credentials in local storage
           // to keep user logged in between page refreshes
           setMessage("Authentification succesful");
           json.response.authdata = window.btoa(username + ":" + password);
           localStorage.setItem("user", JSON.stringify(json.response));
           setTimeout(() => {
-            history.push("/Profil");
+            history.push("/");
           }, 1000);
         } else {
           setMessage(json.response);
@@ -212,7 +213,6 @@ const Login = () => {
                 value={email}
               />
               <br />
-              <br />
               <TextField
                 id="standard-basic"
                 label="Firstname"
@@ -256,7 +256,7 @@ const Login = () => {
               </Button>
               <br />
               <br />
-              <Button
+              {(!!user.role === "vendeur" || !!user.role === "admin") && (<Button
                 variant="contained"
                 onClick={() => {
                   setShowRegister(false);
@@ -264,6 +264,7 @@ const Login = () => {
               >
                 Login
               </Button>
+              )}
             </ItemContainer>
           )}
         </Container>

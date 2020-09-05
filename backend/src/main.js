@@ -73,8 +73,7 @@ app.post("/api/register", function (req, res) {
     })
 
   bcrypt.hash(password, 10, (e, hash) => {
-    User.create(
-      {
+    User.create({
         username,
         password: hash,
         email,

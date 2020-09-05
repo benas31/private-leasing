@@ -17,7 +17,7 @@ router.get("/getByUserId/:id", function (req, res) {
     if (data) {
       const userRole = data.role;
       if (userRole === "admin" || userRole === "personnel" || userRole === "vendeur") {
-        Contract.find((err, contracts) => {
+        Contract.find({ fk_personnel: userId }, (err, contracts) => {
           if (err) res.json({success: false, response: err});
           else  res.json({success: true, response: contracts});
         });
@@ -32,11 +32,6 @@ router.get("/getByUserId/:id", function (req, res) {
       res.json({success: false, response: "id not found"});
     }
   });
-
-  // Contract.find((err, contracts) => {
-  //   if (err) res.send(err);
-  //   else res.json(contracts);
-  // });
 });
 
 router.get("/:id", function (req, res) {
