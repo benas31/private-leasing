@@ -22,38 +22,16 @@ const FlexRow = styled.div``;
 const CarList = () => {
   const location = useLocation();
 
-  const brand = location.state  ? location.state.brand : "";
-  const modele = location.state ? location.state.modele : "";
-  const color = location.state ? location.state.color : "";
-  const transmission = location.state ? location.state.transmission : "";
-
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedBrand, setSelectedBrand] = useState(brand);
-  const [selectedModele, setSelectedModele] = useState(modele);
-  const [selectedColor, setSelectedColor] = useState(color);
-  const [selectedTransmission, setSelectedTransmission] = useState(transmission);
+  const [selectedBrand, setSelectedBrand] = useState( location.state  ? location.state.brand : "");
+  const [selectedModele, setSelectedModele] = useState(location.state ? location.state.modele : "");
+  const [selectedColor, setSelectedColor] = useState(location.state ? location.state.color : "");
+  const [selectedTransmission, setSelectedTransmission] = useState(location.state ? location.state.transmission : "");
   const [carsToShow, setCarsToShow] = useState("");
 
   useEffect(() => {
     if (!!selectedBrand) {
-      console.log('brand', carsToShow);
-      setCarsToShow(carsToShow.filter((x) => x.brand === selectedBrand));
-    }
-    if (!!selectedModele) {
-      console.log('modele', carsToShow);
-      setCarsToShow(carsToShow.filter((x) => x.modele === selectedModele));
-    }
-    if (!!selectedTransmission) {
-      console.log('transmi', carsToShow);
-      setCarsToShow(carsToShow.filter((x) => x.transmission === selectedTransmission));
-    }
-    if (!!selectedColor) {
-      console.log('color', selectedBrand);
-      setCarsToShow(carsToShow.filter((x) => x.color === selectedColor));
-    }
-    
-/*     if (!!selectedBrand) {
       setCarsToShow(cars.filter((x) => x.brand === selectedBrand));
     } else {
       setCarsToShow(cars);
@@ -62,28 +40,21 @@ const CarList = () => {
       setCarsToShow(cars.filter((x) => x.modele === selectedModele));
     }
     if (!!selectedTransmission) {
-      if(selectedBrand && selectedModele) {
-        setCarsToShow(cars.filter((x) => x.brand === selectedBrand && x.modele === selectedModele && x.transmission === selectedTransmission));
-      } else if (selectedBrand) {
-        setCarsToShow(cars.filter((x) => x.brand === selectedBrand && x.transmission === selectedTransmission));
-      } else {
-        setCarsToShow(cars.filter((x) => x.transmission === selectedTransmission));
-      }
+      setCarsToShow(
+        cars.filter((x) => x.brand === selectedBrand && x.modele === selectedModele && x.transmission === selectedTransmission)
+      );
     }
     if (!!selectedColor) {
-      if(selectedBrand && selectedModele && selectedTransmission) {
-        setCarsToShow(cars.filter((x) => x.brand === selectedBrand && x.modele === selectedModele && x.transmission === selectedTransmission && x.color === selectedColor));
-      } else if(selectedBrand && selectedModele) {
-        setCarsToShow(cars.filter((x) => x.brand === selectedBrand && x.modele === selectedModele && x.color === selectedColor));
-      } else {
-        setCarsToShow(cars.filter((x) => x.color === selectedColor));
-      }
-    } */
+      setCarsToShow(
+        cars.filter((x) => x.brand === selectedBrand && x.modele === selectedModele && x.transmission === selectedTransmission && x.color === selectedColor)
+      );
+    }
   }, [
     selectedModele,
     selectedBrand,
     selectedColor,
     selectedTransmission,
+    cars,
   ]);
 
   const SearchBrand = () => {
@@ -121,6 +92,8 @@ const CarList = () => {
         noOptionsText="---"
         onChange={(e, value) => {
           setSelectedModele(value);
+          setSelectedTransmission();
+          setSelectedColor();
         }}
         value={selectedModele}
         renderInput={(params) => (
@@ -149,6 +122,7 @@ const CarList = () => {
         noOptionsText="---"
         onChange={(e, value) => {
           setSelectedTransmission(value)
+          setSelectedColor();
         }}
         value={selectedTransmission}
         renderInput={(params) => (
