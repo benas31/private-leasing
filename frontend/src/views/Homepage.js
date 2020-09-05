@@ -25,7 +25,6 @@ const Flex1Border = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  border: 1px solid black;
   margin: 1px;
 `;
 
@@ -60,7 +59,7 @@ const Homepage = () => {
         brand: selectedBrand,
         modele: selectedModele,
         color: selectedColor,
-        transmi: selectedTransmission,
+        transmission: selectedTransmission,
       },
     });
   };
@@ -74,13 +73,14 @@ const Homepage = () => {
         getOptionLabel={(option) => option}
         onChange={(e, value) => {
           setSelectedBrand(value);
+          // Reset le state des autres champs si on change la marque
           setSelectedModele();
           setSelectedColor();
           setSelectedTransmission();
         }}
         noOptionsText="---"
         value={selectedBrand}
-        style={{ width: 300, flex: "1", margin: "7px" }}
+        style={{ width: 300, margin: "7px" }}
         renderInput={(params) => (
           <TextField {...params} label="Marque" variant="outlined" />
         )}
@@ -99,15 +99,42 @@ const Homepage = () => {
           ),
         ]}
         getOptionLabel={(option) => option}
-        style={{ width: 300, flex: "1", margin: "7px" }}
+        style={{ width: 300, margin: "7px" }}
         noOptionsText="---"
         onChange={(e, value) => {
           setSelectedModele(value);
+          setSelectedTransmission();
           setSelectedColor();
         }}
         value={selectedModele}
         renderInput={(params) => (
           <TextField {...params} label="Modele" variant="outlined" />
+        )}
+      />
+    );
+  };
+
+  const SearchTransmision = () => {
+    return (
+      <Autocomplete
+        id="search-transmission"
+        //On parcourt toute les marques et on les liste qu'une fois
+        options={[
+          ...new Set(
+            cars
+              .filter(
+                (x) => x.modele === selectedModele && x.brand === selectedBrand
+              )
+              .map((x) => x.transmission)
+          ),
+        ]}
+        getOptionLabel={(option) => option}
+        style={{ width: 300, margin: "7px" }}
+        noOptionsText="---"
+        onChange={(e, value) => setSelectedTransmission(value)}
+        value={selectedTransmission}
+        renderInput={(params) => (
+          <TextField {...params} label="Transmission" variant="outlined" />
         )}
       />
     );
@@ -122,13 +149,13 @@ const Homepage = () => {
           ...new Set(
             cars
               .filter(
-                (x) => x.modele === selectedModele && x.brand === selectedBrand
+                (x) => x.modele === selectedModele && x.brand === selectedBrand && x.transmission === selectedTransmission
               )
               .map((x) => x.color)
           ),
         ]}
         getOptionLabel={(option) => option}
-        style={{ width: 300, flex: "1", margin: "7px" }}
+        style={{ width: 300, margin: "7px" }}
         noOptionsText="---"
         onChange={(e, value) => setSelectedColor(value)}
         value={selectedColor}
@@ -138,23 +165,7 @@ const Homepage = () => {
       />
     );
   };
-  const SearchTransmision = () => {
-    return (
-      <Autocomplete
-        id="search-transmission"
-        //On parcourt toute les marques et on les liste qu'une fois
-        options={[...new Set(cars.map((x) => x.transmission))]}
-        getOptionLabel={(option) => option}
-        style={{ width: 300, flex: "1", margin: "7px" }}
-        noOptionsText="---"
-        onChange={(e, value) => setSelectedTransmission(value)}
-        value={selectedTransmission}
-        renderInput={(params) => (
-          <TextField {...params} label="Transmission" variant="outlined" />
-        )}
-      />
-    );
-  };
+
   useEffect(() => {
     fetch("http://localhost:5000/api/car")
       .then((blop) => blop.json())
@@ -178,17 +189,10 @@ const Homepage = () => {
                   <SearchModele />
                 </Flex1Column>
                 <Flex1Column>
-                  <SearchColor />
                   <SearchTransmision />
+                  <SearchColor />
                   <Flex1Center>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => {
-                        handleClick();
-                      }}
-                      size="small"
-                    >
+                    <Button variant="contained"  color="primary" onClick={() => {handleClick();}} size="small">
                       Rechercher
                     </Button>
                   </Flex1Center>

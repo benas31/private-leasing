@@ -22,32 +22,38 @@ const FlexRow = styled.div``;
 const CarList = () => {
   const location = useLocation();
 
-  //TODO usestate instead of checking state
-  const state = {
-    brand: "",
-    modele: "",
-    color: "",
-    transmission: "",
-  };
-  if (location.state) {
-    state.brand = location.state.brand || "";
-    state.modele = location.state.modele || "";
-    state.color = location.state.color || "";
-    state.transmission = location.state.transmi || "";
-  }
+  const brand = location.state  ? location.state.brand : "";
+  const modele = location.state ? location.state.modele : "";
+  const color = location.state ? location.state.color : "";
+  const transmission = location.state ? location.state.transmission : "";
+
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedBrand, setSelectedBrand] = useState(state.brand);
-  const [selectedModele, setSelectedModele] = useState(state.modele);
-  const [selectedColor, setSelectedColor] = useState(state.color);
-  const [selectedTransmission, setSelectedTransmission] = useState(
-    state.transmission
-  );
-
+  const [selectedBrand, setSelectedBrand] = useState(brand);
+  const [selectedModele, setSelectedModele] = useState(modele);
+  const [selectedColor, setSelectedColor] = useState(color);
+  const [selectedTransmission, setSelectedTransmission] = useState(transmission);
   const [carsToShow, setCarsToShow] = useState("");
 
   useEffect(() => {
     if (!!selectedBrand) {
+      console.log('brand', carsToShow);
+      setCarsToShow(carsToShow.filter((x) => x.brand === selectedBrand));
+    }
+    if (!!selectedModele) {
+      console.log('modele', carsToShow);
+      setCarsToShow(carsToShow.filter((x) => x.modele === selectedModele));
+    }
+    if (!!selectedTransmission) {
+      console.log('transmi', carsToShow);
+      setCarsToShow(carsToShow.filter((x) => x.transmission === selectedTransmission));
+    }
+    if (!!selectedColor) {
+      console.log('color', selectedBrand);
+      setCarsToShow(carsToShow.filter((x) => x.color === selectedColor));
+    }
+    
+/*     if (!!selectedBrand) {
       setCarsToShow(cars.filter((x) => x.brand === selectedBrand));
     } else {
       setCarsToShow(cars);
@@ -55,27 +61,29 @@ const CarList = () => {
     if (!!selectedModele) {
       setCarsToShow(cars.filter((x) => x.modele === selectedModele));
     }
-    if (!!selectedColor) {
-      setCarsToShow(
-        cars.filter(
-          (x) =>
-            x.brand === selectedBrand &&
-            x.modele === selectedModele &&
-            x.color === selectedColor
-        )
-      );
+    if (!!selectedTransmission) {
+      if(selectedBrand && selectedModele) {
+        setCarsToShow(cars.filter((x) => x.brand === selectedBrand && x.modele === selectedModele && x.transmission === selectedTransmission));
+      } else if (selectedBrand) {
+        setCarsToShow(cars.filter((x) => x.brand === selectedBrand && x.transmission === selectedTransmission));
+      } else {
+        setCarsToShow(cars.filter((x) => x.transmission === selectedTransmission));
+      }
     }
-    // TODO : Fix Transmission field in search bar
-    /*     if (!!selectedTransmission) {
-      setCarsToShow(
-        cars.filter((x) => x.transmission === selectedTransmission));
+    if (!!selectedColor) {
+      if(selectedBrand && selectedModele && selectedTransmission) {
+        setCarsToShow(cars.filter((x) => x.brand === selectedBrand && x.modele === selectedModele && x.transmission === selectedTransmission && x.color === selectedColor));
+      } else if(selectedBrand && selectedModele) {
+        setCarsToShow(cars.filter((x) => x.brand === selectedBrand && x.modele === selectedModele && x.color === selectedColor));
+      } else {
+        setCarsToShow(cars.filter((x) => x.color === selectedColor));
+      }
     } */
   }, [
     selectedModele,
     selectedBrand,
     selectedColor,
     selectedTransmission,
-    cars,
   ]);
 
   const SearchBrand = () => {
@@ -87,9 +95,6 @@ const CarList = () => {
         getOptionLabel={(option) => option}
         onChange={(e, value) => {
           setSelectedBrand(value);
-          setSelectedModele();
-          setSelectedColor();
-          setSelectedTransmission();
         }}
         noOptionsText="---"
         value={selectedBrand}
@@ -116,7 +121,6 @@ const CarList = () => {
         noOptionsText="---"
         onChange={(e, value) => {
           setSelectedModele(value);
-          setSelectedColor();
         }}
         value={selectedModele}
         renderInput={(params) => (
@@ -126,6 +130,35 @@ const CarList = () => {
     );
   };
 
+  const SearchTransmision = () => {
+    return (
+      <Autocomplete
+        id="search-transmission"
+        //On parcourt toute les marques et on les liste qu'une fois
+        options={[
+          ...new Set(
+            cars
+              .filter(
+                (x) => x.modele === selectedModele && x.brand === selectedBrand
+              )
+              .map((x) => x.transmission)
+          ),
+        ]}
+        getOptionLabel={(option) => option}
+        style={{ width: 300 }}
+        noOptionsText="---"
+        onChange={(e, value) => {
+          setSelectedTransmission(value)
+        }}
+        value={selectedTransmission}
+        renderInput={(params) => (
+          <TextField {...params} label="Transmission" variant="outlined" />
+        )}
+      />
+    );
+  };
+
+  
   const SearchColor = () => {
     return (
       <Autocomplete
@@ -133,35 +166,22 @@ const CarList = () => {
         //On parcourt toute les marques et on les liste qu'une fois
         options={[
           ...new Set(
-            cars.filter((x) => x.modele === selectedModele).map((x) => x.color)
+            cars
+              .filter(
+                (x) => x.modele === selectedModele && x.brand === selectedBrand && x.transmission === selectedTransmission
+              )
+              .map((x) => x.color)
           ),
         ]}
         getOptionLabel={(option) => option}
         style={{ width: 300 }}
         noOptionsText="---"
-        onChange={(e, value) => setSelectedColor(value)}
+        onChange={(e, value) => {
+          setSelectedColor(value)
+        }}
         value={selectedColor}
         renderInput={(params) => (
           <TextField {...params} label="Couleur" variant="outlined" />
-        )}
-      />
-    );
-  };
-
-  //TODO : Fix
-  const SearchTransmision = () => {
-    return (
-      <Autocomplete
-        id="search-transmission"
-        //On parcourt toute les marques et on les liste qu'une fois
-        options={[...new Set(carsToShow.map((x) => x.transmission))]}
-        getOptionLabel={(option) => option}
-        style={{ width: 300 }}
-        noOptionsText="---"
-        onChange={(e, value) => setSelectedTransmission(value)}
-        value={selectedTransmission}
-        renderInput={(params) => (
-          <TextField {...params} label="Transmission" variant="outlined" />
         )}
       />
     );
@@ -187,10 +207,9 @@ const CarList = () => {
             <Flex>
               <SearchBrand />
               <SearchModele />
-              <SearchColor />
               <SearchTransmision />
+              <SearchColor />
             </Flex>
-
             <FlexRow>
               {carsToShow.map((car) => (
                 <CarCard data={car} key={`car.id-${Math.random()}`} />

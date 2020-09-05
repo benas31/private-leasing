@@ -7,7 +7,6 @@ import Dashboard from "./views/Dashboard";
 import Contract from "./views/Contract";
 import Homepage from "./views/Homepage";
 import Profil from "./views/Profil";
-import MyAccount from "./views/account/MyAccount";
 import AddContract from "./views/AddContract";
 import CarDetail from "./views/CarDetail";
 import About from "./views/About";
@@ -27,7 +26,6 @@ const App = () => {
           <Route exact path="/dashboard" component={Dashboard}></Route>
           <Route exact path="/contract" component={Contract}></Route>
           <Route exact path="/profil" component={Profil}></Route>
-          <Route exact path="/MyAccount" component={MyAccount}></Route>
           <Route exact path="/addcontract" component={AddContract}></Route>
           <Route exact path="/cardetail" component={CarDetail}></Route>
           <Route exact path="/about" component={About}></Route>

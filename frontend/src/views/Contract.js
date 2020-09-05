@@ -1,73 +1,79 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import { CircularProgress } from "@material-ui/core";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
+import MaterialTable from 'material-table';
 import { format } from "date-fns";
+import styled from "styled-components";
+import TopMenu from "../components/TopMenu";
+import Footer from "../components/Footer";
 
-const FlexColumn = styled.div`
-  display: flex;
-  margin: 0 50px 0 50px;
-  padding-bottom: 20px;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-`;
 
-const TopContainer = styled.div``;
+const MyContracts = () => {
 
-const Contract = () => {
-  const [loading, setLoading] = useState(true);
-  const [contracts, setContracts] = useState([]);
+  const TopContainer = styled.div``;
+
+  const [tableColumns] = useState([
+    { title: 'Début', field: 'date_start' },
+    { title: 'Fin', field: 'date_end' },
+    { title: 'Km start', field: 'km_debut' },
+    { title: 'Km end', field: 'km_fin' },
+    { title: 'Prix', field: 'prix' },
+    { title: 'Actif', field: 'actif' },
+    { title: 'Voiture', field: 'fk_car' },
+    { title: 'Vendeur', field: 'fk_personnel' },
+    { title: 'Client', field: 'fk_client' },
+  ]);
+  const [tableData, setTableData] = useState([]);
+  const [userRole, setUserRole] = useState("");
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    setUserRole(user.role);
+  }, []);  
 
   useEffect(() => {
     fetch(
       "http://localhost:5000/api/contract/getByUserId/" +
-        JSON.parse(localStorage.getItem("user"))._id
+      JSON.parse(localStorage.getItem("user"))._id
     )
       .then((blop) => blop.json())
-      .then((data) => {
-        var promises = [];
-        data.forEach((row, idx) => {
-          //Transform 1/0 to oui/non
-          row.actif = row.actif === 1 ? "oui" : "non";
-          //For each client id, transfort to client firstname + lastname
-          promises.push(
-            getUser(row.fk_client).then((data) => {
-              return (row.fk_client = data.firstname + " " + data.lastname);
-            })
-          );
-          //For each car id, transfort to car brand + modele
-
-          promises.push(
-            getCar(row.fk_car).then((data) => {
-              console.log(data);
-              return (row.fk_car = data.brand + " " + data.modele);
-            })
-          );
-          //For each personnel id, transfort to personnel firstname + lastname
-
-          promises.push(
-            getUser(row.fk_personnel).then((data) => {
-              if (data) {
-                return (row.fk_personnel =
-                  data.firstname + " " + data.lastname);
-              } else {
-                return (row.fk_personnel = "Pas assigné");
-              }
-            })
-          );
-        });
-
-        Promise.all(promises).then((e) => {
-          setContracts(data);
-          setLoading(false);
-        });
+      .then((resp) => {
+        if(!!resp.success) {
+          const data = resp.response;
+          var promises = [];
+          data.forEach((row) => {
+            //Transform 1/0 to oui/non
+            row.actif = row.actif === 1 ? "oui" : "non";
+  
+            // format date
+            row.date_start = format(new Date(row.date_start), "dd/MM/yyyy")
+            row.date_end = format(new Date(row.date_end), "dd/MM/yyyy")
+            //For each client id, transform to client firstname + lastname
+            promises.push(
+              getUser(row.fk_client).then((data) => {
+                return (row.fk_client = data.firstname + " " + data.lastname);
+              })
+            );
+            //For each car id, transform to car brand + modele
+            promises.push(
+              getCar(row.fk_car).then((data) => {
+                return (row.fk_car = data.brand + " " + data.modele);
+              })
+            );
+            //For each personnel id, transform to personnel firstname + lastname
+            promises.push(
+              getUser(row.fk_personnel).then((data) => {
+                if (data) {
+                  return (row.fk_personnel =
+                    data.firstname + " " + data.lastname);
+                } else {
+                  return (row.fk_personnel = "Pas assigné");
+                }
+              })
+            );
+          });
+          Promise.all(promises).then((e) => {
+            setTableData(data)
+          });
+        }
       });
   }, []);
 
@@ -75,7 +81,6 @@ const Contract = () => {
     return fetch("http://localhost:5000/api/car/" + id)
       .then((blop) => blop.json())
       .then((data) => {
-        console.log(data);
         return data;
       })
       .catch((err) => {
@@ -93,58 +98,66 @@ const Contract = () => {
         console.log(err);
       });
   };
+
   return (
     <TopContainer>
-      <FlexColumn>
-        {loading && <CircularProgress />}
-        {!loading && (
-          <div>
-            <TableContainer component={Paper}>
-              <Table size="small" aria-label="a dense table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Id</TableCell>
-                    <TableCell align="right">Début</TableCell>
-                    <TableCell align="right">Fin</TableCell>
-                    <TableCell align="right">Km start</TableCell>
-                    <TableCell align="right">Km end</TableCell>
-                    <TableCell align="right">Prix</TableCell>
-                    <TableCell align="right">Actif</TableCell>
-                    <TableCell align="right">Voiture</TableCell>
-                    <TableCell align="right">Client</TableCell>
-                    <TableCell align="right">Personnel</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {contracts.map((row) => (
-                    <TableRow key={row._id}>
-                      <TableCell component="th" scope="row">
-                        {row._id}
-                      </TableCell>
-                      <TableCell align="right">
-                        {format(new Date(row.date_start), "dd/MM/yyyy")}
-                      </TableCell>
-                      <TableCell align="right">
-                        {" "}
-                        {format(new Date(row.date_end), "dd/MM/yyyy")}
-                      </TableCell>
-                      <TableCell align="right">{row.km_debut}</TableCell>
-                      <TableCell align="right">{row.km_fin}</TableCell>
-                      <TableCell align="right">{row.prix}</TableCell>
-                      <TableCell align="right">{row.actif}</TableCell>
-                      <TableCell align="right">{row.fk_car}</TableCell>
-                      <TableCell align="right">{row.fk_client}</TableCell>
-                      <TableCell align="right">{row.fk_personnel}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </div>
-        )}
-      </FlexColumn>
+      <TopMenu />
+      <div className="container">
+        {userRole === "client" ? (
+          <MaterialTable
+            title="Liste contracts"
+            columns={tableColumns}
+            data={tableData}
+          />
+        ) : (
+          <MaterialTable
+            title="Liste contracts"
+            columns={tableColumns}
+            data={tableData}
+            /* editable={{
+              onRowAdd: (newData) =>
+                new Promise((resolve) => {
+                  setTimeout(() => {
+                    resolve();
+                    setState((prevState) => {
+                      const data = [...prevState.data];
+                      data.push(newData);
+                      return { ...prevState, data };
+                    });
+                  }, 600);
+                }),
+              onRowUpdate: (newData, oldData) =>
+                new Promise((resolve) => {
+                  setTimeout(() => {
+                    resolve();
+                    if (oldData) {
+                      setState((prevState) => {
+                        const data = [...prevState.data];
+                        data[data.indexOf(oldData)] = newData;
+                        return { ...prevState, data };
+                      });
+                    }
+                  }, 600);
+                }),
+              onRowDelete: (oldData) =>
+                new Promise((resolve) => {
+                  setTimeout(() => {
+                    resolve();
+                    setState((prevState) => {
+                      const data = [...prevState.data];
+                      data.splice(data.indexOf(oldData), 1);
+                      return { ...prevState, data };
+                    });
+                  }, 600);
+                }),
+            }} */
+          />
+        )
+        }
+      </div>
+      <Footer />
     </TopContainer>
   );
-};
+}
 
-export default Contract;
+export default MyContracts;

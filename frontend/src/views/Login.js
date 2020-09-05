@@ -44,28 +44,40 @@ const Login = () => {
   const history = useHistory();
 
   const handleRegister = () => {
-    fetch("http://localhost:5000/api/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username,
-        password,
-        email,
-        lastname,
-        firstname,
-      }),
-    })
-      .then(handleResponse)
-      .then((user) => {
-        if (user) setMessage("Register successful");
-        user.authdata = window.btoa(username + ":" + password);
-        localStorage.setItem("user", JSON.stringify(user));
-        setTimeout(() => {
-          history.push("/");
-        }, 2000);
-      });
+    setMessage('');
+    if (password !== verifiedPassword) {
+      setMessage('Les mots de passes ne correspondent pas')
+    } else {
+      fetch("http://localhost:5000/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          password,
+          role,
+          email,
+          lastname,
+          firstname,
+        }),
+      })
+        .then(handleResponse)
+        .then((data) => {
+          const json = JSON.parse(data);
+          console.log(json);
+          if (!!json.success) {
+            setMessage("Register successful")
+            json.response.authdata = window.btoa(username + ":" + password);
+            localStorage.setItem("user", JSON.stringify(json.response));
+            setTimeout(() => {
+              history.push("/");
+            }, 2000);
+          } else {
+            setMessage(json.response);
+          }
+        });
+      }
   };
 
   const handleLogin = () => {
@@ -80,32 +92,30 @@ const Login = () => {
       }),
     })
       .then(handleResponse)
-      .then((user) => {
+      .then((data) => {
         // login successful if there's a user in the response
-        if (user) {
-          console.log(user);
+        const json = JSON.parse(data);
+        if (!!json.success) {
+          console.log(json);
           // store user details and basic auth credentials in local storage
           // to keep user logged in between page refreshes
           setMessage("Authentification succesful");
-          user.authdata = window.btoa(username + ":" + password);
-          localStorage.setItem("user", JSON.stringify(user));
+          json.response.authdata = window.btoa(username + ":" + password);
+          localStorage.setItem("user", JSON.stringify(json.response));
           setTimeout(() => {
             history.push("/Profil");
           }, 2000);
         } else {
-          setMessage("Login failed");
+          setMessage(json.response);
         }
+      })
+      .catch(e => {
+        setMessage("Login failed");
       });
   };
 
   const handleResponse = (response) => {
-    return response.text().then((text) => {
-      const data = text && JSON.parse(text);
-      if (!response.ok) {
-        const error = (data && data.message) || response.statusText;
-        return Promise.reject(error);
-      }
-
+    return response.text().then((data) => {
       return data;
     });
   };

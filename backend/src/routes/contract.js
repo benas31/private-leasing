@@ -16,20 +16,20 @@ router.get("/getByUserId/:id", function (req, res) {
   User.findById(userId, (err, data) => {
     if (data) {
       const userRole = data.role;
-      if (userRole === "admin" || userRole === "personnel") {
+      if (userRole === "admin" || userRole === "personnel" || userRole === "vendeur") {
         Contract.find((err, contracts) => {
-          if (err) res.send(err);
-          else res.json(contracts);
+          if (err) res.json({success: false, response: err});
+          else  res.json({success: true, response: contracts});
         });
       } else {
         Contract.find({ fk_client: userId }, (err, contracts) => {
-          if (err) res.send(err);
-          else res.json(contracts);
+          if (err) res.json({success: false, response: err});
+          else res.json({success: true, response: contracts});
         });
       }
     } else {
       console.log(data);
-      res.send("id not found");
+      res.json({success: false, response: "id not found"});
     }
   });
 

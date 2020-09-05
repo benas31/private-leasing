@@ -45,18 +45,17 @@ app.post("/api/login", function (req, res) {
 
   User.findOne({ username })
     .then((data) => {
-      // bcrypt.compare(password, data.password, (err, result) => {
-      //   if (result) res.status(200).send(data).end();
-      //   //password don't match
-      //   else res.status(200).end();
-      // });
-      if (password === data.password) {
-        res.status(200).send(data).end();
+      bcrypt.compare(password, data.password, (err, result) => {
+      if (result) {
+        res.json({success: true, response: data});
       }
+        // password don't match
+        else res.json({success: false, response: 'Mot de passe incorrect'});
+      });
     })
     .catch((err) => {
       console.log(err);
-      res.status(200).end();
+      res.json({success: false, response: 'Something went wrong!'});
     });
 });
 
@@ -67,8 +66,13 @@ app.post("/api/register", function (req, res) {
   const lastname = req.body.lastname;
   const role = req.body.role;
   const firstname = req.body.firstname;
+  
+  User.findOne({ username })
+    .then((data) => {
+      if (data) res.json({success: false, response: 'Username already exist!'});
+    })
 
-  bcrypt.hash(password, 10, (err, hash) => {
+  bcrypt.hash(password, 10, (e, hash) => {
     User.create(
       {
         username,
@@ -80,9 +84,9 @@ app.post("/api/register", function (req, res) {
       },
       (err, user) => {
         if (err) {
-          console.log(err);
+          res.json({success: false, response: err});
         } else {
-          res.status(200).send(user).end();
+          res.json({success: true, response: user});
         }
       }
     );
