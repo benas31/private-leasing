@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import TopMenu from "../components/TopMenu";
 import styled from "styled-components";
 import Footer from "../components/Footer";
@@ -44,11 +44,35 @@ const CarDetails = (props) => {
     seat,
   } = props.location.state;
   const history = useHistory();
+  const [userRole, setUserRole] = useState("");
+  const [message, setMessage] = useState("");
 
+  useEffect(() => {
+    setUserRole(!!localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")).role : "");
+  }, []);
+
+  const handleClick = () => {
+    if(userRole) {
+      history.push({
+        pathname: "/addcontract",
+        state: props.location.state,
+      });
+    } else {
+      setMessage("Vous devez être inscrit pour pouvoir faire une demande de leasing !");
+      setTimeout(() => {
+        history.push({
+          pathname: "/login",
+          state : {
+            showRegister: true,
+          },
+        });
+      }, 3000);
+    }
+  };
 
   return (
     <TopContainer>
-      <TopMenu></TopMenu>
+      <TopMenu />
       <Center>
         <Container>
           <ImgTitle>
@@ -74,15 +98,15 @@ const CarDetails = (props) => {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => {
-              history.push({
-                pathname: "/addcontract",
-                state: props.location.state,
-              });
-            }}
+            onClick={handleClick}
           >
-            Commander
+            {userRole === "admin" || userRole === "vendeur" ? (
+              <span>Commander</span>
+            ) : (
+              <span>Faire une demande</span>
+            )}
           </Button>
+          <p style={{color: "red"}}>{message}</p>
         </Container>
       </Center>
       <br />

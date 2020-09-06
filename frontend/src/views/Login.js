@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { TextField, Button, Select, MenuItem } from "@material-ui/core";
 import styled from "styled-components";
 import TopMenu from "../components/TopMenu";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import Footer from "../components/Footer";
 
 const FormContainer = styled.form`
@@ -31,6 +31,7 @@ const ItemContainer = styled.div`
 const TopContainer = styled.div``;
 
 const Login = () => {
+  const location = useLocation();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [verifiedPassword, setVerifiedPassword] = useState("");
@@ -47,8 +48,8 @@ const Login = () => {
 
   useEffect(() => {
     if (user.role === "client") history.push("/");
-    setShowRegister(!!localStorage.getItem("user"));
-  }, [user]);
+    setShowRegister(!!localStorage.getItem("user") || !!location.state);
+  }, [user, history, location.state]);
 
 
   const handleRegister = () => {
