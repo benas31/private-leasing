@@ -13,6 +13,8 @@ var carSchema = new mongoose.Schema({
   seat: Number,
   color: String,
   status: String,
+  photo: String,
+  promo: Boolean,
 });
 
 module.exports = mongoose.model("Car", carSchema);

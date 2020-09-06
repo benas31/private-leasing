@@ -175,6 +175,9 @@ const Homepage = () => {
       });
   }, []);
 
+  const promoCars = cars.filter((c) => c.promo);
+  console.log(promoCars);
+
   return (
     <TopContainer>
       <TopMenu></TopMenu>
@@ -204,7 +207,15 @@ const Homepage = () => {
             </Flex1Border>
           </Flex1>
           <Flex1>
-            <Carousel>
+            <Carousel showThumbs={false}>
+              {/* {promoCars.map((car) => {
+                return (
+                <div key={car._id}>
+                  <img alt="imgpromo" src={car.photo} styles={{backgroundColor: "none"}} />
+                  <p className="legend">{car.brand} {car.modele}</p>
+                </div>
+                )
+              })} */}
               <div>
                 <img alt="imgpromo" src={img1} />
                 <p className="legend">BMW Serie 2 Grand Coupé</p>
