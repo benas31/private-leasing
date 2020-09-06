@@ -73,7 +73,6 @@ const Login = () => {
         .then(handleResponse)
         .then((data) => {
           const json = JSON.parse(data);
-          console.log(json);
           if (!!json.success) {
             setMessage("Register successful")
             json.response.authdata = window.btoa(username + ":" + password);

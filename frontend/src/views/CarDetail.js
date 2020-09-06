@@ -45,9 +45,6 @@ const CarDetail = (props) => {
   } = props.location.state;
   const history = useHistory();
 
-  useEffect(() => {
-    console.log(brand);
-  });
 
   return (
     <TopContainer>

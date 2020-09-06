@@ -59,7 +59,6 @@ const MyContracts = () => {
               })
             );
             //For each personnel id, transform to personnel firstname + lastname
-            console.log(row);
             promises.push(
               getUser(row.fk_personnel).then((data) => {
                 if (data) {

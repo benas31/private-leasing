@@ -45,7 +45,6 @@ const AddContract = (props) => {
   const location = useLocation();
 
   useEffect(() => {
-    console.log(props);
     if (location.state) {
       setSelectedCar(location.state);
       setCurrentPrice(location.state.price);

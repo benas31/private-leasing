@@ -176,7 +176,6 @@ const Homepage = () => {
   }, []);
 
   const promoCars = cars.filter((c) => c.promo);
-  console.log(promoCars);
 
   return (
     <TopContainer>
