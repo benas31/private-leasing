@@ -252,18 +252,19 @@ const Login = () => {
                 style={{ marginTop: "20px" }}
                 onClick={() => handleRegister()}
               >
-                Register
+                S'inscrire
               </Button>
               <br />
               <br />
-              {(!!user.role === "vendeur" || !!user.role === "admin") && (<Button
-                variant="contained"
-                onClick={() => {
-                  setShowRegister(false);
-                }}
-              >
-                Login
-              </Button>
+              {!user && (
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    setShowRegister(false);
+                  }}
+                >
+                  J'ai déjà un compte
+                </Button>
               )}
             </ItemContainer>
           )}

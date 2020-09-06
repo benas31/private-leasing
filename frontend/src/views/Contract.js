@@ -89,7 +89,7 @@ const MyContracts = () => {
   };
 
   const getUser = (id) => {
-    return fetch("http://localhost:5000/api/user/" + id)
+    return fetch("http://localhost:5000/api/user/getById/" + id)
       .then((blop) => blop.json())
       .then((data) => {
         return data;

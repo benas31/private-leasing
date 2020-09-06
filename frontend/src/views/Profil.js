@@ -33,7 +33,7 @@ const Profil = () => {
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user")));
     setLoading(false);
-  }, [user]);
+  }, []);
 
   return (
     <TopContainer>

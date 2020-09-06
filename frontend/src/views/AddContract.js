@@ -6,7 +6,9 @@ import {
   Checkbox,
   FormControlLabel,
   Slider,
+  TextField,
 } from "@material-ui/core";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
@@ -49,21 +51,30 @@ const AddContract = (props) => {
   const [priceKm, setPriceKm] = useState("");
   const [currentMonth, setCurrentMonth] = useState(48);
   const [currentKm, setCurrentKm] = useState(10000);
+  const [listClients, setListClient] = useState([]);
+  const [selectedClient, setSelectedClient] = useState("");
+  const [user, setUser] = useState("");
 
   const location = useLocation();
 
   useEffect(() => {
     if (location.state) {
-      setSelectedCar(location.state);
-      setCurrentPrice(location.state.price);
+      setSelectedCar(location.state.car);
+      setCurrentPrice(location.state.car.price);
+      setUser(location.state.user);
       setLoading(false);
-    }
-    // eslint-disable-next-line
+    };
+    fetch("http://localhost:5000/api/user/getClients")
+    .then(handleResponse)
+    .then((data) => {
+      const json = JSON.parse(data);
+      setListClient(json.response);
+    });
   }, []);
 
   useEffect(() => {
-    setCurrentPrice(location.state.price + priceMonth + priceKm);
-  }, [priceMonth, priceKm, location.state.price]);
+    setCurrentPrice(location.state.car.price + priceMonth + priceKm);
+  }, [priceMonth, priceKm, location.state.car.price]);
 
   const handleOrder = () => {
     fetch("http://localhost:5000/api/contract", {
@@ -80,7 +91,8 @@ const AddContract = (props) => {
         km: currentKm,
         actif: 0,
         fk_car: selectedCar._id,
-        fk_client: JSON.parse(localStorage.getItem("user"))._id,
+        fk_client: user.role === 'client' ? user._id : "",
+        fk_personnel: (user.role === 'vendeur' || user.role === 'admin') ? user._id : "",
       }),
     })
       .then(handleResponse)
@@ -96,13 +108,7 @@ const AddContract = (props) => {
   };
 
   const handleResponse = (response) => {
-    return response.text().then((text) => {
-      const data = text && JSON.parse(text);
-      if (!response.ok) {
-        const error = (data && data.message) || response.statusText;
-        return Promise.reject(error);
-      }
-
+    return response.text().then((data) => {
       return data;
     });
   };
@@ -143,6 +149,7 @@ const AddContract = (props) => {
               {selectedCar.transmission}
               <h3>Nombre de sièges</h3>
               {selectedCar.seat}
+
               <br />
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <KeyboardDatePicker
@@ -157,6 +164,26 @@ const AddContract = (props) => {
                   }}
                 />
               </MuiPickersUtilsProvider>
+              <br />
+              <br />
+              {(user.role === "admin" || user.role === "vendeur") && (
+                <>
+                  <Autocomplete
+                    id="client"
+                    //On parcourt toute les marques et on les liste qu'une fois
+                    options={listClients.map(client => client.lastname + " " + client.firstname)}
+                    onChange={(e, value) => {
+                      setSelectedClient(value);
+                    }}
+                    noOptionsText="---"
+                    value={selectedClient}
+                    style={{ width: 300, margin: "auto"}}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Client" variant="outlined" />
+                    )}
+                  />
+                </>
+              )}
               <br />
 
               <FormControlLabel
@@ -229,6 +256,7 @@ const AddContract = (props) => {
                   }
                 }}
               ></Slider>
+
             </Flex>
           </FlexContainer>
 
@@ -238,7 +266,11 @@ const AddContract = (props) => {
             disabled={!checkVal}
             onClick={handleOrder}
           >
-            Commander
+          {user.role === "admin" || user.role === "vendeur" ? (
+            <span>Commander</span>
+          ) : (
+            <span>Faire une demande</span>
+          )}
           </Button>
         </CenterContainer>
       )}

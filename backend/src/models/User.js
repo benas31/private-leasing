@@ -14,3 +14,17 @@ var userSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model("User", userSchema);
+
+/* try {
+  user = mongoose.model("user");
+} catch (e) {
+  user = mongoose.model("user", userSchema);
+}
+
+user.getClient = async () => {
+  return await user.find({role});
+}
+
+
+
+module.exports = user; */

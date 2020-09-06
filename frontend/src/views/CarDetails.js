@@ -44,18 +44,21 @@ const CarDetails = (props) => {
     seat,
   } = props.location.state;
   const history = useHistory();
-  const [userRole, setUserRole] = useState("");
+  const [user, setuser] = useState("");
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    setUserRole(!!localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")).role : "");
+    setuser(!!localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : "");
   }, []);
 
   const handleClick = () => {
-    if(userRole) {
+    if(user) {
       history.push({
         pathname: "/addcontract",
-        state: props.location.state,
+        state: {
+          car: props.location.state,
+          user: user,
+        },
       });
     } else {
       setMessage("Vous devez être inscrit pour pouvoir faire une demande de leasing !");
@@ -100,7 +103,7 @@ const CarDetails = (props) => {
             color="primary"
             onClick={handleClick}
           >
-            {userRole === "admin" || userRole === "vendeur" ? (
+            {user.role === "admin" || user.role === "vendeur" ? (
               <span>Commander</span>
             ) : (
               <span>Faire une demande</span>
