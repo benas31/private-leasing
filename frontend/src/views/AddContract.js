@@ -57,6 +57,8 @@ const AddContract = (props) => {
 
   const location = useLocation();
 
+  console.log(currentKm)
+
   useEffect(() => {
     if (location.state) {
       setSelectedCar(location.state.car);
@@ -88,10 +90,11 @@ const AddContract = (props) => {
           selectedDateBegin.getMonth() + currentMonth
         ),
         prix: currentPrice,
-        km: currentKm,
-        actif: 0,
+        km_year: currentKm,
+        km_debut: 0,
+        actif: user.role === 'client' ? 0 : 1,
         fk_car: selectedCar._id,
-        fk_client: user.role === 'client' ? user._id : "",
+        fk_client: user.role === 'client' ? user._id : selectedClient,
         fk_personnel: (user.role === 'vendeur' || user.role === 'admin') ? user._id : "",
       }),
     })
@@ -170,8 +173,8 @@ const AddContract = (props) => {
                 <>
                   <Autocomplete
                     id="client"
-                    //On parcourt toute les marques et on les liste qu'une fois
-                    options={listClients.map(client => client.lastname + " " + client.firstname)}
+                    options={listClients}
+                    getOptionLabel={(option) => option.firstname}
                     onChange={(e, value) => {
                       setSelectedClient(value);
                     }}

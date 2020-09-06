@@ -42,17 +42,18 @@ router.get("/:id", function (req, res) {
 
 router.post("/", function (req, res) {
   console.log("received: ", req.body);
-  const contract = Contract.create(
+  Contract.create(
     {
       date_start: req.body.date_start,
       date_end: req.body.date_end,
       km_debut: req.body.km_debut,
       km_fin: req.body.km_fin,
+      km_year: req.body.km,
       prix: req.body.prix,
       actif: req.body.actif,
       fk_car: req.body.fk_car,
       fk_client: req.body.fk_client,
-      fk_personnel: req.body._fk_personnel,
+      fk_personnel: req.body.fk_personnel,
     },
     (err, contract) => {
       if (err) {
