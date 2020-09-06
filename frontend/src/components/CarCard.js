@@ -75,7 +75,7 @@ const CarCard = (props) => {
           color="primary"
           onClick={() => {
             history.push({
-              pathname: "/cardetail",
+              pathname: "/cardetails",
               state: props.data,
             });
           }}

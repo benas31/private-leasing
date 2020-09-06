@@ -6,7 +6,7 @@ import Contract from "./views/Contract";
 import Homepage from "./views/Homepage";
 import Profil from "./views/Profil";
 import AddContract from "./views/AddContract";
-import CarDetail from "./views/CarDetail";
+import CarDetail from "./views/CarDetails";
 import About from "./views/About";
 
 
@@ -23,7 +23,7 @@ const App = () => {
           <Route exact path="/contract" component={Contract}></Route>
           <Route exact path="/profil" component={Profil}></Route>
           <Route exact path="/addcontract" component={AddContract}></Route>
-          <Route exact path="/cardetail" component={CarDetail}></Route>
+          <Route exact path="/cardetails" component={CarDetail}></Route>
           <Route exact path="/about" component={About}></Route>
         </Switch>
       </Router>

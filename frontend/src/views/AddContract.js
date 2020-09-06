@@ -16,6 +16,9 @@ import TopMenu from "../components/TopMenu";
 import styled from "styled-components";
 import Footer from "../components/Footer";
 
+import car from "../ressource/car.png";
+
+
 const TopContainer = styled.div``;
 const CenterContainer = styled.div`
   text-align: center;
@@ -30,6 +33,11 @@ const Flex = styled.div`
   flex: 1;
 `;
 
+const Image = styled.img`
+  height: 200px;
+  witdh: 200px;
+`;
+
 const AddContract = (props) => {
   const [selectedCar, setSelectedCar] = useState();
   const [loading, setLoading] = useState(true);
@@ -39,8 +47,8 @@ const AddContract = (props) => {
   const [currentPrice, setCurrentPrice] = useState("");
   const [priceMonth, setPriceMonth] = useState("");
   const [priceKm, setPriceKm] = useState("");
-  const [currentMonth, setCurrentMonth] = useState("");
-  const [currentKm, setCurrentKm] = useState("");
+  const [currentMonth, setCurrentMonth] = useState(48);
+  const [currentKm, setCurrentKm] = useState(10000);
 
   const location = useLocation();
 
@@ -166,9 +174,11 @@ const AddContract = (props) => {
               <br />
             </Flex>
             <Flex>
-              Prix actuel : {currentPrice}
+              <Image src={selectedCar.photo ? selectedCar.photo : car} alt="car" />
               <br />
-              Nombre de mois
+              Prix actuel : {currentPrice} €
+              <br />
+              Nombre de mois : {currentMonth}
               <br />
               <Slider
                 style={{ width: "50%" }}
@@ -194,7 +204,7 @@ const AddContract = (props) => {
                 }}
               ></Slider>
               <br />
-              Nombre de km
+              Nombre de km : {currentKm}
               <br />
               <Slider
                 style={{ width: "50%" }}

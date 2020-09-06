@@ -30,7 +30,7 @@ const ImgTitle = styled.div`
   text-align: center;
 `;
 
-const CarDetail = (props) => {
+const CarDetails = (props) => {
   const {
     brand,
     modele,
@@ -91,4 +91,4 @@ const CarDetail = (props) => {
   );
 };
 
-export default CarDetail;
+export default CarDetails;
