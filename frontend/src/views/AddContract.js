@@ -46,8 +46,8 @@ const AddContract = (props) => {
   const [checkVal, setCheckVal] = useState(false);
   const [selectedDateBegin, setSelectedDateBegin] = React.useState(new Date());
   const [message, setMessage] = useState("");
-  const [currentPrice, setCurrentPrice] = useState("");
-  const [priceMonth, setPriceMonth] = useState("");
+  const [currentPrice, setCurrentPrice] = useState(0);
+  const [priceMonth, setPriceMonth] = useState(0);
   const [priceKm, setPriceKm] = useState("");
   const [currentMonth, setCurrentMonth] = useState(48);
   const [currentKm, setCurrentKm] = useState(10000);
@@ -57,7 +57,6 @@ const AddContract = (props) => {
 
   const location = useLocation();
 
-  console.log(currentKm)
 
   useEffect(() => {
     if (location.state) {
@@ -169,7 +168,7 @@ const AddContract = (props) => {
               </MuiPickersUtilsProvider>
               <br />
               <br />
-              {(user.role === "admin" || user.role === "vendeur") && (
+{/*               {(user.role === "admin" || user.role === "vendeur") && (
                 <>
                   <Autocomplete
                     id="client"
@@ -186,7 +185,7 @@ const AddContract = (props) => {
                     )}
                   />
                 </>
-              )}
+              )} */}
               <br />
 
               <FormControlLabel
@@ -258,8 +257,7 @@ const AddContract = (props) => {
                     setPriceKm(selectedCar.price * 0.3);
                   }
                 }}
-              ></Slider>
-
+              />
             </Flex>
           </FlexContainer>
 
