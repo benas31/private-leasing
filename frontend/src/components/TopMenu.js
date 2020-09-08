@@ -45,18 +45,13 @@ const TopMenu = (props) => {
           <NavItem>
             <NavLink href="/carlist">Liste des voitures</NavLink>
           </NavItem>
-
           {connected && <NavLink href="/contract">Mes contracts</NavLink>}
           {connected && role !== 'client' && <NavLink href="/login">Ajouter un utilisateur</NavLink>}
           <NavItem>
             <NavLink href="/about">A propos</NavLink>
           </NavItem>
         </Nav>
-        {connected && (
-          <span>
-            Bonjour {username} !
-          </span>
-        )}
+        {connected && ( <span> Bonjour {username} !</span>)}
         {!connected ? (
           <NavLink href="/login">Se connecter</NavLink>
         ) : (

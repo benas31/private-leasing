@@ -164,10 +164,12 @@ const CarList = () => {
   useEffect(() => {
     fetch("http://localhost:5000/api/car")
       .then((blop) => blop.json())
-      .then((data) => {
-        setCars(data);
-        setCarsToShow(data);
-        setLoading(false);
+      .then((rep) => {
+        if (!!rep.success) {
+          const data = rep.response;
+          setCars(data);
+          setLoading(false);
+        }
       });
   }, []);
 
