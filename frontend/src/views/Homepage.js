@@ -64,6 +64,13 @@ const Homepage = () => {
     });
   };
 
+  const handleClickItem = (i) => {
+    history.push({
+      pathname: "/cardetails",
+      state: cars[i],
+    });
+  }
+
   const SearchBrand = () => {
     return (
       <Autocomplete
@@ -169,13 +176,16 @@ const Homepage = () => {
   useEffect(() => {
     fetch("http://localhost:5000/api/car")
       .then((blop) => blop.json())
-      .then((data) => {
-        setCars(data);
-        setLoading(false);
+      .then((rep) => {
+        if (!!rep.success) {
+          const data = rep.response;
+          setCars(data);
+          setLoading(false);
+        }
       });
   }, []);
 
-  const promoCars = cars.filter((c) => c.promo);
+  const promoCars = cars.filter((car) => car.promo);
 
   return (
     <TopContainer>
@@ -194,7 +204,7 @@ const Homepage = () => {
                   <SearchTransmision />
                   <SearchColor />
                   <Flex1Center>
-                    <Button variant="contained"  color="primary" onClick={() => {handleClick();}} size="small">
+                    <Button variant="contained" color="primary" onClick={() => { handleClick(); }} size="small">
                       Rechercher
                     </Button>
                   </Flex1Center>
@@ -206,16 +216,16 @@ const Homepage = () => {
             </Flex1Border>
           </Flex1>
           <Flex1>
-            <Carousel showThumbs={false}>
-              {/* {promoCars.map((car) => {
+            <Carousel showThumbs={false} showArrows={true} onClickItem={(e) => handleClickItem(e)}>
+              {promoCars.map((car) => {
                 return (
-                <div key={car._id}>
-                  <img alt="imgpromo" src={car.photo} styles={{backgroundColor: "none"}} />
-                  <p className="legend">{car.brand} {car.modele}</p>
-                </div>
+                  <div key={car._id}>
+                    <img alt="imgpromo" src={car.photo} styles={{ backgroundColor: "none" }} />
+                    <p className="legend">{car.brand} {car.modele} - A partir de {car.price}€/mois</p>
+                  </div>
                 )
-              })} */}
-              <div>
+              })}
+              {/* <div>
                 <img alt="imgpromo" src={img1} />
                 <p className="legend">BMW Serie 2 Grand Coupé</p>
               </div>
@@ -226,7 +236,7 @@ const Homepage = () => {
               <div>
                 <img alt="imgpromo" src={img3} />
                 <p className="legend">Citroen C15</p>
-              </div>
+              </div> */}
             </Carousel>
           </Flex1>
           <Flex1></Flex1>
