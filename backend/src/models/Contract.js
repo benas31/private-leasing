@@ -7,6 +7,7 @@ var contractSchema = new mongoose.Schema({
   km_fin: Number,
   km_year: Number,
   prix: Number,
+  phone: Number,
   actif: Number,
   fk_car: { type: mongoose.Schema.Types.ObjectId, ref: "car" },
   fk_client: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
