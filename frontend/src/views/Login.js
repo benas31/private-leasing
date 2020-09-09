@@ -57,9 +57,9 @@ const Login = () => {
     setMessage('');
     if (!validateEmail(email) || email === "") {
       setMessage('Vérifiez les informations de l\'email');
-    } else if (!validatePassword(password) || password === "") {
+    } /* else if (!validatePassword(password) || password === "") {
       setMessage('Vérifiez les informations du mot de passe');
-    } else if (password !== verifiedPassword) {
+    } */ else if (password !== verifiedPassword) {
       setMessage('Les mots de passe ne correspondent pas!');
     } else {
       fetch("http://localhost:5000/api/register", {
@@ -174,6 +174,7 @@ const Login = () => {
                 type="password"
               />
               <br />
+              <br />
               <Button
                 variant="contained"
                 color="primary"
@@ -196,7 +197,7 @@ const Login = () => {
           )}
           {showRegister && (
             <ItemContainer>
-              <p style={{color: "red"}}>{message}</p>
+              <p>{message}</p>
               <TextField
                 id="standard-basic"
                 label="Username"

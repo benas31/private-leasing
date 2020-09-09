@@ -47,6 +47,7 @@ const TopMenu = (props) => {
           </NavItem>
           {connected && <NavLink href="/contract">Mes contracts</NavLink>}
           {connected && role !== 'client' && <NavLink href="/login">Ajouter un utilisateur</NavLink>}
+          {connected && role !== 'client' && <NavLink href="/addcar">Ajouter une voiture</NavLink>}
           <NavItem>
             <NavLink href="/about">A propos</NavLink>
           </NavItem>

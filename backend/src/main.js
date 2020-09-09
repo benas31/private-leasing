@@ -75,15 +75,7 @@ app.post("/api/register", function (req, res) {
     })
 
   bcrypt.hash(password, 10, (e, hash) => {
-    User.create({
-        username,
-        password: hash,
-        email,
-        role: role || "client",
-        lastname,
-        firstname,
-      },
-      (err, user) => {
+    User.create({ username, password: hash, email, role: role || "client", lastname, firstname, }, (err, user) => {
         if (err) {
           res.json({success: false, response: err});
         } else {

@@ -9,8 +9,7 @@ import Profil from "./views/Profil";
 import AddContract from "./views/AddContract";
 import CarDetail from "./views/CarDetails";
 import About from "./views/About";
-
-
+import ChangePassword from "./views/ChangePassword";
 
 
 const App = () => {
@@ -26,6 +25,7 @@ const App = () => {
           <Route exact path="/addcontract" component={AddContract}></Route>
           <Route exact path="/addcar" component={AddCar}></Route>
           <Route exact path="/cardetails" component={CarDetail}></Route>
+          <Route exact path="/changepassword" component={ChangePassword}></Route>
           <Route exact path="/about" component={About}></Route>
         </Switch>
       </Router>

@@ -12,16 +12,9 @@ router.get("/", function (req, res) {
 });
 
 router.get("/deleteById/:id", function (req, res) {
-  console.log('bjr', req.params.id);
   Contract.deleteOne({_id: req.params.id}, (err, contract) => {
-    if (err) {
-      console.log(err)
-      res.json({success: false, response: err});
-    }
-    else {
-      console.log('gg')
-      res.json({success: true, response: contract});
-    }
+    if (err) res.json({success: false, response: err});
+    else  res.json({success: true, response: contract});
   });
 });
 

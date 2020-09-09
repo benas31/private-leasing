@@ -74,6 +74,13 @@ const Profil = () => {
                   onChange={(e) => {}}
                   value={user.phone}
                 />
+                <br />
+                <br />
+                <p>Vous souhaitez changer votre mot de passe ?</p>
+                <a href="/changepassword">Cliquez ici</a>
+                <br />
+                <br />
+                <br />
               </ItemContainer>
             </Container>
           </FormContainer>
