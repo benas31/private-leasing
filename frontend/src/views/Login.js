@@ -40,6 +40,7 @@ const Login = () => {
   const [firstname, setFirstname] = useState("");
   const [role, setRole] = useState("");
 
+
   const [message, setMessage] = useState("");
   const [showRegister, setShowRegister] = useState(false);
   const history = useHistory();
@@ -54,8 +55,12 @@ const Login = () => {
 
   const handleRegister = () => {
     setMessage('');
-    if (password !== verifiedPassword) {
-      setMessage('Les mots de passes ne correspondent pas')
+    if (!validateEmail(email) || email === "") {
+      setMessage('Vérifiez les informations de l\'email');
+    } else if (!validatePassword(password) || password === "") {
+      setMessage('Vérifiez les informations du mot de passe');
+    } else if (password !== verifiedPassword) {
+      setMessage('Les mots de passe ne correspondent pas!');
     } else {
       fetch("http://localhost:5000/api/register", {
         method: "POST",
@@ -91,9 +96,7 @@ const Login = () => {
   const handleLogin = () => {
     fetch("http://localhost:5000/api/login", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         username,
         password,
@@ -104,8 +107,7 @@ const Login = () => {
         // login successful if there's a user in the response
         const json = JSON.parse(data);
         if (!!json.success) {
-          // store user details and basic auth credentials in local storage
-          // to keep user logged in between page refreshes
+          // store user details to keep user logged in between page refreshes
           setMessage("Authentification succesful");
           json.response.authdata = window.btoa(username + ":" + password);
           localStorage.setItem("user", JSON.stringify(json.response));
@@ -126,6 +128,24 @@ const Login = () => {
       return data;
     });
   };
+
+  const validateEmail = (email) => {
+    if(email === "") return true;
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+}
+
+  const validatePassword = (password) => {
+    if(password === "") return true;
+    const re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
+    /*    (?=.*\d)          // should contain at least one digit
+          (?=.*[a-z])       // should contain at least one lower case
+          (?=.*[A-Z])       // should contain at least one upper case
+          [a-zA-Z0-9]{8,}   // should contain at least 8 from the mentioned characters
+    */
+    return re.test(String(password));
+  }
+
 
   return (
     <TopContainer>
@@ -176,7 +196,7 @@ const Login = () => {
           )}
           {showRegister && (
             <ItemContainer>
-              <p>{message}</p>
+              <p style={{color: "red"}}>{message}</p>
               <TextField
                 id="standard-basic"
                 label="Username"
@@ -193,6 +213,8 @@ const Login = () => {
                   setPassword(e.target.value);
                 }}
                 value={password}
+                error={!validatePassword(password)}
+                helperText={validatePassword(password) ? '' : 'Format incorrect' }
                 type="password"
               />
               <TextField
@@ -210,6 +232,8 @@ const Login = () => {
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
+                error={!validateEmail(email)}
+                helperText={validateEmail(email) ? '' : 'Email incorrect'}
                 value={email}
               />
               <br />

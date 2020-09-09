@@ -10,8 +10,9 @@ router.get("/", function (req, res) {
 });
 
 router.get("/getById/:id", function (req, res) {
-  User.findById(req.params.id, (err, data) => {
-    res.send(data);
+  User.findById(req.params.id, (err, user) => {
+    if (err) res.json({success: false, response: err});
+    else res.json({success: true, response: user});
   });
 });
 

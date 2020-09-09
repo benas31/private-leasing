@@ -47,6 +47,8 @@ app.post("/api/login", function (req, res) {
     .then((data) => {
       bcrypt.compare(password, data.password, (err, result) => {
       if (result) {
+        data = data.toObject();
+        delete data.password;
         res.json({success: true, response: data});
       }
         // password don't match
@@ -85,6 +87,8 @@ app.post("/api/register", function (req, res) {
         if (err) {
           res.json({success: false, response: err});
         } else {
+          user = user.toObject();
+          delete user.password;
           res.json({success: true, response: user});
         }
       }

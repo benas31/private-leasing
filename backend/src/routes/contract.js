@@ -11,6 +11,20 @@ router.get("/", function (req, res) {
   });
 });
 
+router.get("/deleteById/:id", function (req, res) {
+  console.log('bjr', req.params.id);
+  Contract.deleteOne({_id: req.params.id}, (err, contract) => {
+    if (err) {
+      console.log(err)
+      res.json({success: false, response: err});
+    }
+    else {
+      console.log('gg')
+      res.json({success: true, response: contract});
+    }
+  });
+});
+
 router.get("/getByUserId/:id", function (req, res) {
   const userId = req.params.id;
   User.findById(userId, (err, data) => {

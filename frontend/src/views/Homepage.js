@@ -67,7 +67,7 @@ const Homepage = () => {
   const handleClickItem = (i) => {
     history.push({
       pathname: "/cardetails",
-      state: cars[i],
+      state: promoCars[i],
     });
   }
 
