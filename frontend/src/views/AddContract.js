@@ -94,7 +94,7 @@ const AddContract = (props) => {
         actif: user.role === 'client' ? 0 : 1,
         fk_car: selectedCar._id,
         fk_client: user.role === 'client' ? user._id : selectedClient,
-        fk_personnel: (user.role === 'vendeur' || user.role === 'admin') ? user._id : "",
+        fk_personnel: (user.role === 'vendeur' || user.role === 'admin') ? user._id : null,
       }),
     })
       .then(handleResponse)
@@ -168,7 +168,7 @@ const AddContract = (props) => {
               </MuiPickersUtilsProvider>
               <br />
               <br />
-{/*               {(user.role === "admin" || user.role === "vendeur") && (
+              {(user.role === "admin" || user.role === "vendeur") && (
                 <>
                   <Autocomplete
                     id="client"
@@ -185,7 +185,7 @@ const AddContract = (props) => {
                     )}
                   />
                 </>
-              )} */}
+              )}
               <br />
 
               <FormControlLabel

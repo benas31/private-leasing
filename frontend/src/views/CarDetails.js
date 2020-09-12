@@ -61,13 +61,10 @@ const CarDetails = (props) => {
         },
       });
     } else {
-      setMessage("Vous devez être inscrit pour pouvoir faire une demande de leasing !");
+      setMessage("Vous devez être connecté pour pouvoir faire une demande de leasing !");
       setTimeout(() => {
         history.push({
           pathname: "/login",
-          state : {
-            showRegister: true,
-          },
         });
       }, 3000);
     }

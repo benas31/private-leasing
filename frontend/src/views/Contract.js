@@ -13,8 +13,7 @@ const MyContracts = () => {
   const [tableColumns] = useState([
     { title: 'Début', field: 'date_start' },
     { title: 'Fin', field: 'date_end' },
-    { title: 'Km start', field: 'km_debut' },
-    { title: 'Km end', field: 'km_fin' },
+    { title: 'Km/an', field: 'km_year' },
     { title: 'Prix', field: 'prix' },
     { title: 'Actif', field: 'actif' },
     { title: 'Voiture', field: 'fk_car' },
@@ -48,7 +47,6 @@ const MyContracts = () => {
           data.forEach((row) => {
             //Transform 1/0 to oui/non
             row.actif = row.actif === 1 ? "oui" : "non";
-  
             // format date
             row.date_start = format(new Date(row.date_start), "dd/MM/yyyy")
             row.date_end = format(new Date(row.date_end), "dd/MM/yyyy")
@@ -113,7 +111,7 @@ const MyContracts = () => {
   };
 
   const handleDelete = (row) => {
-    return fetch("http://localhost:5000/api/contract/deleteById/" + row._id)
+    fetch("http://localhost:5000/api/contract/deleteById/" + row._id)
       .then((blop) => blop.json())
       .then((resp) => {
         let tmp = tableData;
@@ -143,13 +141,6 @@ const MyContracts = () => {
             data={tableData}
             actions={[
               {
-                icon: 'edit',
-                tooltip: 'Edit User',
-                onClick: (event, row) => {
-                  console.log("editRow", row)
-                }
-              },
-              {
                 icon: 'delete',
                 tooltip: 'Delete User',
                 onClick: (event, row) => {
@@ -162,6 +153,8 @@ const MyContracts = () => {
         )
         }
       </div>
+      <br />
+      <br />
       <Footer />
     </TopContainer>
   );
