@@ -24,17 +24,14 @@ const MyContracts = () => {
   const [userRole, setUserRole] = useState("");
   const [hack, setHack] = useState(false);
 
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    setUserRole(user.role);
-  }, []);
-
   
   useEffect(() => {
     setTableData(tableData)
   }, [hack]);
 
   useEffect(() => {
+    const user = getUser(JSON.parse(localStorage.getItem("user"))._id)
+    setUserRole(user.role)
     fetch(
       "http://localhost:5000/api/contract/getByUserId/" +
       JSON.parse(localStorage.getItem("user"))._id
@@ -42,11 +39,12 @@ const MyContracts = () => {
       .then((blop) => blop.json())
       .then((rep) => {
         if(!!rep.success) {
-          const data = rep.response;
+          const listContrat = rep.response;
           var promises = [];
-          data.forEach((row) => {
-            //Transform 1/0 to oui/non
-            row.actif = row.actif === 1 ? "oui" : "non";
+          listContrat.forEach((row) => {
+            if (row.actif === 0) row.actif = "Non";
+            if (row.actif === 1) row.actif = "Oui";
+            if (row.actif === 2) row.actif = "Terminé";
             // format date
             row.date_start = format(new Date(row.date_start), "dd/MM/yyyy")
             row.date_end = format(new Date(row.date_end), "dd/MM/yyyy")
@@ -76,7 +74,7 @@ const MyContracts = () => {
             );
           });
           Promise.all(promises).then((e) => {
-            setTableData(data)
+            setTableData(listContrat)
           });
         }
       });

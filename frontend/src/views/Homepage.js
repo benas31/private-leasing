@@ -204,7 +204,7 @@ const Homepage = () => {
                   <SearchTransmision />
                   <SearchColor />
                   <Flex1Center>
-                    <Button variant="contained" color="primary" onClick={() => { handleClick(); }} size="small">
+                    <Button variant="contained" color="primary" onClick={() => handleClick()} size="small">
                       Rechercher
                     </Button>
                   </Flex1Center>

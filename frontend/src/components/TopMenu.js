@@ -16,6 +16,23 @@ const TopMenu = (props) => {
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [connected, setConnected] = useState(false);
+  const [user, setUser] = useState("");
+  const idUser = !!localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user"))._id : "";
+
+  useEffect(() => {
+      fetch("http://localhost:5000/api/user/getById/" + idUser)
+      .then((blop) => blop.json())
+      .then((data) => {
+        if (!!data.success) {
+          setUser(data.response);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+  
+  const { username, role } = user;
 
   // On utilise le useEffect sur l'anchor afin de hack le comportement du menu (mise a jour de connected true/false) lorsque que l'on clique sur le menu
   useEffect(() => {
@@ -26,9 +43,6 @@ const TopMenu = (props) => {
     setAnchorEl(null);
     localStorage.removeItem("user");
   };
-
-  const user = connected ? JSON.parse(localStorage.getItem("user")) : "";
-  const { role, username } = user;
 
   return (
     <Navbar

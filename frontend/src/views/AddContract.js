@@ -65,12 +65,14 @@ const AddContract = (props) => {
       setUser(location.state.user);
       setLoading(false);
     };
-    fetch("http://localhost:5000/api/user/getClients")
-    .then(handleResponse)
-    .then((data) => {
-      const json = JSON.parse(data);
-      setListClient(json.response);
-    });
+    if(location.state.user.role === "vendeur" || location.state.user.role === "admin") {
+      fetch("http://localhost:5000/api/user/getClients")
+      .then(handleResponse)
+      .then((data) => {
+        const json = JSON.parse(data);
+        setListClient(json.response);
+      });
+    }
   }, []);
 
   useEffect(() => {
@@ -91,7 +93,7 @@ const AddContract = (props) => {
         prix: currentPrice,
         km_year: currentKm,
         km_debut: 0,
-        actif: user.role === 'client' ? 0 : 1,
+        status: user.role === 'client' ? 0 : 1,
         fk_car: selectedCar._id,
         fk_client: user.role === 'client' ? user._id : selectedClient,
         fk_personnel: (user.role === 'vendeur' || user.role === 'admin') ? user._id : null,

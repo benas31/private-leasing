@@ -74,6 +74,11 @@ app.post("/api/register", function (req, res) {
       if (data) res.json({success: false, response: 'Username already exist!'});
     })
 
+  User.findOne({ email })
+    .then((data) => {
+      if (data) res.json({success: false, response: 'Email already exist!'});
+    })
+
   bcrypt.hash(password, 10, (e, hash) => {
     User.create({ username, password: hash, email, role: role || "client", lastname, firstname, }, (err, user) => {
         if (err) {

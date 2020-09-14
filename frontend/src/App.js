@@ -10,6 +10,7 @@ import AddContract from "./views/AddContract";
 import CarDetail from "./views/CarDetails";
 import About from "./views/About";
 import ChangePassword from "./views/ChangePassword";
+// import HomepageTest from "./views/HomepageTest";
 
 
 const App = () => {
@@ -18,6 +19,7 @@ const App = () => {
       <Router>
         <Switch>
           <Route exact path="/" component={Homepage}></Route>
+          {/* <Route exact path="/" component={HomepageTest}></Route> */}
           <Route exact path="/carlist" component={CarList}></Route>
           <Route exact path="/login" component={Login}></Route>
           <Route exact path="/contract" component={Contract}></Route>
