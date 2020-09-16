@@ -14,6 +14,13 @@ const TopMenu = (props) => {
 
   const toggle = () => setIsOpen(!isOpen);
 
+  const now = new Date();
+  const expiration = !!localStorage.getItem("TTL") ? new Date(localStorage.getItem("TTL")) : "";
+  
+  if (now > expiration) {
+    localStorage.clear();
+  }
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [connected, setConnected] = useState(false);
   const [user, setUser] = useState("");

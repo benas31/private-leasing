@@ -31,6 +31,12 @@ const ItemContainer = styled.div`
 const TopContainer = styled.div``;
 
 const Login = () => {
+
+  let expiration = new Date();
+  expiration.setDate(expiration.getDate() + 1);
+
+  console.log(expiration);
+
   const location = useLocation();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -104,13 +110,12 @@ const Login = () => {
     })
       .then(handleResponse)
       .then((data) => {
-        // login successful if there's a user in the response
         const json = JSON.parse(data);
         if (!!json.success) {
-          // store user details to keep user logged in between page refreshes
           setMessage("Authentification succesful");
           json.response.authdata = window.btoa(username + ":" + password);
           localStorage.setItem("user", JSON.stringify(json.response));
+          localStorage.setItem("TTL", expiration);
           setTimeout(() => {
             history.push("/");
           }, 1000);

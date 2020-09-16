@@ -10,7 +10,7 @@ const MyContracts = () => {
 
   const TopContainer = styled.div``;
 
-  const [tableColumns] = useState([
+  const tableColumns = [
     { title: 'Début', field: 'date_start' },
     { title: 'Fin', field: 'date_end' },
     { title: 'Km/an', field: 'km_year' },
@@ -19,7 +19,7 @@ const MyContracts = () => {
     { title: 'Voiture', field: 'fk_car' },
     { title: 'Vendeur', field: 'fk_personnel' },
     { title: 'Client', field: 'fk_client' },
-  ]);
+  ];
   const [tableData, setTableData] = useState([]);
   const [userRole, setUserRole] = useState("");
   const [hack, setHack] = useState(false);

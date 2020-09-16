@@ -1,4 +1,5 @@
 const express = require("express");
+const helmet = require("helmet");
 const app = express();
 const http = require("http").createServer(app);
 var mongoose = require("mongoose");
@@ -11,6 +12,8 @@ var contract = require("./routes/contract");
 var User = require("./models/User");
 var uristring = "mongodb://localhost/Leasing";
 const bcrypt = require("bcrypt");
+
+app.use(helmet());
 
 var port = 5000;
 
