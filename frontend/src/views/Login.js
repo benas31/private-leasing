@@ -180,6 +180,8 @@ const Login = () => {
               />
               <br />
               <br />
+              <a href="/resetpassword">Mot de passe oublié</a>
+              <br />
               <Button
                 variant="contained"
                 color="primary"

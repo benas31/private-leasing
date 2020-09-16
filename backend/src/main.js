@@ -8,10 +8,12 @@ var cookieParser = require("cookie-parser");
 var bodyParser = require("body-parser");
 var car = require("./routes/car");
 var user = require("./routes/user");
+var resetuser = require("./routes/resetuser");
 var contract = require("./routes/contract");
 var User = require("./models/User");
 var uristring = "mongodb://localhost/Leasing";
 const bcrypt = require("bcrypt");
+var nodemailer = require('nodemailer');
 
 app.use(helmet());
 
@@ -41,6 +43,7 @@ app.use(cookieParser());
 app.use("/api/car", car);
 app.use("/api/contract", contract);
 app.use("/api/user", user);
+app.use("/api/resetuser", resetuser);
 
 app.post("/api/login", function (req, res) {
   const username = req.body.username;
@@ -95,6 +98,29 @@ app.post("/api/register", function (req, res) {
     );
   });
 });
+
+
+/* var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+          user: 'tfebenas@gmail.com',
+          pass: 'tfebenas123'
+      }
+});
+
+const mailOptions = {
+  from: 'tfebenas@gmail.com', // sender address
+  to: 'benbock93@gmail.com', // list of receivers
+  subject: 'Hello benas', // Subject line
+  html: 't mort'
+};
+
+transporter.sendMail(mailOptions, function (err, info) {
+  if(err)
+    console.log(err)
+  else
+    console.log(info);
+}); */
 
 http.listen(port, () => {
   console.log("listening on *:", port);
