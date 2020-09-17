@@ -14,9 +14,9 @@ var transporter = nodemailer.createTransport({
   });
   
 const mailOptions = {
-    from: 'tfebenas@gmail.com', // sender address
-    to: 'benbock93@gmail.com', // list of receivers
-    subject: 'Reset Password', // Subject line
+    from: 'tfebenas@gmail.com', 
+    to: 'benbock93@gmail.com',
+    subject: 'Reset Password',
     html: '<a href="www.google.be">Clique sur ce lien</a>'
 };
 
