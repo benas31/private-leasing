@@ -163,39 +163,38 @@ function fillCar() {
   ]);
 }
 
-function fillUser() {
+async function fillUser() {
+
+  const paswdAdmin = await bcrypt.hash('admin', 10);
+  const paswdClient = await bcrypt.hash('client', 10);
+  const paswdVendeur = await bcrypt.hash('vendeur', 10);
+
   const user1 = User.create({
     username: "admin",
-    password: "admin",
+    password: paswdAdmin,
     email: "admin@admin.com",
     role: "admin",
     lastname: "admin",
     firstname: "admin",
     phone: "027723323",
-    verified: 1,
-    token: "null",
   });
   const user2 = User.create({
-    username: "perso",
-    password: "perso",
-    email: "perso@perso.com",
-    role: "personnel",
+    username: "vendeur",
+    password: paswdVendeur,
+    email: "vendeur@vendeur.com",
+    role: "vendeur",
     lastname: "Benas",
     firstname: "LeBock",
     phone: "027723323",
-    verified: 1,
-    token: "null",
   });
   const user3 = User.create({
     username: "client",
-    password: "client",
-    email: "test@test.com",
+    password: paswdClient,
+    email: "client@client.com",
     lastname: "Xav",
     firstname: "Leouf",
     phone: "027723323",
     role: "client",
-    verified: 1,
-    token: "null",
   });
 
   return Promise.all([user1, user2, user3]);
