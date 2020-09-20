@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { TextField, Button, Select, MenuItem } from "@material-ui/core";
+import { TextField, Button, Input, Select, MenuItem } from "@material-ui/core";
 import styled from "styled-components";
 import TopMenu from "../components/TopMenu";
 import { useHistory, useLocation } from "react-router-dom";
 import Footer from "../components/Footer";
+import FileUpload from "../components/FileUpload";
 
 const FormContainer = styled.form`
   display: flex;
@@ -20,10 +21,6 @@ const Container = styled.div`
   padding-bottom: 20px;
 `;
 
-const LoginMessage = styled.p`
-  color: green;
-`;
-
 const ItemContainer = styled.div`
   padding: 25px 25px 0;
   margin: 20px 20px 0;
@@ -31,63 +28,71 @@ const ItemContainer = styled.div`
 const TopContainer = styled.div``;
 
 const AddCar = () => {
-  const location = useLocation();
-  const [chassis_number, setChassis_number] = useState("");
-  const [brand, setBrand] = useState("");
-  const [modele, setModele] = useState("");
-  const [price, setPrice] = useState("");
-  const [transmission, setTransmission] = useState("");
-  const [consommation, setConsommation] = useState("");
-  const [door, setDoor] = useState("");
-  const [fuel, setFuel] = useState("");
-  const [power_ch, setPower_ch] = useState("");
-  const [seat, setSeat] = useState("");
-  const [color, setColor] = useState("");
-  const [status, setStatus] = useState("");
-  const [photo, setPhoto] = useState("");
-  const [promo, setPromo] = useState("");
+  /*   const location = useLocation();
+    const [chassis_number, setChassis_number] = useState("");
+    const [brand, setBrand] = useState("");
+    const [modele, setModele] = useState("");
+    const [price, setPrice] = useState("");
+    const [transmission, setTransmission] = useState("");
+    const [consommation, setConsommation] = useState("");
+    const [door, setDoor] = useState("");
+    const [fuel, setFuel] = useState("");
+    const [power_ch, setPower_ch] = useState("");
+    const [seat, setSeat] = useState("");
+    const [color, setColor] = useState("");
+    const [status, setStatus] = useState(""); */
+  // const [promo, setPromo] = useState("");
 
 
-  const [role, setRole] = useState("");
-
-
-  const [message, setMessage] = useState("");
   const history = useHistory();
 
-  const user = !!localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : "";
+  const handleAddCar = () => {
+    /*     setMessage('');
+          fetch("http://localhost:5000/api/car/add", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              username,
+              password,
+              role,
+              email,
+              lastname,
+              firstname,
+            }),
+          })
+            .then(handleResponse)
+            .then((data) => {
+              const json = JSON.parse(data);
+              if (!!json.success) {
+                setMessage("Register successful")
+                json.response.authdata = window.btoa(username + ":" + password);
+                if(!user) localStorage.setItem("user", JSON.stringify(json.response));
+                setTimeout(() => {
+                  history.push("/");
+                }, 1000);
+              } else {
+                setMessage(json.response);
+              }
+            }); */
+  };
 
+  const [file, setFile] = useState('');
 
-  const handleRegister = () => {
-/*     setMessage('');
-      fetch("http://localhost:5000/api/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username,
-          password,
-          role,
-          email,
-          lastname,
-          firstname,
-        }),
-      })
-        .then(handleResponse)
-        .then((data) => {
-          const json = JSON.parse(data);
-          if (!!json.success) {
-            setMessage("Register successful")
-            json.response.authdata = window.btoa(username + ":" + password);
-            if(!user) localStorage.setItem("user", JSON.stringify(json.response));
-            setTimeout(() => {
-              history.push("/");
-            }, 1000);
-          } else {
-            setMessage(json.response);
-          }
-        }); */
-      };
+  const handleUpload = () => {
+    const formData = new FormData();
+    formData.append('file', file);
+    fetch("http://localhost:5000/api/upload", {
+      method: "POST",
+      body: file,
+    })
+      .then(handleResponse)
+      .then((data) => {
+        // const json = JSON.parse(data);
+        console.log(data);
+      });
+  }
 
 
   const handleResponse = (response) => {
@@ -102,8 +107,12 @@ const AddCar = () => {
       <TopMenu></TopMenu>
       <FormContainer>
         <Container>
-        <ItemContainer>
-            <TextField
+          <ItemContainer>
+            
+            <br />
+            <br />
+
+            {/*            <TextField
               id="standard-basic"
               label="Numéro de Chassis"
               onChange={(e) => {
@@ -213,36 +222,17 @@ const AddCar = () => {
             <br />
             <TextField
               id="standard-basic"
-              label="Photo"
-              onChange={(e) => {
-                setPhoto(e.target.value);
-              }}
-              value={photo}
-            />
-            <br />
-            <TextField
-              id="standard-basic"
               label="Promo"
               onChange={(e) => {
                 setPromo(e.target.value);
               }}
               value={promo}
             />
-            <br />
-
-            <Button
-              variant="contained"
-              color="primary"
-              style={{ marginTop: "20px" }}
-              onClick={() => handleRegister()}
-            >
-              Ajouter
-            </Button>
-            <br />
-            <br />
+            <br /> */}
           </ItemContainer>
         </Container>
       </FormContainer>
+      <FileUpload />
       <br />
       <Footer></Footer>
     </TopContainer>
