@@ -49,6 +49,7 @@ const TopMenu = (props) => {
   const handleLogout = () => {
     setAnchorEl(null);
     localStorage.removeItem("user");
+    localStorage.removeItem("TTL");
   };
 
   return (
