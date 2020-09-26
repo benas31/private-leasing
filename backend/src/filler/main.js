@@ -1,5 +1,5 @@
 var mongoose = require("mongoose");
-var uristring = "mongodb://localhost/LeasingTest";
+var uristring = "mongodb://localhost/Leasing";
 
 var Car = require("../models/Car");
 var User = require("../models/User");
