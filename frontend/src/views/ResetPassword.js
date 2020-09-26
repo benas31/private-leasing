@@ -29,6 +29,7 @@ const ResetPassword = () => {
 
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("");
+  const [showValidation, setShowValidation] = useState(false);
 
   const handleResetPassword = () => {
     setMessage('');
@@ -47,9 +48,12 @@ const ResetPassword = () => {
           console.log(json);
           if (!!json.success) {
             setMessage("Vous avez reçu un mail!")
+            setTimeout(() => {
+              setMessage("Regardez vos emails")
+              setShowValidation(true);
+            }, 1000)
           } else {
-            setMessage("Epic fail!")
-            // setMessage(json.response);
+            setMessage(json.response);
           }
         });
       };
@@ -68,27 +72,32 @@ const ResetPassword = () => {
       <FormContainer>
         <Container>
         <ItemContainer>
-            <p>{message}</p>
-            <TextField
-              id="standard-basic"
-              label="Entrez votre adresse mail"
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-              value={email}
-            />
-            <br />
-            <br />
-            <Button
-              variant="contained"
-              color="primary"
-              style={{ marginTop: "20px" }}
-              onClick={() => handleResetPassword()}
-            >
-              Envoyer
-            </Button>
-            <br />
-            <br />
+            {!showValidation && (
+              <>
+                <p>{message}</p>
+                <TextField
+                  id="standard-basic"
+                  label="Entrez votre adresse mail"
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                  value={email}
+                />
+                <br />
+                <br />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={{ marginTop: "20px" }}
+                  onClick={() => handleResetPassword()}
+                >
+                  Envoyer
+                </Button>
+              </>
+            )}
+            {!!showValidation && (
+              <p>{message}</p>
+            )}
           </ItemContainer>
         </Container>
       </FormContainer>

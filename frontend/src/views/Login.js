@@ -35,7 +35,6 @@ const Login = () => {
   let expiration = new Date();
   expiration.setDate(expiration.getDate() + 1);
 
-  console.log(expiration);
 
   const location = useLocation();
   const [username, setUsername] = useState("");

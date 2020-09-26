@@ -11,6 +11,7 @@ import CarDetail from "./views/CarDetails";
 import About from "./views/About";
 import ChangePassword from "./views/ChangePassword";
 import ResetPassword from "./views/ResetPassword";
+import NewPassword from "./views/NewPassword";
 // import HomepageTest from "./views/HomepageTest";
 
 
@@ -30,6 +31,7 @@ const App = () => {
           <Route exact path="/cardetails" component={CarDetail}></Route>
           <Route exact path="/changepassword" component={ChangePassword}></Route>
           <Route exact path="/resetpassword" component={ResetPassword}></Route>
+          <Route exact path="/newpassword" component={NewPassword}></Route>
           <Route exact path="/about" component={About}></Route>
         </Switch>
       </Router>
