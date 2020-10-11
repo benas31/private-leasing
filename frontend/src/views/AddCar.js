@@ -14,10 +14,9 @@ const FormContainer = styled.form`
 `;
 
 const Container = styled.div`
-  width: 400px;
   display: flex;
+  align-items: center;
   flex-direction: column;
-  border: 1px solid black;
   padding-bottom: 20px;
 `;
 
@@ -28,72 +27,59 @@ const ItemContainer = styled.div`
 const TopContainer = styled.div``;
 
 const AddCar = () => {
-  /*   const location = useLocation();
-    const [chassis_number, setChassis_number] = useState("");
-    const [brand, setBrand] = useState("");
-    const [modele, setModele] = useState("");
-    const [price, setPrice] = useState("");
-    const [transmission, setTransmission] = useState("");
-    const [consommation, setConsommation] = useState("");
-    const [door, setDoor] = useState("");
-    const [fuel, setFuel] = useState("");
-    const [power_ch, setPower_ch] = useState("");
-    const [seat, setSeat] = useState("");
-    const [color, setColor] = useState("");
-    const [status, setStatus] = useState(""); */
-  // const [promo, setPromo] = useState("");
-
+  const location = useLocation();
+  const [message, setMessage] = useState("");
+  const [chassis_number, setChassis_number] = useState("");
+  const [brand, setBrand] = useState("");
+  const [modele, setModele] = useState("");
+  const [price, setPrice] = useState("");
+  const [transmission, setTransmission] = useState("");
+  const [consommation, setConsommation] = useState("");
+  const [door, setDoor] = useState("");
+  const [fuel, setFuel] = useState("");
+  const [power_ch, setPower_ch] = useState("");
+  const [seat, setSeat] = useState("");
+  const [color, setColor] = useState("");
+  const [status, setStatus] = useState("");
+  const [promo, setPromo] = useState("");
 
   const history = useHistory();
 
   const handleAddCar = () => {
-    /*     setMessage('');
-          fetch("http://localhost:5000/api/car/add", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              username,
-              password,
-              role,
-              email,
-              lastname,
-              firstname,
-            }),
-          })
-            .then(handleResponse)
-            .then((data) => {
-              const json = JSON.parse(data);
-              if (!!json.success) {
-                setMessage("Register successful")
-                json.response.authdata = window.btoa(username + ":" + password);
-                if(!user) localStorage.setItem("user", JSON.stringify(json.response));
-                setTimeout(() => {
-                  history.push("/");
-                }, 1000);
-              } else {
-                setMessage(json.response);
-              }
-            }); */
-  };
-
-  const [file, setFile] = useState('');
-
-  const handleUpload = () => {
-    const formData = new FormData();
-    formData.append('file', file);
-    fetch("http://localhost:5000/api/upload", {
+    setMessage("");
+    fetch("http://localhost:5000/api/car/add", {
       method: "POST",
-      body: file,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        chassis_number,
+        brand,
+        modele,
+        price,
+        transmission,
+        consommation,
+        door,
+        fuel,
+        power_ch,
+        seat,
+        color,
+        status,
+        promo,
+      }),
     })
       .then(handleResponse)
       .then((data) => {
-        // const json = JSON.parse(data);
-        console.log(data);
+        const json = JSON.parse(data);
+        if (!!json.success) {
+          setTimeout(() => {
+            history.push("/");
+          }, 1000);
+        } else {
+          setMessage(json.response);
+        }
       });
-  }
-
+  };
 
   const handleResponse = (response) => {
     return response.text().then((data) => {
@@ -101,18 +87,15 @@ const AddCar = () => {
     });
   };
 
-
   return (
     <TopContainer>
       <TopMenu></TopMenu>
-      <FormContainer>
-        <Container>
+      <Container>
+        <FormContainer>
           <ItemContainer>
-            
             <br />
             <br />
-
-            {/*            <TextField
+            <TextField
               id="standard-basic"
               label="Numéro de Chassis"
               onChange={(e) => {
@@ -228,15 +211,20 @@ const AddCar = () => {
               }}
               value={promo}
             />
-            <br /> */}
+            <br />
           </ItemContainer>
-        </Container>
-      </FormContainer>
-      <FileUpload />
-      <br />
+        </FormContainer>
+        <br />
+        <FileUpload />
+        <br />
+        <br />
+        <Button variant="contained" color="primary" onClick={handleAddCar}>
+          <span>Ajouter voiture</span>
+        </Button>
+      </Container>
       <Footer></Footer>
     </TopContainer>
-  )
+  );
 };
 
 export default AddCar;

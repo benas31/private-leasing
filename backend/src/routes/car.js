@@ -16,4 +16,33 @@ router.get("/:id", function (req, res) {
   });
 });
 
+router.post("/add", function (req, res) {
+  console.log("received: ", req.body);
+  Car.create(
+    {
+      chassis_number: req.body.chassis_number,
+      brand: req.body.brand,
+      modele: req.body.modele,
+      price: req.body.price,
+      transmission: req.body.transmission,
+      consommation: req.body.consommation,
+      door: req.body.door,
+      fuel: req.body.fuel,
+      power_ch: req.body.power_ch,
+      seat: req.body.seat,
+      color: req.body.color,
+      status: req.body.status,
+      promo: req.body.promo,
+      photo: req.body.photo,
+    },
+    (err, car) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.status(200).send(car).end();
+      }
+    }
+  );
+});
+
 module.exports = router;

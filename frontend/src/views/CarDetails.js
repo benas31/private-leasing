@@ -42,6 +42,7 @@ const CarDetails = (props) => {
     fuel,
     power_ch,
     seat,
+    photo,
   } = props.location.state;
   const history = useHistory();
   const [user, setuser] = useState("");
@@ -80,7 +81,7 @@ const CarDetails = (props) => {
               {" "}
               {brand} {modele}
             </h3>
-            <Image src={car} alt="car" />
+            <Image src={photo ? photo : car} alt="car" />
           </ImgTitle>
           <br />
           <ul>
