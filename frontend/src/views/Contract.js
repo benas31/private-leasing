@@ -24,26 +24,38 @@ const MyContracts = () => {
   const [userRole, setUserRole] = useState("");
   const [hack, setHack] = useState(false);
 
-  
+
   useEffect(() => {
     setTableData(tableData)
   }, [hack]);
 
   useEffect(() => {
-    const user = getUser(JSON.parse(localStorage.getItem("user"))._id)
-    setUserRole(user.role)
+    fetch("http://localhost:5000/api/user/getById/" + JSON.parse(localStorage.getItem("user"))._id)
+      .then((blop) => blop.json())
+      .then((data) => {
+        if (!!data.success) {
+          setUserRole(data.response.role);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  console.log('userRole', userRole);
+  useEffect(() => {
     fetch(
       "http://localhost:5000/api/contract/getByUserId/" +
       JSON.parse(localStorage.getItem("user"))._id
     )
       .then((blop) => blop.json())
       .then((rep) => {
-        if(!!rep.success) {
+        if (!!rep.success) {
           const listContrat = rep.response;
           var promises = [];
           listContrat.forEach((row) => {
-            if (row.actif === 0) row.actif = "Non";
-            if (row.actif === 1) row.actif = "Oui";
+            if (row.actif === 0) row.actif = "Demande";
+            if (row.actif === 1) row.actif = "En Cours";
             if (row.actif === 2) row.actif = "Terminé";
             // format date
             row.date_start = format(new Date(row.date_start), "dd/MM/yyyy")
@@ -57,7 +69,6 @@ const MyContracts = () => {
             //For each car id, transform to car brand + modele
             promises.push(
               getCar(row.fk_car).then((data) => {
-                console.log(data);
                 return (row.fk_car = data.brand + " " + data.modele);
               })
             );
@@ -80,7 +91,7 @@ const MyContracts = () => {
       });
   }, []);
 
-  const getCar = (id) => {
+  const getCar = async (id) => {
     return fetch("http://localhost:5000/api/car/" + id)
       .then((blop) => blop.json())
       .then((rep) => {
@@ -94,7 +105,7 @@ const MyContracts = () => {
       });
   };
 
-  const getUser = (id) => {
+  const getUser = async (id) => {
     return fetch("http://localhost:5000/api/user/getById/" + id)
       .then((blop) => blop.json())
       .then((rep) => {
@@ -133,22 +144,22 @@ const MyContracts = () => {
             data={tableData}
           />
         ) : (
-          <MaterialTable
-            title="Liste contracts"
-            columns={tableColumns}
-            data={tableData}
-            actions={[
-              {
-                icon: 'delete',
-                tooltip: 'Delete User',
-                onClick: (event, row) => {
-                  console.log("deleteRow", row)
-                  handleDelete(row)
-                }
-              },
-            ]}
-          />
-        )
+            <MaterialTable
+              title="Liste contracts"
+              columns={tableColumns}
+              data={tableData}
+              actions={[
+                {
+                  icon: 'delete',
+                  tooltip: 'Delete User',
+                  onClick: (event, row) => {
+                    console.log("deleteRow", row)
+                    handleDelete(row)
+                  }
+                },
+              ]}
+            />
+          )
         }
       </div>
       <br />

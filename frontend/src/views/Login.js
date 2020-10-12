@@ -62,9 +62,9 @@ const Login = () => {
     setMessage('');
     if (!validateEmail(email) || email === "") {
       setMessage('Vérifiez les informations de l\'email');
-    } /* else if (!validatePassword(password) || password === "") {
+    } else if (!validatePassword(password) || password === "") {
       setMessage('Vérifiez les informations du mot de passe');
-    } */ else if (password !== verifiedPassword) {
+    } else if (password !== verifiedPassword) {
       setMessage('Les mots de passe ne correspondent pas!');
     } else {
       fetch("http://localhost:5000/api/register", {
@@ -84,10 +84,14 @@ const Login = () => {
         .then(handleResponse)
         .then((data) => {
           const json = JSON.parse(data);
+          console.log('json', json);
           if (!!json.success) {
             setMessage("Register successful")
             json.response.authdata = window.btoa(username + ":" + password);
-            if(!user) localStorage.setItem("user", JSON.stringify(json.response));
+            if (user === "") {
+              localStorage.setItem("user", JSON.stringify(json.response));
+              localStorage.setItem("TTL", expiration);
+            }
             setTimeout(() => {
               history.push("/");
             }, 1000);
@@ -95,7 +99,7 @@ const Login = () => {
             setMessage(json.response);
           }
         });
-      }
+    }
   };
 
   const handleLogin = () => {
@@ -134,13 +138,13 @@ const Login = () => {
   };
 
   const validateEmail = (email) => {
-    if(email === "") return true;
+    if (email === "") return true;
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
-}
+  }
 
   const validatePassword = (password) => {
-    if(password === "") return true;
+    if (password === "") return true;
     const re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
     /*    (?=.*\d)          // should contain at least one digit
           (?=.*[a-z])       // should contain at least one lower case
@@ -221,7 +225,7 @@ const Login = () => {
                 }}
                 value={password}
                 error={!validatePassword(password)}
-                helperText={validatePassword(password) ? '' : 'Format incorrect' }
+                helperText={validatePassword(password) ? '' : 'Format incorrect'}
                 type="password"
               />
               <TextField

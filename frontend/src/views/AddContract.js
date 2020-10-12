@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import {
   CircularProgress,
   Button,
@@ -55,6 +55,8 @@ const AddContract = (props) => {
   const [selectedClient, setSelectedClient] = useState("");
   const [user, setUser] = useState("");
 
+  const history = useHistory();
+
   const location = useLocation();
 
 
@@ -65,13 +67,13 @@ const AddContract = (props) => {
       setUser(location.state.user);
       setLoading(false);
     };
-    if(location.state.user.role === "vendeur" || location.state.user.role === "admin") {
+    if (location.state.user.role === "vendeur" || location.state.user.role === "admin") {
       fetch("http://localhost:5000/api/user/getClients")
-      .then(handleResponse)
-      .then((data) => {
-        const json = JSON.parse(data);
-        setListClient(json.response);
-      });
+        .then(handleResponse)
+        .then((data) => {
+          const json = JSON.parse(data);
+          setListClient(json.response);
+        });
     }
   }, []);
 
@@ -79,6 +81,7 @@ const AddContract = (props) => {
     setCurrentPrice(location.state.car.price + priceMonth + priceKm);
   }, [priceMonth, priceKm, location.state.car.price]);
 
+  console.log('user', user);
   const handleOrder = () => {
     fetch("http://localhost:5000/api/contract", {
       method: "POST",
@@ -93,23 +96,32 @@ const AddContract = (props) => {
         prix: currentPrice,
         km_year: currentKm,
         km_debut: 0,
-        status: user.role === 'client' ? 0 : 1,
+        km_fin: 0,
+        actif: user.role === 'client' ? 0 : 1,
         fk_car: selectedCar._id,
         fk_client: user.role === 'client' ? user._id : selectedClient,
         fk_personnel: (user.role === 'vendeur' || user.role === 'admin') ? user._id : null,
+        user: user,
       }),
     })
       .then(handleResponse)
-      .then((contract) => {
-        if (contract) {
+      .then((data) => {
+        const json = JSON.parse(data);
+        if (!!json.success) {
+          setCheckVal(false);
           setMessage(
-            "Votre contract a été enregistré sous l'id : " + contract._id
+            "Votre contract a été enregistré sous l'id : " + json.response._id
           );
+          setTimeout(() => {
+            history.push("/contract");
+          }, 5000);
         } else {
           setMessage("Erreur lors de l'enregistrement");
         }
       });
   };
+
+  console.log('message', message);
 
   const handleResponse = (response) => {
     return response.text().then((data) => {
@@ -181,7 +193,7 @@ const AddContract = (props) => {
                     }}
                     noOptionsText="---"
                     value={selectedClient}
-                    style={{ width: 300, margin: "auto"}}
+                    style={{ width: 300, margin: "auto" }}
                     renderInput={(params) => (
                       <TextField {...params} label="Client" variant="outlined" />
                     )}
@@ -269,11 +281,11 @@ const AddContract = (props) => {
             disabled={!checkVal}
             onClick={handleOrder}
           >
-          {user.role === "admin" || user.role === "vendeur" ? (
-            <span>Commander</span>
-          ) : (
-            <span>Faire une demande</span>
-          )}
+            {user.role === "admin" || user.role === "vendeur" ? (
+              <span>Commander</span>
+            ) : (
+                <span>Faire une demande</span>
+              )}
           </Button>
         </CenterContainer>
       )}

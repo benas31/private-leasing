@@ -16,7 +16,7 @@ const TopMenu = (props) => {
 
   const now = new Date();
   const expiration = !!localStorage.getItem("TTL") ? new Date(localStorage.getItem("TTL")) : "";
-  
+
   if (now > expiration) {
     localStorage.clear();
   }
@@ -27,7 +27,7 @@ const TopMenu = (props) => {
   const idUser = !!localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user"))._id : "";
 
   useEffect(() => {
-      fetch("http://localhost:5000/api/user/getById/" + idUser)
+    fetch("http://localhost:5000/api/user/getById/" + idUser)
       .then((blop) => blop.json())
       .then((data) => {
         if (!!data.success) {
@@ -38,10 +38,9 @@ const TopMenu = (props) => {
         console.log(err);
       });
   }, []);
-  
+
   const { username, role } = user;
 
-  // On utilise le useEffect sur l'anchor afin de hack le comportement du menu (mise a jour de connected true/false) lorsque que l'on clique sur le menu
   useEffect(() => {
     setConnected(!!localStorage.getItem("user"));
   }, [anchorEl]);
@@ -74,17 +73,17 @@ const TopMenu = (props) => {
             <NavLink href="/about">A propos</NavLink>
           </NavItem>
         </Nav>
-        {connected && ( <span> Bonjour {username} !</span>)}
+        {connected && (<span> Bonjour {username} !</span>)}
         {!connected ? (
           <NavLink href="/login">Se connecter</NavLink>
         ) : (
-          <Nav>
-            <NavLink href="/Profil">Mon compte</NavLink>
-            <NavLink href="/" onClick={handleLogout}>
-              Déconnexion
+            <Nav>
+              <NavLink href="/Profil">Mon compte</NavLink>
+              <NavLink href="/" onClick={handleLogout}>
+                Déconnexion
             </NavLink>
-          </Nav>
-        )}
+            </Nav>
+          )}
       </Collapse>
     </Navbar>
   );
