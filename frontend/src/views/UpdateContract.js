@@ -40,7 +40,7 @@ const Image = styled.img`
   witdh: 200px;
 `;
 
-const AddContract = (props) => {
+const UpdateContract = (props) => {
   const [selectedCar, setSelectedCar] = useState();
   const [loading, setLoading] = useState(true);
   const [checkVal, setCheckVal] = useState(false);
@@ -51,9 +51,9 @@ const AddContract = (props) => {
   const [priceKm, setPriceKm] = useState("");
   const [currentMonth, setCurrentMonth] = useState(48);
   const [currentKm, setCurrentKm] = useState(10000);
-  const [listClients, setListClient] = useState([]);
-  const [selectedClient, setSelectedClient] = useState("");
+  const [client, setClient] = useState("");
   const [user, setUser] = useState("");
+  const [contract, setContract] = useState("");
 
   const history = useHistory();
 
@@ -64,26 +64,20 @@ const AddContract = (props) => {
     if (location.state) {
       setSelectedCar(location.state.car);
       setCurrentPrice(location.state.car.price);
+      setClient(location.state.client.firstname + " " + location.state.client.lastname);
       setUser(location.state.user);
+      setContract(location.state.contract);
       setLoading(false);
     };
-    if (location.state.user.role === "vendeur" || location.state.user.role === "admin") {
-      fetch("http://localhost:5000/api/user/getClients")
-        .then(handleResponse)
-        .then((data) => {
-          const json = JSON.parse(data);
-          setListClient(json.response);
-        });
-    }
   }, []);
+
 
   useEffect(() => {
     setCurrentPrice(location.state.car.price + priceMonth + priceKm);
   }, [priceMonth, priceKm, location.state.car.price]);
 
-  console.log('user', user);
   const handleOrder = () => {
-    fetch("http://localhost:5000/api/contract", {
+    fetch("http://localhost:5000/api/contract/updateById/" + contract._id, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -97,11 +91,9 @@ const AddContract = (props) => {
         km_year: currentKm,
         km_debut: 0,
         km_fin: 0,
-        actif: user.role === 'client' ? 0 : 1,
-        fk_car: selectedCar._id,
-        fk_client: user.role === 'client' ? user._id : selectedClient,
-        fk_personnel: (user.role === 'vendeur' || user.role === 'admin') ? user._id : null,
-        user: user,
+        actif: 1,
+        fk_personnel: user._id,
+        contract,
       }),
     })
       .then(handleResponse)
@@ -110,7 +102,7 @@ const AddContract = (props) => {
         if (!!json.success) {
           setCheckVal(false);
           setMessage(
-            "Votre contract a été enregistré sous l'id : " + json.response._id
+            "Le contract a été enregistré!"
           );
           setTimeout(() => {
             history.push("/contract");
@@ -120,8 +112,6 @@ const AddContract = (props) => {
         }
       });
   };
-
-  console.log('message', message);
 
   const handleResponse = (response) => {
     return response.text().then((data) => {
@@ -143,7 +133,7 @@ const AddContract = (props) => {
       {!loading && (
         <CenterContainer>
           <p>{message}</p>
-          <h2>Récapitulatif de votre commande</h2>
+          <h2>Récapitulatif de la commande</h2>
           <FlexContainer>
             {" "}
             <Flex>
@@ -165,8 +155,10 @@ const AddContract = (props) => {
               {selectedCar.transmission}
               <h3>Nombre de sièges</h3>
               {selectedCar.seat}
+
               <br />
               <br />
+
               <FormControlLabel
                 control={
                   <Checkbox
@@ -210,7 +202,7 @@ const AddContract = (props) => {
                     setPriceMonth(selectedCar.price * 0.3);
                   }
                 }}
-              ></Slider>
+              />
               <br />
               Nombre de km/an : {currentKm}
               <br />
@@ -237,41 +229,39 @@ const AddContract = (props) => {
                   }
                 }}
               />
+              <br/>
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardDatePicker
+                  margin="normal"
+                  id="date-picker-dialog"
+                  label="Date de début"
+                  format="dd/MM/yyyy"
+                  value={selectedDateBegin}
+                  onChange={handleDateChangeBegin}
+                  KeyboardButtonProps={{
+                    "aria-label": "change date",
+                  }}
+                />
+              </MuiPickersUtilsProvider>
               <br />
-              {(user.role === "admin" || user.role === "vendeur") && (
-                <>
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
-                      margin="normal"
-                      id="date-picker-dialog"
-                      label="Date de début"
-                      format="dd/MM/yyyy"
-                      value={selectedDateBegin}
-                      onChange={handleDateChangeBegin}
-                      KeyboardButtonProps={{
-                        "aria-label": "change date",
-                      }}
-                    />
-                  </MuiPickersUtilsProvider>
-                  <br />
-                  <br />
-                  <Autocomplete
-                    id="client"
-                    options={listClients}
-                    getOptionLabel={(option) => option.firstname}
-                    onChange={(e, value) => {
-                      setSelectedClient(value);
-                    }}
-                    noOptionsText="---"
-                    value={selectedClient}
-                    style={{ width: 300, margin: "auto" }}
-                    renderInput={(params) => (
-                      <TextField {...params} label="Client" variant="outlined" />
-                    )}
-                  />
-                </>
-              )}
               <br />
+              <h3>Client</h3>
+              {client}
+              
+              {/* <Autocomplete
+                id="client"
+                options={listClients}
+                getOptionLabel={(option) => option.firstname}
+                onChange={(e, value) => {
+                  setSelectedClient(value);
+                }}
+                noOptionsText="---"
+                value={selectedClient}
+                style={{ width: 300, margin: "auto" }}
+                renderInput={(params) => (
+                  <TextField {...params} label="Client" variant="outlined" />
+                )}
+              /> */}
             </Flex>
           </FlexContainer>
 
@@ -281,11 +271,7 @@ const AddContract = (props) => {
             disabled={!checkVal}
             onClick={handleOrder}
           >
-            {user.role === "admin" || user.role === "vendeur" ? (
-              <span>Commander</span>
-            ) : (
-                <span>Faire une demande</span>
-              )}
+            <span>Valider</span>
           </Button>
         </CenterContainer>
       )}
@@ -296,4 +282,4 @@ const AddContract = (props) => {
   );
 };
 
-export default AddContract;
+export default UpdateContract;

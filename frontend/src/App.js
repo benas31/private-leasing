@@ -12,6 +12,8 @@ import About from "./views/About";
 import ChangePassword from "./views/ChangePassword";
 import ResetPassword from "./views/ResetPassword";
 import NewPassword from "./views/NewPassword";
+import Demands from "./views/Demands";
+import UpdateContract from "./views/UpdateContract";
 // import HomepageTest from "./views/HomepageTest";
 
 
@@ -25,8 +27,10 @@ const App = () => {
           <Route exact path="/carlist" component={CarList}></Route>
           <Route exact path="/login" component={Login}></Route>
           <Route exact path="/contract" component={Contract}></Route>
+          <Route exact path="/demands" component={Demands}></Route>
           <Route exact path="/profil" component={Profil}></Route>
           <Route exact path="/addcontract" component={AddContract}></Route>
+          <Route exact path="/updatecontract" component={UpdateContract}></Route>
           <Route exact path="/addcar" component={AddCar}></Route>
           <Route exact path="/cardetails" component={CarDetail}></Route>
           <Route exact path="/changepassword" component={ChangePassword}></Route>

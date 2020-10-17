@@ -18,6 +18,36 @@ router.get("/deleteById/:id", function (req, res) {
   });
 });
 
+router.get("/fetchDemands/", function (req, res) {
+  Contract.find({ actif: 0 }, (err, contracts) => {
+    if (err) res.json({ success: false, response: err });
+    else res.json({ success: true, response: contracts });
+  });
+});
+
+router.post("/updateById/:id", function (req, res) {
+  console.log('recieved:', req.body);
+  const _id = req.body.contract._id;
+  Contract.updateOne({ _id }, {
+    date_start: req.body.date_start,
+    date_end: req.body.date_end,
+    km_debut: req.body.km_debut,
+    km_fin: req.body.km_fin,
+    km_year: req.body.km_year,
+    prix: req.body.prix,
+    actif: req.body.actif,
+    fk_personnel: req.body.fk_personnel,
+  }, (err, contract) => {
+    if (err) {
+      console.log('err', err);
+      res.json({ success: false, response: err });
+    } else {
+      console.log('success', contract);
+      res.json({ success: true, response: 'Contract Updated' });
+    }
+  });
+});
+
 router.get("/getByUserId/:id", function (req, res) {
   const userId = req.params.id;
   User.findById(userId, (err, data) => {

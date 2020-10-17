@@ -70,7 +70,7 @@ app.post("/api/login", function (req, res) {
     });
 });
 
-app.post("/api/register", function (req, res) {
+app.post("/api/register", async function (req, res) {
   const username = req.body.username;
   const password = req.body.password;
   const email = req.body.email;
@@ -78,28 +78,34 @@ app.post("/api/register", function (req, res) {
   const role = req.body.role;
   const firstname = req.body.firstname;
 
-  User.findOne({ username })
-    .then((data) => {
-      if (data) res.json({ success: false, response: 'Username already exist!' });
-    })
+  const userWithSameUsername = await User.findOne({ username });
+  /* .then((data) => {
+    if (data) res.json({ success: false, response: 'Username already exist!' });
+  }) */
 
-  User.findOne({ email })
-    .then((data) => {
-      if (data) res.json({ success: false, response: 'Email already exist!' });
-    })
+  const userWithSameEmail = await User.findOne({ email });
+  /* .then((data) => {
+    if (data) res.json({ success: false, response: 'Email already exist!' });
+  }) */
 
-  bcrypt.hash(password, 10, (e, hash) => {
-    User.create({ username, password: hash, email, role: role || "client", lastname, firstname, }, (err, user) => {
-      if (err) {
-        res.json({ success: false, response: err });
-      } else {
-        user = user.toObject();
-        delete user.password;
-        res.json({ success: true, response: user });
+  if (userWithSameUsername === null && userWithSameEmail === null) {
+    bcrypt.hash(password, 10, (e, hash) => {
+      User.create({ username, password: hash, email, role: role || "client", lastname, firstname, }, (err, user) => {
+        if (err) {
+          res.json({ success: false, response: err });
+        } else {
+          user = user.toObject();
+          delete user.password;
+          res.json({ success: true, response: user });
+        }
       }
-    }
-    );
-  });
+      );
+    });
+  } else if (userWithSameUsername) {
+    res.json({ success: false, response: 'Username already exist!' });
+  } else if (userWithSameEmail) {
+    res.json({ success: false, response: 'Email already exist!' });
+  }
 });
 
 
