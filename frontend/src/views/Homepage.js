@@ -4,44 +4,41 @@ import TopMenu from "../components/TopMenu";
 import styled from "styled-components";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import "./caroussel.css";
 import { CircularProgress, Button } from "@material-ui/core";
 
 import Footer from "../components/Footer";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
-import img1 from "../ressource/carroussel-1.jpg";
-import img2 from "../ressource/carroussel-2.jpg";
-import img3 from "../ressource/carroussel-3.jpg";
-import imgCar from "../ressource/lmao.jpeg";
 
 const TopContainer = styled.div``;
 
 const Flex1 = styled.div`
   display: flex;
   margin-bottom: 30px;
-`;
-const Flex1Border = styled.div`
-  display: flex;
-  flex-direction: column;
   justify-content: center;
-  margin: 1px;
-`;
-
-const Flex1Row = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-
-const Flex1Column = styled.div`
-  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
 `;
 
 const Flex1Center = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 20px;
+  margin-bottom: 20px;
 `;
+const FlexRow = styled.div`
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+`;
+
+const AvantageContainer = styled.div`
+  border-top: 1px solid grey;
+  border-bottom: 1px solid grey;
+`;
+
 
 const Homepage = () => {
   const [cars, setCars] = useState([]);
@@ -50,7 +47,24 @@ const Homepage = () => {
   const [selectedModele, setSelectedModele] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedTransmission, setSelectedTransmission] = useState("");
+  const [user, setUser] = useState("");
+
   const history = useHistory();
+
+  const idUser = !!localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user"))._id : "";
+
+  useEffect(() => {
+    fetch("http://localhost:5000/api/user/getById/" + idUser)
+      .then((blop) => blop.json())
+      .then((data) => {
+        if (!!data.success) {
+          setUser(data.response);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const handleClick = () => {
     history.push({
@@ -194,29 +208,61 @@ const Homepage = () => {
       {!loading && (
         <div className="container">
           <Flex1>
-            <Flex1Border>
-              <Flex1Row>
-                <Flex1Column>
-                  <SearchBrand />
-                  <SearchModele />
-                </Flex1Column>
-                <Flex1Column>
-                  <SearchTransmision />
-                  <SearchColor />
-                  <Flex1Center>
-                    <Button variant="contained" color="primary" onClick={() => handleClick()} size="small">
-                      Rechercher
-                    </Button>
-                  </Flex1Center>
-                </Flex1Column>
-              </Flex1Row>
-            </Flex1Border>
-            <Flex1Border>
-              <img src={imgCar} alt="imgCar" />
-            </Flex1Border>
+            <SearchBrand />
+            <SearchModele />
+            <SearchTransmision />
+            <SearchColor />
           </Flex1>
+          <Flex1Center>
+            <Button variant="contained" color="primary" onClick={() => handleClick()} size="small">
+              Rechercher
+                    </Button>
+          </Flex1Center>
+          <AvantageContainer>
+            <FlexRow>
+              <div className="col-3" style={{ marginTop: 60, borderRight:"1px solid black" }}>
+                <h4><b>Recherches efficaces</b></h4>
+                <br />
+                <p>Trouvez facilement la voiture qui vous convient le mieux</p>
+              </div>
+              <div className="col-3" style={{ marginTop: 60, borderRight:"1px solid black"  }}>
+                <h4><b>Votre contract</b></h4>
+                <br />
+                <p>Vous pouvez consulter l'état de votre contrat de leasing à tout moment!</p>
+              </div>
+              <div className="col-3" style={{ marginTop: 60, borderRight:"1px solid black"  }}>
+                <h4><b>Avantages du leasing</b></h4>
+                <br />
+                <p>Vous pouvez consulter tous les avantages du leasing</p>
+              </div>
+              <div className="col-3" style={{ marginTop: 60 }}>
+                <h4><b>Demande de leasing</b></h4>
+                <br />
+                <p>En quelques cliques, vous pouvez faire une demande de leasing</p>
+              </div>
+            </FlexRow>
+            <FlexRow>
+              <div className="col-3" style={{ marginBottom: 60 }}>
+                <a href="/carlist">En savoir plus</a>
+              </div>
+              <div className="col-3" style={{ marginBottom: 60 }}>
+                <a href="/contract">En savoir plus</a>
+              </div>
+              <div className="col-3" style={{ marginBottom: 60 }}>
+                <a href="/about">En savoir plus</a>
+              </div>
+              <div className="col-3" style={{ marginBottom: 60 }}>
+                <a href="/carlist">En savoir plus</a>
+              </div>
+            </FlexRow>
+          </AvantageContainer>
           <Flex1>
-            <Carousel showThumbs={false} showArrows={true} onClickItem={(e) => handleClickItem(e)}>
+            <h4>
+              Consulter nos voitures en promotions
+            </h4>
+          </Flex1>
+          <Flex1Center>
+            <Carousel width="70%" styles={{ margin: 'auto' }} showThumbs={false} showArrows={true} showStatus={false} onClickItem={(e) => handleClickItem(e)}>
               {promoCars.map((car) => {
                 return (
                   <div key={car._id}>
@@ -225,21 +271,8 @@ const Homepage = () => {
                   </div>
                 )
               })}
-              {/* <div>
-                <img alt="imgpromo" src={img1} />
-                <p className="legend">BMW Serie 2 Grand Coupé</p>
-              </div>
-              <div>
-                <img alt="imgpromo" src={img2} />
-                <p className="legend">Tesla X</p>
-              </div>
-              <div>
-                <img alt="imgpromo" src={img3} />
-                <p className="legend">Citroen C15</p>
-              </div> */}
             </Carousel>
-          </Flex1>
-          <Flex1></Flex1>
+          </Flex1Center>
         </div>
       )}
       <Footer></Footer>

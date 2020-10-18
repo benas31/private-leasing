@@ -7,6 +7,10 @@ import {
   Nav,
   NavItem,
   NavLink,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
 } from "reactstrap";
 
 const TopMenu = (props) => {
@@ -67,12 +71,24 @@ const TopMenu = (props) => {
             <NavLink href="/carlist">Liste des voitures</NavLink>
           </NavItem>
           {connected && <NavLink href="/contract">Mes contracts</NavLink>}
-          {connected && role !== 'client' && <NavLink href="/login">Ajouter un utilisateur</NavLink>}
-          {connected && role !== 'client' && <NavLink href="/addcar">Ajouter une voiture</NavLink>}
           {connected && role !== 'client' && <NavLink href="/demands">Consulter les demandes</NavLink>}
-          <NavItem>
-            <NavLink href="/about">A propos</NavLink>
-          </NavItem>
+          {/* {connected && role !== 'client' && <NavLink href="/login">Ajouter un utilisateur</NavLink>}
+          {connected && role !== 'client' && <NavLink href="/addcar">Ajouter une voiture</NavLink>} */}
+          {connected && role !== 'client' && (
+            <UncontrolledDropdown nav inNavbar>
+              <DropdownToggle nav caret>
+                Ajout
+            </DropdownToggle>
+              <DropdownMenu right>
+                <DropdownItem>
+                  <NavLink href="/login">Ajouter un utilisateur</NavLink>
+                </DropdownItem>
+                <DropdownItem>
+                  <NavLink href="/addcar">Ajouter une voiture</NavLink>
+                </DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
+          )}
         </Nav>
         {connected && (<span> Bonjour {username} !</span>)}
         {!connected ? (

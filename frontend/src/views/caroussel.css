@@ -1,0 +1,7 @@
+.carousel .slide{ 
+  background: none;
+}
+
+.carousel {
+  margin: auto !important;
+}
