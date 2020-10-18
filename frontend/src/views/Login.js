@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { TextField, Button, Select, MenuItem } from "@material-ui/core";
+import { TextField, Button, Select, MenuItem, FormHelperText } from "@material-ui/core";
 import styled from "styled-components";
 import TopMenu from "../components/TopMenu";
 import { useHistory, useLocation } from "react-router-dom";
@@ -267,17 +267,20 @@ const Login = () => {
               <br />
               <br />
               {(user.role === "vendeur" || user.role === "admin") && (
-                <Select
-                  id="role"
-                  onChange={(e) => {
-                    setRole(e.target.value);
-                  }}
-                  value={role}
-                  style={{ minWidth: 200, textAlign: "left" }}
-                >
-                  <MenuItem value="client">Client</MenuItem>
-                  <MenuItem value="vendeur">Vendeur</MenuItem>
-                </Select>
+                <>
+                <FormHelperText>Role</FormHelperText>
+                  <Select
+                    id="role"
+                    onChange={(e) => {
+                      setRole(e.target.value);
+                    }}
+                    value={role}
+                    style={{ minWidth: 200, textAlign: "left" }}
+                  >
+                    <MenuItem value="client">Client</MenuItem>
+                    <MenuItem value="vendeur">Vendeur</MenuItem>
+                  </Select>
+                </>
               )}
               <br />
               <br />

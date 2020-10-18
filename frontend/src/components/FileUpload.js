@@ -24,7 +24,6 @@ const FileUpload = () => {
       return data;
     });
   };
-
   return (
     <>
       <form>

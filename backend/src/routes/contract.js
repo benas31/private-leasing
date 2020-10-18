@@ -28,6 +28,13 @@ router.get("/fetchDemands/", function (req, res) {
 router.post("/updateById/:id", function (req, res) {
   console.log('recieved:', req.body);
   const _id = req.body.contract._id;
+  const idCar = req.body.carId;
+  Car.updateOne({ _id: idCar }, { status: 1 }, (err, car) => {
+    if (err) {
+      res.json({ success: false, response: err });
+    }
+  });
+
   Contract.updateOne({ _id }, {
     date_start: req.body.date_start,
     date_end: req.body.date_end,
@@ -42,7 +49,6 @@ router.post("/updateById/:id", function (req, res) {
       console.log('err', err);
       res.json({ success: false, response: err });
     } else {
-      console.log('success', contract);
       res.json({ success: true, response: 'Contract Updated' });
     }
   });

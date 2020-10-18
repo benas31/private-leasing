@@ -71,6 +71,8 @@ const UpdateContract = (props) => {
     };
   }, []);
 
+  console.log('iddddddddddddddddddddddd', location.state.car._id);
+
 
   useEffect(() => {
     setCurrentPrice(location.state.car.price + priceMonth + priceKm);
@@ -94,6 +96,7 @@ const UpdateContract = (props) => {
         actif: 1,
         fk_personnel: user._id,
         contract,
+        carId: selectedCar._id
       }),
     })
       .then(handleResponse)
