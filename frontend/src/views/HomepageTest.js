@@ -4,7 +4,7 @@ import Bonjour from "./Bonjour";
 const HomepageTest = () => {
 
     return (
-        <div style={{marginLeft: "20px"}}>
+        <div style={{marginLeft: "20px", marginTop: "100px"}}>
             <Bonjour name={"Benoit"} />
         </div>
     );
