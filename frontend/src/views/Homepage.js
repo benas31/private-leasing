@@ -11,6 +11,7 @@ import Footer from "../components/Footer";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
+import animatedCar from '../ressource/animatedCar.gif';
 
 const TopContainer = styled.div``;
 
@@ -22,16 +23,29 @@ const Flex1 = styled.div`
   margin-top: 50px;
 `;
 
+const Flex2 = styled.div`
+  display: flex;
+  margin-bottom: 30px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+  margin-bottom: 50px;
+`;
+
 const Flex1Center = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 50px;
 `;
 const FlexRow = styled.div`
   text-align: center;
   display: flex;
   flex-direction: row;
+`;
+
+const Border = styled.div`
+  border-top: 1px solid grey;
 `;
 
 const AvantageContainer = styled.div`
@@ -192,6 +206,14 @@ const Homepage = () => {
       {loading && <CircularProgress />}
       {!loading && (
         <div className="container">
+          <Flex2>
+            <div className="mainTitle">
+              <h1>Bienvenue sur Leasing Privé</h1>
+              <p>Vous trouverez toutes les voitures du monde</p>
+            </div>
+            <img src={animatedCar} alt="loading..." style={{ marginLeft: 50, width: 500 }} />
+          </Flex2>
+          <Border />
           <Flex1>
             <SearchBrand />
             <SearchModele />
@@ -201,21 +223,21 @@ const Homepage = () => {
           <Flex1Center>
             <Button variant="contained" color="primary" onClick={() => handleClick()} size="small">
               Rechercher
-                    </Button>
+            </Button>
           </Flex1Center>
           <AvantageContainer>
             <FlexRow>
-              <div className="col-3" style={{ marginTop: 60, borderRight:"1px solid black" }}>
+              <div className="col-3" style={{ marginTop: 60, borderRight: "1px solid black" }}>
                 <h4><b>Recherches efficaces</b></h4>
                 <br />
                 <p>Trouvez facilement la voiture qui vous convient le mieux</p>
               </div>
-              <div className="col-3" style={{ marginTop: 60, borderRight:"1px solid black"  }}>
+              <div className="col-3" style={{ marginTop: 60, borderRight: "1px solid black" }}>
                 <h4><b>Votre contract</b></h4>
                 <br />
                 <p>Vous pouvez consulter l'état de votre contrat de leasing à tout moment!</p>
               </div>
-              <div className="col-3" style={{ marginTop: 60, borderRight:"1px solid black"  }}>
+              <div className="col-3" style={{ marginTop: 60, borderRight: "1px solid black" }}>
                 <h4><b>Avantages du leasing</b></h4>
                 <br />
                 <p>Vous pouvez consulter tous les avantages du leasing</p>
