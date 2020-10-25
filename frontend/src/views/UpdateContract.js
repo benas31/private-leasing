@@ -6,9 +6,7 @@ import {
   Checkbox,
   FormControlLabel,
   Slider,
-  TextField,
 } from "@material-ui/core";
-import Autocomplete from "@material-ui/lab/Autocomplete";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,

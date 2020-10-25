@@ -26,7 +26,6 @@ const ItemContainer = styled.div`
 const TopContainer = styled.div``;
 
 const AddCar = () => {
-  const location = useLocation();
   const [message, setMessage] = useState("");
   const [chassis_number, setChassis_number] = useState("");
   const [brand, setBrand] = useState("");

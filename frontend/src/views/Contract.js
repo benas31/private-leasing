@@ -44,7 +44,6 @@ const MyContracts = () => {
       });
   }, []);
 
-  console.log('userRole', userRole);
   useEffect(() => {
     fetch(
       "http://localhost:5000/api/contract/getByUserId/" +

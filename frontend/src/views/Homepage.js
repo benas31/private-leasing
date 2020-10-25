@@ -47,24 +47,9 @@ const Homepage = () => {
   const [selectedModele, setSelectedModele] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedTransmission, setSelectedTransmission] = useState("");
-  const [user, setUser] = useState("");
 
   const history = useHistory();
 
-  const idUser = !!localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user"))._id : "";
-
-  useEffect(() => {
-    fetch("http://localhost:5000/api/user/getById/" + idUser)
-      .then((blop) => blop.json())
-      .then((data) => {
-        if (!!data.success) {
-          setUser(data.response);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
 
   const handleClick = () => {
     history.push({

@@ -23,7 +23,7 @@ const Container = styled.div`
 `;
 
 const Image = styled.img`
-  height: 100px;
+  max-width: 400px;
 `;
 
 const ImgTitle = styled.div`
@@ -49,7 +49,16 @@ const CarDetails = (props) => {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    setuser(!!localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : "");
+    fetch("http://localhost:5000/api/user/getById/" + JSON.parse(localStorage.getItem("user"))._id)
+      .then((blop) => blop.json())
+      .then((data) => {
+        if (!!data.success) {
+          setuser(data.response);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   const handleClick = () => {

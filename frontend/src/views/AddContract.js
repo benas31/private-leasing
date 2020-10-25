@@ -67,7 +67,7 @@ const AddContract = (props) => {
       setUser(location.state.user);
       setLoading(false);
     };
-    if (location.state.user.role === "vendeur" || location.state.user.role === "admin") {
+    if (location.state.user.role === "vendeur") {
       fetch("http://localhost:5000/api/user/getClients")
         .then(handleResponse)
         .then((data) => {
