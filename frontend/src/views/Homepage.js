@@ -206,14 +206,6 @@ const Homepage = () => {
       {loading && <CircularProgress />}
       {!loading && (
         <div className="container">
-          <Flex2>
-            <div className="mainTitle">
-              <h1>Bienvenue sur Leasing Privé</h1>
-              <p>Vous trouverez toutes les voitures du monde</p>
-            </div>
-            <img src={animatedCar} alt="loading..." style={{ marginLeft: 50, width: 500 }} />
-          </Flex2>
-          <Border />
           <Flex1>
             <SearchBrand />
             <SearchModele />
