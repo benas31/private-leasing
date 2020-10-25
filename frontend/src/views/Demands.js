@@ -14,8 +14,7 @@ const Demands = () => {
   const TopContainer = styled.div``;
 
   const tableColumns = [
-    { title: 'Début', field: 'date_start' },
-    { title: 'Fin', field: 'date_end' },
+    { title: 'Durée', field: 'duree' },
     { title: 'Km/an', field: 'km_year', editable: 'never' },
     { title: 'Prix', field: 'prix', editable: 'never' },
     { title: 'Etat', field: 'actif', lookup: { 0: 'Demande', 1: 'En Cours', 2: 'Terminé' } },
@@ -52,6 +51,8 @@ const Demands = () => {
           const listContrat = rep.response;
           var promises = [];
           listContrat.forEach((row) => {
+            // format date
+            if (row.duree) row.duree = `${row.duree} mois`
             // format date
             if (row.date_start) row.date_start = format(new Date(row.date_start), "dd/MM/yyyy")
             if (row.date_end) row.date_end = format(new Date(row.date_end), "dd/MM/yyyy")
@@ -127,6 +128,9 @@ const Demands = () => {
           user: user,
           client,
           contract,
+          duree: contract.duree,
+          kmyear: contract.km_year,
+          price: contract.prix,
         },
       });
     })

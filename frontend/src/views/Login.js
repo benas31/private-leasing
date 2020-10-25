@@ -44,17 +44,31 @@ const Login = () => {
   const [lastname, setLastname] = useState("");
   const [firstname, setFirstname] = useState("");
   const [role, setRole] = useState("");
+  const [user, setUser] = useState("");
 
 
   const [message, setMessage] = useState("");
   const [showRegister, setShowRegister] = useState(false);
   const history = useHistory();
 
-  const user = !!localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : "";
+  const idUser = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user"))._id : null;
+
+  useEffect(() => {
+    fetch("http://localhost:5000/api/user/getById/" + idUser)
+      .then((blop) => blop.json())
+      .then((data) => {
+        if (!!data.success) {
+          setUser(data.response);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   useEffect(() => {
     if (user.role === "client") history.push("/");
-    setShowRegister(!!localStorage.getItem("user") || !!location.state);
+    setShowRegister(user.role === "vendeur");
   }, [user, history, location.state]);
 
 
@@ -92,7 +106,14 @@ const Login = () => {
               localStorage.setItem("user", JSON.stringify(json.response));
               localStorage.setItem("TTL", expiration);
             }
-            setTimeout(() => {
+            if (location?.state?.car) {
+              setTimeout(() => {
+                history.push({
+                  pathname: "/cardetails",
+                  state: location?.state?.car,
+                });
+              }, 1000);
+            } else setTimeout(() => {
               history.push("/");
             }, 1000);
           } else {
@@ -119,7 +140,14 @@ const Login = () => {
           json.response.authdata = window.btoa(username + ":" + password);
           localStorage.setItem("user", JSON.stringify(json.response));
           localStorage.setItem("TTL", expiration);
-          setTimeout(() => {
+          if (location?.state?.car) {
+            setTimeout(() => {
+              history.push({
+                pathname: "/cardetails",
+                state: location?.state?.car,
+              });
+            }, 1000);
+          } else setTimeout(() => {
             history.push("/");
           }, 1000);
         } else {
@@ -153,7 +181,6 @@ const Login = () => {
     */
     return re.test(String(password));
   }
-
 
   return (
     <TopContainer>
@@ -268,7 +295,8 @@ const Login = () => {
               <br />
               {(user.role === "vendeur" || user.role === "admin") && (
                 <>
-                <FormHelperText>Role</FormHelperText>
+                  Role
+                  <br />
                   <Select
                     id="role"
                     onChange={(e) => {

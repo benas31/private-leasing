@@ -95,6 +95,7 @@ router.post("/", function (req, res) {
         {
           date_start: req.body.date_start,
           date_end: req.body.date_end,
+          duree: req.body.duree,
           km_debut: req.body.km_debut,
           km_fin: req.body.km_fin,
           km_year: req.body.km_year,
