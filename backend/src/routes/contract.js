@@ -25,6 +25,16 @@ router.get("/fetchDemands/", function (req, res) {
   });
 });
 
+router.get("/closeById/:id", function (req, res) {
+  Contract.updateOne({ _id: req.params.id }, { actif: 2 }, (err, contract) => {
+    if (err) {
+      res.json({ success: false, response: err });
+    } else {
+      res.json({ success: true, response: 'Contract Updated' });
+    }
+  });
+});
+
 router.post("/updateById/:id", function (req, res) {
   console.log('recieved:', req.body);
   const _id = req.body.contract._id;

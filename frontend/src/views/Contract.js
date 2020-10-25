@@ -121,7 +121,7 @@ const MyContracts = () => {
   };
 
   const handleDelete = (row) => {
-    fetch("http://localhost:5000/api/contract/deleteById/" + row._id)
+    fetch("http://localhost:5000/api/contract/closeById/" + row._id)
       .then((blop) => blop.json())
       .then((resp) => {
         let tmp = tableData;

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import MaterialTable from 'material-table';
+import { confirmAlert } from 'react-confirm-alert';
 import { format } from "date-fns";
 import styled from "styled-components";
 import TopMenu from "../components/TopMenu";
@@ -24,9 +25,13 @@ const Demands = () => {
   ];
   const [tableData, setTableData] = useState([]);
   const [user, setUser] = useState("");
+  const [hack, setHack] = useState(false);
 
 
 
+  useEffect(() => {
+    setTableData(tableData)
+  }, [hack]);
 
   useEffect(() => {
     fetch("http://localhost:5000/api/user/getById/" + JSON.parse(localStorage.getItem("user"))._id)
@@ -117,23 +122,37 @@ const Demands = () => {
 
   const handleEdit = (row) => {
     fetch("http://localhost:5000/api/contract/" + row._id,)
-    .then((blop) => blop.json())
-    .then(async (contract) => {
-      const car = await getCar(contract.fk_car);
-      const client = await getUser(contract.fk_client);
-      history.push({
-        pathname: "/updatecontract",
-        state: {
-          car,
-          user: user,
-          client,
-          contract,
-          duree: contract.duree,
-          kmyear: contract.km_year,
-          price: contract.prix,
-        },
+      .then((blop) => blop.json())
+      .then(async (contract) => {
+        const car = await getCar(contract.fk_car);
+        const client = await getUser(contract.fk_client);
+        history.push({
+          pathname: "/updatecontract",
+          state: {
+            car,
+            user: user,
+            client,
+            contract,
+            duree: contract.duree,
+            kmyear: contract.km_year,
+            price: contract.prix,
+          },
+        });
+      })
+  }
+
+  const handleDelete = (row) => {
+    fetch("http://localhost:5000/api/contract/deleteById/" + row._id)
+      .then((blop) => blop.json())
+      .then((resp) => {
+        let tmp = tableData;
+        tmp.splice(tableData.indexOf(row), 1);
+        setTableData(tmp);
+        setHack(true)
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    })
   }
 
 
@@ -153,6 +172,25 @@ const Demands = () => {
               columns={tableColumns}
               data={tableData}
               actions={[
+                {
+                  icon: 'delete',
+                  tooltip: 'Delete User',
+                  onClick: (event, row) => {
+                    confirmAlert({
+                      title: 'Supprimer cette demande ?',
+                      message: 'Êtes-vous sur de supprimer cette demande ?',
+                      buttons: [
+                        {
+                          label: 'Yes',
+                          onClick: () => handleDelete(row)
+                        },
+                        {
+                          label: 'No',
+                        }
+                      ]
+                    });
+                  }
+                },
                 {
                   icon: 'edit',
                   tooltip: 'Edit Contract',
