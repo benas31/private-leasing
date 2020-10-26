@@ -6,9 +6,7 @@ import {
   Checkbox,
   FormControlLabel,
   Slider,
-  TextField,
 } from "@material-ui/core";
-import Autocomplete from "@material-ui/lab/Autocomplete";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
@@ -59,24 +57,25 @@ const UpdateContract = (props) => {
 
   const location = useLocation();
 
-
-  useEffect(() => {
-    if (location.state) {
-      setSelectedCar(location.state.car);
-      setCurrentPrice(location.state.car.price);
-      setClient(location.state.client.firstname + " " + location.state.client.lastname);
-      setUser(location.state.user);
-      setContract(location.state.contract);
-      setLoading(false);
-    };
-  }, []);
-
-  console.log('iddddddddddddddddddddddd', location.state.car._id);
-
+  const currentMonthDefaultValue = location.state?.duree || 48;
+  const currentKmYearDefaultValue = location.state?.kmyear || 10000;
 
   useEffect(() => {
     setCurrentPrice(location.state.car.price + priceMonth + priceKm);
   }, [priceMonth, priceKm, location.state.car.price]);
+
+  useEffect(() => {
+    if (location.state) {
+      setSelectedCar(location.state.car);
+      setCurrentPrice(location.state.price);
+      setClient(location.state.client.firstname + " " + location.state.client.lastname);
+      setUser(location.state.user);
+      setContract(location.state.contract);
+      setCurrentMonth(location.state.duree);
+      setCurrentKm(location.state.kmyear);
+      setLoading(false);
+    };
+  }, []);
 
   const handleOrder = () => {
     fetch("http://localhost:5000/api/contract/updateById/" + contract._id, {
@@ -185,7 +184,7 @@ const UpdateContract = (props) => {
               <br />
               <Slider
                 style={{ width: "50%" }}
-                defaultValue={48}
+                defaultValue={currentMonthDefaultValue || 48}
                 getAriaValueText={valuetext}
                 aria-labelledby="discrete-slider-small-steps"
                 step={12}
@@ -211,7 +210,7 @@ const UpdateContract = (props) => {
               <br />
               <Slider
                 style={{ width: "50%" }}
-                defaultValue={10000}
+                defaultValue={currentKmYearDefaultValue || 10000}
                 getAriaValueText={valuetext}
                 aria-labelledby="discrete-slider-small-steps"
                 step={5000}

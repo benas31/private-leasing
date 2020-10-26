@@ -269,7 +269,6 @@ async function fillUser() {
     role: "admin",
     lastname: "admin",
     firstname: "admin",
-    phone: "027723323",
   });
   const user2 = User.create({
     username: "vendeur",
@@ -278,7 +277,6 @@ async function fillUser() {
     role: "vendeur",
     lastname: "Benas",
     firstname: "Bock",
-    phone: "027723323",
   });
   const user3 = User.create({
     username: "client",
@@ -286,7 +284,6 @@ async function fillUser() {
     email: "client@client.com",
     lastname: "Xav",
     firstname: "Hoffmann",
-    phone: "027723323",
     role: "client",
   });
 

@@ -33,6 +33,7 @@ router.post("/add", function (req, res) {
       color: req.body.color,
       status: req.body.status,
       promo: req.body.promo,
+      status: 0,
       photo: req.body.photo,
     },
     (err, car) => {

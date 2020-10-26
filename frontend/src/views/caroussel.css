@@ -5,3 +5,8 @@
 .carousel {
   margin: auto !important;
 }
+
+.mainTitle{
+  text-align: center;
+  margin-right: 50px;
+}

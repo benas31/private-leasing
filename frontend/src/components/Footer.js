@@ -6,7 +6,7 @@ const Center = styled.div`
 `;
 
 const Footer = () => {
-  return <Center>Leasing privé footer</Center>;
+  return <Center></Center>;
 };
 
 export default Footer;

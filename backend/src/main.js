@@ -58,6 +58,7 @@ app.post("/api/login", function (req, res) {
         if (result) {
           data = data.toObject();
           delete data.password;
+          delete data.role;
           res.json({ success: true, response: data });
         }
         // password don't match
@@ -79,14 +80,8 @@ app.post("/api/register", async function (req, res) {
   const firstname = req.body.firstname;
 
   const userWithSameUsername = await User.findOne({ username });
-  /* .then((data) => {
-    if (data) res.json({ success: false, response: 'Username already exist!' });
-  }) */
 
   const userWithSameEmail = await User.findOne({ email });
-  /* .then((data) => {
-    if (data) res.json({ success: false, response: 'Email already exist!' });
-  }) */
 
   if (userWithSameUsername === null && userWithSameEmail === null) {
     bcrypt.hash(password, 10, (e, hash) => {
@@ -96,6 +91,7 @@ app.post("/api/register", async function (req, res) {
         } else {
           user = user.toObject();
           delete user.password;
+          delete user.role;
           res.json({ success: true, response: user });
         }
       }

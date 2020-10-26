@@ -44,7 +44,6 @@ const MyContracts = () => {
       });
   }, []);
 
-  console.log('userRole', userRole);
   useEffect(() => {
     fetch(
       "http://localhost:5000/api/contract/getByUserId/" +
@@ -122,7 +121,7 @@ const MyContracts = () => {
   };
 
   const handleDelete = (row) => {
-    fetch("http://localhost:5000/api/contract/deleteById/" + row._id)
+    fetch("http://localhost:5000/api/contract/closeById/" + row._id)
       .then((blop) => blop.json())
       .then((resp) => {
         let tmp = tableData;
@@ -153,7 +152,7 @@ const MyContracts = () => {
               actions={[
                 {
                   icon: 'delete',
-                  tooltip: 'Delete User',
+                  tooltip: 'End Contract',
                   onClick: (event, row) => {
                     confirmAlert({
                       title: 'Terminer ce contract ?',

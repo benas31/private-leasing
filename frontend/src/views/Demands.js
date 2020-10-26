@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import MaterialTable from 'material-table';
+import { confirmAlert } from 'react-confirm-alert';
 import { format } from "date-fns";
 import styled from "styled-components";
 import TopMenu from "../components/TopMenu";
@@ -14,8 +15,7 @@ const Demands = () => {
   const TopContainer = styled.div``;
 
   const tableColumns = [
-    { title: 'Début', field: 'date_start' },
-    { title: 'Fin', field: 'date_end' },
+    { title: 'Durée', field: 'duree' },
     { title: 'Km/an', field: 'km_year', editable: 'never' },
     { title: 'Prix', field: 'prix', editable: 'never' },
     { title: 'Etat', field: 'actif', lookup: { 0: 'Demande', 1: 'En Cours', 2: 'Terminé' } },
@@ -25,9 +25,13 @@ const Demands = () => {
   ];
   const [tableData, setTableData] = useState([]);
   const [user, setUser] = useState("");
+  const [hack, setHack] = useState(false);
 
 
 
+  useEffect(() => {
+    setTableData(tableData)
+  }, [hack]);
 
   useEffect(() => {
     fetch("http://localhost:5000/api/user/getById/" + JSON.parse(localStorage.getItem("user"))._id)
@@ -52,6 +56,8 @@ const Demands = () => {
           const listContrat = rep.response;
           var promises = [];
           listContrat.forEach((row) => {
+            // format date
+            if (row.duree) row.duree = `${row.duree} mois`
             // format date
             if (row.date_start) row.date_start = format(new Date(row.date_start), "dd/MM/yyyy")
             if (row.date_end) row.date_end = format(new Date(row.date_end), "dd/MM/yyyy")
@@ -116,20 +122,37 @@ const Demands = () => {
 
   const handleEdit = (row) => {
     fetch("http://localhost:5000/api/contract/" + row._id,)
-    .then((blop) => blop.json())
-    .then(async (contract) => {
-      const car = await getCar(contract.fk_car);
-      const client = await getUser(contract.fk_client);
-      history.push({
-        pathname: "/updatecontract",
-        state: {
-          car,
-          user: user,
-          client,
-          contract,
-        },
+      .then((blop) => blop.json())
+      .then(async (contract) => {
+        const car = await getCar(contract.fk_car);
+        const client = await getUser(contract.fk_client);
+        history.push({
+          pathname: "/updatecontract",
+          state: {
+            car,
+            user: user,
+            client,
+            contract,
+            duree: contract.duree,
+            kmyear: contract.km_year,
+            price: contract.prix,
+          },
+        });
+      })
+  }
+
+  const handleDelete = (row) => {
+    fetch("http://localhost:5000/api/contract/deleteById/" + row._id)
+      .then((blop) => blop.json())
+      .then((resp) => {
+        let tmp = tableData;
+        tmp.splice(tableData.indexOf(row), 1);
+        setTableData(tmp);
+        setHack(true)
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    })
   }
 
 
@@ -139,16 +162,35 @@ const Demands = () => {
       <div className="container">
         {user.role === "client" ? (
           <MaterialTable
-            title="Liste contracts"
+            title="Liste demandes"
             columns={tableColumns}
             data={tableData}
           />
         ) : (
             <MaterialTable
-              title="Liste contracts"
+              title="Liste demandes"
               columns={tableColumns}
               data={tableData}
               actions={[
+                {
+                  icon: 'delete',
+                  tooltip: 'Supprimer Demande',
+                  onClick: (event, row) => {
+                    confirmAlert({
+                      title: 'Supprimer cette demande ?',
+                      message: 'Êtes-vous sur de supprimer cette demande ?',
+                      buttons: [
+                        {
+                          label: 'Yes',
+                          onClick: () => handleDelete(row)
+                        },
+                        {
+                          label: 'No',
+                        }
+                      ]
+                    });
+                  }
+                },
                 {
                   icon: 'edit',
                   tooltip: 'Edit Contract',

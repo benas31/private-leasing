@@ -67,7 +67,7 @@ const AddContract = (props) => {
       setUser(location.state.user);
       setLoading(false);
     };
-    if (location.state.user.role === "vendeur" || location.state.user.role === "admin") {
+    if (location.state?.user?.role === "vendeur") {
       fetch("http://localhost:5000/api/user/getClients")
         .then(handleResponse)
         .then((data) => {
@@ -81,7 +81,6 @@ const AddContract = (props) => {
     setCurrentPrice(location.state.car.price + priceMonth + priceKm);
   }, [priceMonth, priceKm, location.state.car.price]);
 
-  console.log('user', user);
   const handleOrder = () => {
     fetch("http://localhost:5000/api/contract", {
       method: "POST",
@@ -93,6 +92,7 @@ const AddContract = (props) => {
         date_end: new Date().setMonth(
           selectedDateBegin.getMonth() + currentMonth
         ),
+        duree: currentMonth,
         prix: currentPrice,
         km_year: currentKm,
         km_debut: 0,
@@ -112,16 +112,18 @@ const AddContract = (props) => {
           setMessage(
             "Votre contract a été enregistré sous l'id : " + json.response._id
           );
-          setTimeout(() => {
+          if (location?.state?.user?.role === 'client') {
+            setTimeout(() => {
+              history.push("/demands");
+            }, 3000);
+          } else setTimeout(() => {
             history.push("/contract");
-          }, 5000);
+          }, 3000);
         } else {
           setMessage("Erreur lors de l'enregistrement");
         }
       });
   };
-
-  console.log('message', message);
 
   const handleResponse = (response) => {
     return response.text().then((data) => {
@@ -284,8 +286,8 @@ const AddContract = (props) => {
             {user.role === "admin" || user.role === "vendeur" ? (
               <span>Commander</span>
             ) : (
-                <span>Faire une demande</span>
-              )}
+              <span>Faire une demande</span>
+            )}
           </Button>
         </CenterContainer>
       )}

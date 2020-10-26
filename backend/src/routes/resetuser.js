@@ -67,6 +67,7 @@ router.post("/newPassword/:id", function (req, res) {
               } else {
                 const u = user.toObject();
                 delete u.password;
+                delete u.role;
                 res.json({success: true, response: u});
               }
             });

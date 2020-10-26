@@ -23,7 +23,7 @@ const Container = styled.div`
 `;
 
 const Image = styled.img`
-  height: 100px;
+  max-width: 400px;
 `;
 
 const ImgTitle = styled.div`
@@ -45,15 +45,25 @@ const CarDetails = (props) => {
     photo,
   } = props.location.state;
   const history = useHistory();
-  const [user, setuser] = useState("");
+  const [user, setUser] = useState("");
   const [message, setMessage] = useState("");
+  const idUser = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user"))._id : null;
 
   useEffect(() => {
-    setuser(!!localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : "");
+    fetch("http://localhost:5000/api/user/getById/" + idUser)
+      .then((blop) => blop.json())
+      .then((data) => {
+        if (!!data.success) {
+          setUser(data.response);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   const handleClick = () => {
-    if(user) {
+    if (user) {
       history.push({
         pathname: "/addcontract",
         state: {
@@ -66,6 +76,9 @@ const CarDetails = (props) => {
       setTimeout(() => {
         history.push({
           pathname: "/login",
+          state: {
+            car: props.location.state
+          },
         });
       }, 3000);
     }
@@ -104,10 +117,10 @@ const CarDetails = (props) => {
             {user.role === "admin" || user.role === "vendeur" ? (
               <span>Commander</span>
             ) : (
-              <span>Faire une demande</span>
-            )}
+                <span>Faire une demande</span>
+              )}
           </Button>
-          <p style={{color: "red"}}>{message}</p>
+          <p style={{ color: "red" }}>{message}</p>
         </Container>
       </Center>
       <br />

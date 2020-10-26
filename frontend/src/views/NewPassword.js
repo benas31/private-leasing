@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { TextField, Button } from "@material-ui/core";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import TopMenu from "../components/TopMenu";
 import Footer from "../components/Footer";
@@ -20,9 +20,6 @@ const Container = styled.div`
   padding-bottom: 20px;
 `;
 
-const LoginMessage = styled.p`
-  color: green;
-`;
 
 const ItemContainer = styled.div`
   padding: 25px 25px 0;
