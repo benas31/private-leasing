@@ -162,19 +162,19 @@ const Demands = () => {
       <div className="container">
         {user.role === "client" ? (
           <MaterialTable
-            title="Liste contracts"
+            title="Liste demandes"
             columns={tableColumns}
             data={tableData}
           />
         ) : (
             <MaterialTable
-              title="Liste contracts"
+              title="Liste demandes"
               columns={tableColumns}
               data={tableData}
               actions={[
                 {
                   icon: 'delete',
-                  tooltip: 'Delete User',
+                  tooltip: 'Supprimer Demande',
                   onClick: (event, row) => {
                     confirmAlert({
                       title: 'Supprimer cette demande ?',

@@ -17,6 +17,8 @@ const Container = styled.div`
   align-items: center;
   flex-direction: column;
   padding-bottom: 20px;
+  margin-top: 50px;
+  margin-bototm: 50px;
 `;
 
 const ItemContainer = styled.div`
@@ -139,10 +141,9 @@ const AddCar = () => {
     <TopContainer>
       <TopMenu></TopMenu>
       <Container>
+      <h1>Ajout d'une voiture dans le parc automobile</h1>
         <FormContainer>
           <ItemContainer>
-            <br />
-            <br />
             <TextField
               id="standard-basic"
               label="Numéro de Chassis"
@@ -150,6 +151,7 @@ const AddCar = () => {
                 setChassis_number(e.target.value);
               }}
               value={chassis_number}
+              style={{ width: 600, textAlign: "left" }}
             />
             <br />
             <TextField
@@ -159,6 +161,7 @@ const AddCar = () => {
                 setBrand(e.target.value);
               }}
               value={brand}
+              style={{ width: 600, textAlign: "left" }}
             />
             <br />
             <TextField
@@ -168,6 +171,7 @@ const AddCar = () => {
                 setModele(e.target.value);
               }}
               value={modele}
+              style={{ width: 600, textAlign: "left" }}
             />
             <br />
             <TextField
@@ -177,16 +181,25 @@ const AddCar = () => {
                 setPrice(e.target.value);
               }}
               value={price}
+              style={{ width: 600, textAlign: "left" }}
             />
             <br />
-            <TextField
-              id="standard-basic"
-              label="Transmission"
+            <br />
+            <FormHelperText>Transmission</FormHelperText>
+            <Select
+              id="transmission"
               onChange={(e) => {
                 setTransmission(e.target.value);
               }}
               value={transmission}
-            />
+              style={{ width: 600, textAlign: "left" }}
+            >
+              <MenuItem value="" disabled>
+                Transmission
+              </MenuItem>
+              <MenuItem value="Manuel">Manuel</MenuItem>
+              <MenuItem value="Auto">Automatique</MenuItem>
+            </Select>
             <br />
             <TextField
               id="standard-basic"
@@ -195,6 +208,7 @@ const AddCar = () => {
                 setConsommation(e.target.value);
               }}
               value={consommation}
+              style={{ width: 600, textAlign: "left" }}
             />
             <br />
             <TextField
@@ -205,6 +219,7 @@ const AddCar = () => {
                 setDoor(e.target.value);
               }}
               value={door}
+              style={{ width: 600, textAlign: "left" }}
             />
             <br />
             <br />
@@ -215,13 +230,13 @@ const AddCar = () => {
                 setFuel(e.target.value);
               }}
               value={fuel}
-              style={{ minWidth: 200, textAlign: "left" }}
+              style={{ width: 600, textAlign: "left" }}
             >
               <MenuItem value="" disabled>
                 Carburant
               </MenuItem>
-              <MenuItem value="essence">Essence</MenuItem>
-              <MenuItem value="diesel">Diesel</MenuItem>
+              <MenuItem value="Essence">Essence</MenuItem>
+              <MenuItem value="Diesel">Diesel</MenuItem>
             </Select>
             <br />
             <TextField
@@ -232,6 +247,7 @@ const AddCar = () => {
                 setPower_ch(e.target.value);
               }}
               value={power_ch}
+              style={{ width: 600, textAlign: "left" }}
             />
             <br />
             <TextField
@@ -242,6 +258,7 @@ const AddCar = () => {
                 setSeat(e.target.value);
               }}
               value={seat}
+              style={{ width: 600, textAlign: "left" }}
             />
             <br />
             <TextField
@@ -251,6 +268,7 @@ const AddCar = () => {
                 setColor(e.target.value);
               }}
               value={color}
+              style={{ width: 600, textAlign: "left" }}
             />
             <br />
             <FormControlLabel

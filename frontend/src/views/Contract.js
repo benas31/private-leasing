@@ -152,7 +152,7 @@ const MyContracts = () => {
               actions={[
                 {
                   icon: 'delete',
-                  tooltip: 'Delete User',
+                  tooltip: 'End Contract',
                   onClick: (event, row) => {
                     confirmAlert({
                       title: 'Terminer ce contract ?',
