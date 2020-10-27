@@ -94,9 +94,10 @@ const CarDetails = (props) => {
     <TopContainer>
       <TopMenu />
       <Title>
-        <h1>
+      <h1>
           Page descriptive de la voiture :
       </h1>
+        <p style={{ color: "red" }}>{message}</p>
       </Title>
       <Center>
         <Container>
@@ -142,7 +143,6 @@ const CarDetails = (props) => {
             )}
         </Button>
       </Center>
-      <p style={{ color: "red" }}>{message}</p>
       <br />
       <Footer></Footer>
     </TopContainer>

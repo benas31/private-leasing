@@ -70,12 +70,12 @@ router.get("/getByUserId/:id", function (req, res) {
     if (data) {
       const userRole = data.role;
       if (userRole === "admin" || userRole === "personnel" || userRole === "vendeur") {
-        Contract.find({ fk_personnel: userId }, (err, contracts) => {
+        Contract.find({ fk_personnel: userId, actif: 1 }, (err, contracts) => {
           if (err) res.json({ success: false, response: err });
           else res.json({ success: true, response: contracts });
         });
       } else {
-        Contract.find({ fk_client: userId }, (err, contracts) => {
+        Contract.find({ fk_client: userId, actif: 1 }, (err, contracts) => {
           if (err) res.json({ success: false, response: err });
           else res.json({ success: true, response: contracts });
         });

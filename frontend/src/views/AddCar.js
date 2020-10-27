@@ -124,7 +124,7 @@ const AddCar = () => {
         if (!!json.success) {
           setTimeout(() => {
             history.push("/");
-          }, 1000);
+          }, 3000);
         } else {
           setMessage(json.response);
         }

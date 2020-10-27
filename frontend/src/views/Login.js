@@ -190,9 +190,6 @@ const Login = () => {
         <Container>
           {!showRegister && (
             <ItemContainer>
-              <h4>
-                <b>Formulaire de login :</b>
-              </h4>
               <LoginMessage>{message}</LoginMessage>
               <TextField
                 id="standard-basic"
@@ -240,9 +237,6 @@ const Login = () => {
           )}
           {showRegister && (
             <ItemContainer>
-              <h4>
-                <b>Formulaire d'inscription : </b>
-              </h4>
               <p>{message}</p>
               <TextField
                 id="standard-basic"

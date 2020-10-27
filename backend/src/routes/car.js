@@ -38,9 +38,9 @@ router.post("/add", function (req, res) {
     },
     (err, car) => {
       if (err) {
-        console.log(err);
+        res.json({success: false, response: err});
       } else {
-        res.status(200).send(car).end();
+        res.json({success: true, response: car});
       }
     }
   );
