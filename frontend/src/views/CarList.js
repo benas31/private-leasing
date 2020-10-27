@@ -8,7 +8,9 @@ import Footer from "../components/Footer";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
-const CenterContainer = styled.div``;
+const CenterContainer = styled.div`
+  margin-top: 100px;
+`;
 
 const TopContainer = styled.div``;
 

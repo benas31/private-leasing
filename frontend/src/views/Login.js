@@ -13,11 +13,12 @@ const FormContainer = styled.form`
 `;
 
 const Container = styled.div`
-  width: 400px;
+  width: 600px;
   display: flex;
   flex-direction: column;
-  border: 1px solid black;
+  border: 1px solid grey;
   padding-bottom: 20px;
+  margin-top: 100px;
 `;
 
 const LoginMessage = styled.p`
@@ -189,6 +190,9 @@ const Login = () => {
         <Container>
           {!showRegister && (
             <ItemContainer>
+              <h4>
+                <b>Formulaire de login :</b>
+              </h4>
               <LoginMessage>{message}</LoginMessage>
               <TextField
                 id="standard-basic"
@@ -197,6 +201,7 @@ const Login = () => {
                   setUsername(e.target.value);
                 }}
                 value={username}
+                style={{ width: 400, textAlign: "left" }}
               />
               <br />
               <TextField
@@ -207,6 +212,7 @@ const Login = () => {
                 }}
                 value={password}
                 type="password"
+                style={{ width: 400, textAlign: "left" }}
               />
               <br />
               <br />
@@ -234,6 +240,9 @@ const Login = () => {
           )}
           {showRegister && (
             <ItemContainer>
+              <h4>
+                <b>Formulaire d'inscription : </b>
+              </h4>
               <p>{message}</p>
               <TextField
                 id="standard-basic"
@@ -242,6 +251,7 @@ const Login = () => {
                   setUsername(e.target.value);
                 }}
                 value={username}
+                style={{ width: 400, textAlign: "left" }}
               />
               <br />
               <TextField
@@ -254,6 +264,7 @@ const Login = () => {
                 error={!validatePassword(password)}
                 helperText={validatePassword(password) ? '' : 'Format incorrect'}
                 type="password"
+                style={{ width: 400, textAlign: "left" }}
               />
               <TextField
                 id="standard-basic"
@@ -263,6 +274,7 @@ const Login = () => {
                 }}
                 value={verifiedPassword}
                 type="password"
+                style={{ width: 400, textAlign: "left" }}
               />
               <TextField
                 id="standard-basic"
@@ -273,6 +285,7 @@ const Login = () => {
                 error={!validateEmail(email)}
                 helperText={validateEmail(email) ? '' : 'Email incorrect'}
                 value={email}
+                style={{ width: 400, textAlign: "left" }}
               />
               <br />
               <TextField
@@ -282,6 +295,7 @@ const Login = () => {
                   setFirstname(e.target.value);
                 }}
                 value={firstname}
+                style={{ width: 400, textAlign: "left" }}
               />
               <TextField
                 id="standard-basic"
@@ -290,20 +304,20 @@ const Login = () => {
                   setLastname(e.target.value);
                 }}
                 value={lastname}
+                style={{ width: 400, textAlign: "left" }}
               />
               <br />
               <br />
               {(user.role === "vendeur" || user.role === "admin") && (
                 <>
-                  Role
-                  <br />
+                  <FormHelperText style={{ textAlign: 'center' }}>Role</FormHelperText>
                   <Select
                     id="role"
                     onChange={(e) => {
                       setRole(e.target.value);
                     }}
                     value={role}
-                    style={{ minWidth: 200, textAlign: "left" }}
+                    style={{ width: 400, textAlign: "left" }}
                   >
                     <MenuItem value="client">Client</MenuItem>
                     <MenuItem value="vendeur">Vendeur</MenuItem>

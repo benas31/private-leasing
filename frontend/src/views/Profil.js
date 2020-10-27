@@ -18,9 +18,10 @@ const FormContainer = styled.form`
 `;
 
 const Container = styled.div`
-  width: 400px;
+  width: 600px;
   display: flex;
   flex-direction: column;
+  margin-top: 100px;
 `;
 const ItemContainer = styled.div`
   padding: 25px 25px 0;
@@ -43,36 +44,42 @@ const Profil = () => {
         <CenterContainer>
           <FormContainer>
             <Container>
+            <h1>Votre profil</h1>
               <ItemContainer>
                 <TextField
                   id="standard-basic"
                   label="Username"
                   disabled
                   value={user.username}
+                  style={{ width: 400, textAlign: "left" }}
                 />
                 <TextField
                   id="standard-basic"
                   label="Email"
-                  onChange={(e) => {}}
+                  onChange={(e) => { }}
                   value={user.email}
+                  style={{ width: 400, textAlign: "left" }}
                 />
                 <TextField
                   id="standard-basic"
                   label="Firstname"
-                  onChange={(e) => {}}
+                  onChange={(e) => { }}
                   value={user.firstname}
+                  style={{ width: 400, textAlign: "left" }}
                 />
                 <TextField
                   id="standard-basic"
                   label="Lastname"
-                  onChange={(e) => {}}
+                  onChange={(e) => { }}
                   value={user.lastname}
+                  style={{ width: 400, textAlign: "left" }}
                 />
                 <TextField
                   id="standard-basic"
                   label="Phone"
-                  onChange={(e) => {}}
+                  onChange={(e) => { }}
                   value={user.phone}
+                  style={{ width: 400, textAlign: "left" }}
                 />
                 <br />
                 <br />

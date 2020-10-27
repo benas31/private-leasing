@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css'; 
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import MaterialTable from 'material-table';
 import { format } from "date-fns";
 import styled from "styled-components";
@@ -10,7 +10,9 @@ import Footer from "../components/Footer";
 
 const MyContracts = () => {
 
-  const TopContainer = styled.div``;
+  const TopContainer = styled.div`
+    margin-top: 20px;
+  `;
 
   const tableColumns = [
     { title: 'Début', field: 'date_start' },
@@ -139,38 +141,45 @@ const MyContracts = () => {
       <TopMenu />
       <div className="container">
         {userRole === "client" ? (
-          <MaterialTable
-            title="Liste contracts"
-            columns={tableColumns}
-            data={tableData}
-          />
-        ) : (
+          <>
+            <h1>Consultez la liste de vos contracts</h1>
             <MaterialTable
               title="Liste contracts"
               columns={tableColumns}
               data={tableData}
-              actions={[
-                {
-                  icon: 'delete',
-                  tooltip: 'End Contract',
-                  onClick: (event, row) => {
-                    confirmAlert({
-                      title: 'Terminer ce contract ?',
-                      message: 'Êtes-vous sur de terminer ce contract ?',
-                      buttons: [
-                        {
-                          label: 'Yes',
-                          onClick: () => handleDelete(row)
-                        },
-                        {
-                          label: 'No',
-                        }
-                      ]
-                    });
-                  }
-                },
-              ]}
             />
+          </>
+        ) : (
+            <>
+              <h1>Consultez la liste de vos contracts</h1>
+              <br />
+              <MaterialTable
+                title="Liste contracts"
+                columns={tableColumns}
+                data={tableData}
+                actions={[
+                  {
+                    icon: 'delete',
+                    tooltip: 'End Contract',
+                    onClick: (event, row) => {
+                      confirmAlert({
+                        title: 'Terminer ce contract ?',
+                        message: 'Êtes-vous sur de terminer ce contract ?',
+                        buttons: [
+                          {
+                            label: 'Yes',
+                            onClick: () => handleDelete(row)
+                          },
+                          {
+                            label: 'No',
+                          }
+                        ]
+                      });
+                    }
+                  },
+                ]}
+              />
+            </>
           )
         }
       </div>

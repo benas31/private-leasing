@@ -12,7 +12,9 @@ const Demands = () => {
 
   const history = useHistory();
 
-  const TopContainer = styled.div``;
+  const TopContainer = styled.div`
+    margin-top: 20px;
+  `;
 
   const tableColumns = [
     { title: 'Durée', field: 'duree' },
@@ -161,45 +163,53 @@ const Demands = () => {
       <TopMenu />
       <div className="container">
         {user.role === "client" ? (
-          <MaterialTable
-            title="Liste demandes"
-            columns={tableColumns}
-            data={tableData}
-          />
-        ) : (
+          <>
+            <h1>Consultez la liste de vos demandes de contracts</h1>
+            <br />
             <MaterialTable
               title="Liste demandes"
               columns={tableColumns}
               data={tableData}
-              actions={[
-                {
-                  icon: 'delete',
-                  tooltip: 'Supprimer Demande',
-                  onClick: (event, row) => {
-                    confirmAlert({
-                      title: 'Supprimer cette demande ?',
-                      message: 'Êtes-vous sur de supprimer cette demande ?',
-                      buttons: [
-                        {
-                          label: 'Yes',
-                          onClick: () => handleDelete(row)
-                        },
-                        {
-                          label: 'No',
-                        }
-                      ]
-                    });
-                  }
-                },
-                {
-                  icon: 'edit',
-                  tooltip: 'Edit Contract',
-                  onClick: (event, row) => {
-                    handleEdit(row)
-                  }
-                },
-              ]}
             />
+          </>
+        ) : (
+            <>
+              <h1>Consultez la liste de vos demandes de contracts</h1>
+              <br />
+              <MaterialTable
+                title="Liste demandes"
+                columns={tableColumns}
+                data={tableData}
+                actions={[
+                  {
+                    icon: 'delete',
+                    tooltip: 'Supprimer Demande',
+                    onClick: (event, row) => {
+                      confirmAlert({
+                        title: 'Supprimer cette demande ?',
+                        message: 'Êtes-vous sur de supprimer cette demande ?',
+                        buttons: [
+                          {
+                            label: 'Yes',
+                            onClick: () => handleDelete(row)
+                          },
+                          {
+                            label: 'No',
+                          }
+                        ]
+                      });
+                    }
+                  },
+                  {
+                    icon: 'edit',
+                    tooltip: 'Edit Contract',
+                    onClick: (event, row) => {
+                      handleEdit(row)
+                    }
+                  },
+                ]}
+              />
+            </>
           )
         }
       </div>

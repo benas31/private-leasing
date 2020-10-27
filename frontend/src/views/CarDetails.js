@@ -20,10 +20,16 @@ const Container = styled.div`
   width: 400px;
   display: flex;
   flex-direction: column;
+  margin-top: 50px;
 `;
 
 const Image = styled.img`
   max-width: 400px;
+`;
+
+const Title = styled.div`
+  margin-top: 50px;
+  text-align: center;
 `;
 
 const ImgTitle = styled.div`
@@ -87,14 +93,19 @@ const CarDetails = (props) => {
   return (
     <TopContainer>
       <TopMenu />
+      <Title>
+        <h1>
+          Page descriptive de la voiture :
+      </h1>
+      </Title>
       <Center>
         <Container>
+          <br />
           <ImgTitle>
             <h3>
               {" "}
               {brand} {modele}
             </h3>
-            <Image src={photo ? photo : car} alt="car" />
           </ImgTitle>
           <br />
           <ul>
@@ -109,20 +120,29 @@ const CarDetails = (props) => {
             <li style={{ display: "block" }}>{seat} sièges</li>
           </ul>
           À partir de {price}€/mois
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleClick}
-          >
-            {user.role === "admin" || user.role === "vendeur" ? (
-              <span>Commander</span>
-            ) : (
-                <span>Faire une demande</span>
-              )}
-          </Button>
-          <p style={{ color: "red" }}>{message}</p>
+        </Container>
+        <Container>
+          <br />
+          <br />
+          <Image src={photo ? photo : car} alt="car" />
         </Container>
       </Center>
+      <br />
+      <br />
+      <Center>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleClick}
+        >
+          {user.role === "admin" || user.role === "vendeur" ? (
+            <span>Commander</span>
+          ) : (
+              <span>Faire une demande</span>
+            )}
+        </Button>
+      </Center>
+      <p style={{ color: "red" }}>{message}</p>
       <br />
       <Footer></Footer>
     </TopContainer>

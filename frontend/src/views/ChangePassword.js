@@ -18,10 +18,7 @@ const Container = styled.div`
   flex-direction: column;
   border: 1px solid black;
   padding-bottom: 20px;
-`;
-
-const LoginMessage = styled.p`
-  color: green;
+  margin-top: 100px;
 `;
 
 const ItemContainer = styled.div`
