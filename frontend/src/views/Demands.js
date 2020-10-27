@@ -164,20 +164,20 @@ const Demands = () => {
       <div className="container">
         {user.role === "client" ? (
           <>
-            <h1>Consultez la liste de vos demandes de contracts</h1>
+            <h1>Mes demandes de leasing</h1>
             <br />
             <MaterialTable
-              title="Liste demandes"
+              title=""
               columns={tableColumns}
               data={tableData}
             />
           </>
         ) : (
             <>
-              <h1>Consultez la liste de vos demandes de contracts</h1>
+              <h1>Mes demandes de leasing</h1>
               <br />
               <MaterialTable
-                title="Liste demandes"
+                title=""
                 columns={tableColumns}
                 data={tableData}
                 actions={[

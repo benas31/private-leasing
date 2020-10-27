@@ -44,7 +44,7 @@ const Profil = () => {
         <CenterContainer>
           <FormContainer>
             <Container>
-            <h1>Votre profil</h1>
+            <h1>Mon profil</h1>
               <ItemContainer>
                 <TextField
                   id="standard-basic"
@@ -72,13 +72,6 @@ const Profil = () => {
                   label="Lastname"
                   onChange={(e) => { }}
                   value={user.lastname}
-                  style={{ width: 400, textAlign: "left" }}
-                />
-                <TextField
-                  id="standard-basic"
-                  label="Phone"
-                  onChange={(e) => { }}
-                  value={user.phone}
                   style={{ width: 400, textAlign: "left" }}
                 />
                 <br />

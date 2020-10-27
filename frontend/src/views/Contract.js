@@ -142,19 +142,19 @@ const MyContracts = () => {
       <div className="container">
         {userRole === "client" ? (
           <>
-            <h1>Consultez la liste de vos contracts</h1>
+            <h1>Mes contracts</h1>
             <MaterialTable
-              title="Liste contracts"
+              title=""
               columns={tableColumns}
               data={tableData}
             />
           </>
         ) : (
             <>
-              <h1>Consultez la liste de vos contracts</h1>
+              <h1>Mes contracts</h1>
               <br />
               <MaterialTable
-                title="Liste contracts"
+                title=""
                 columns={tableColumns}
                 data={tableData}
                 actions={[
